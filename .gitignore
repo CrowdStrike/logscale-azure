@@ -1,0 +1,12 @@
+.terraform/
+*.tfstate
+*.tfstate.*
+terraform.tfvars
+terraform.tfvars.*
+*.json
+*.hcl
+*.tfplan
+/main.tf
+/backend.tf
+/doc-update.sh
+/.terraform-docs.yml
