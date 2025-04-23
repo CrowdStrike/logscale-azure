@@ -1,4 +1,3 @@
-
 /**
  * ## Module: azure/identity
  * This optional module can be used to provision a managed identity in Azure and assign a role to the identity.

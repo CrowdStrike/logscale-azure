@@ -252,6 +252,13 @@ variable "humio_operator_repo" {
 variable "logscale_image_version" {
   description       = "The version of logscale to install."
   type              = string
+  default           = ""
+}
+
+variable "logscale_image" {
+  description       = "This can be used to specify a full image ref spec. The expectation is that the imagePullSecrets kubernetes secret will exist."
+  type              = string
+  default           = null
 }
 
 variable "logscale_license" {

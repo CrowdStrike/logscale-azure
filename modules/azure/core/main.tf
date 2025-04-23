@@ -1,4 +1,3 @@
-
 /**
  * ## Module: azure/core
  * This module provisions all core requirements for the Azure infrastructure including:

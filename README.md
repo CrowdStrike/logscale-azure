@@ -40,8 +40,7 @@ The account running this Terraform needs to be assigned the Owner role for the t
     - Allows the disk set encryption managed identity the ability to use the key vault for disk encryption
 
 ### IP-based Access Restrictions
-There are **four variables that control public access** to the environment and set in your `TFVAR_FILE` configuration.
-
+There are four variables that control public access to the environment and set in your `TFVAR_FILE` configuration.
 ```
 ip_ranges_allowed_to_kubeapi            = ["192.168.3.32/32", "192.168.4.1/32"]
 ip_ranges_allowed_https                 = ["192.168.1.0/24"]
@@ -267,7 +266,8 @@ how to run this terraform to build your Azure environment.
 | logscale\_cluster\_type | Logscale cluster type | `string` | n/a | yes |
 | logscale\_custom\_tls\_certificate\_key\_keyvault\_name | Name of the TLS certificate key item (PEM format) stored in the Azure Keyvault created by this terraform | `string` | `null` | no |
 | logscale\_custom\_tls\_certificate\_keyvault\_name | Name of the TLS certificate item (PEM format) stored in the Azure Keyvault created by this terraform | `string` | `null` | no |
-| logscale\_image\_version | The version of logscale to install. | `string` | n/a | yes |
+| logscale\_image | This can be used to specify a full image ref spec. The expectation is that the imagePullSecrets kubernetes secret will exist. | `string` | `null` | no |
+| logscale\_image\_version | The version of logscale to install. | `string` | `""` | no |
 | logscale\_lb\_internal\_only | The nginx ingress controller to logscale will create a managed azure load balancer with public availability. Setting to true will remove the ability to generate Let's Encrypt certificates in addition to removing public access. | `bool` | `false` | no |
 | logscale\_license | Your logscale license data. | `string` | n/a | yes |
 | logscale\_namespace | The kubernetes namespace used by strimzi, logscale, and nginx-ingress. | `string` | `"logging"` | no |
@@ -307,6 +307,14 @@ how to run this terraform to build your Azure environment.
 <!-- END_TF_MAIN_DOCS -->
 
 <!-- BEGIN_AZCORE_MAIN_DOCS -->
+## Module: azure/core
+This module provisions all core requirements for the Azure infrastructure including:
+* Azure Virtual Network
+* Azure Subnets
+* Optional Enablement of DDOS Protection Plan
+* NAT Gateway with Public IP
+* Public IP and FQDN for Ingress (when public access is enabled)
+
 ### Inputs
 
 | Name | Description | Type | Default | Required |
@@ -479,6 +487,10 @@ environment and setting the kubernetes API to private access only.
 <!-- END_AZBAS_MAIN_DOCS -->
 
 <!-- BEGIN_AZCERT_MAIN_DOCS -->
+## Module: azure/certificate
+An optional module that can be used to provision a certificate within Azure KeyVault. This is expected to be used for self-signed
+test certificates but depending on the configuration of your KeyVault, it can be leveraged to provsion valid certs.
+
 ### Inputs
 
 | Name | Description | Type | Default | Required |
@@ -498,6 +510,9 @@ environment and setting the kubernetes API to private access only.
 <!-- END_AZCERT_MAIN_DOCS -->
 
 <!-- BEGIN_AZIDENT_MAIN_DOCS -->
+## Module: azure/identity
+This optional module can be used to provision a managed identity in Azure and assign a role to the identity.
+
 ### Inputs
 
 | Name | Description | Type | Default | Required |
@@ -734,6 +749,7 @@ to Logscale systems.
 | humio\_operator\_extra\_values | Resource Management for logscale pods | `map(string)` | n/a | yes |
 | humio\_operator\_repo | The humio operator repository. | `string` | `"https://humio.github.io/humio-operator"` | no |
 | humio\_operator\_version | The humio operator controls provisioning of logscale resources within kubernetes. | `string` | n/a | yes |
+| image\_pull\_secret | The kubernetes secret containing credentials to access the image repository. Required when setting logscale\_image. | `string` | `"regcred"` | no |
 | k8s\_config\_context | Configuration context name, typically the kubernetes server name. | `any` | n/a | yes |
 | k8s\_config\_path | The path to k8s configuration. | `any` | n/a | yes |
 | k8s\_namespace\_prefix | Multiple namespaces will be created to contain resources using this prefix. | `string` | `"log"` | no |
@@ -750,7 +766,8 @@ to Logscale systems.
 | logscale\_digest\_data\_disk\_size | n/a | `any` | n/a | yes |
 | logscale\_digest\_pod\_count | Resources for digest nodes | `any` | n/a | yes |
 | logscale\_digest\_resources | n/a | `any` | n/a | yes |
-| logscale\_image\_version | The version of logscale to install. | `string` | n/a | yes |
+| logscale\_image | This can be used to specify a full image ref spec. The expectation is that the imagePullSecrets kubernetes secret will exist. | `string` | `null` | no |
+| logscale\_image\_version | The version of logscale to install. | `string` | `""` | no |
 | logscale\_ingest\_data\_disk\_size | n/a | `any` | n/a | yes |
 | logscale\_ingest\_pod\_count | Resources for ingest nodes | `any` | n/a | yes |
 | logscale\_ingest\_resources | n/a | `any` | n/a | yes |
@@ -792,7 +809,7 @@ az login
         }
     }
 ```
-5. Create a main.tf with the modules necessary to build Logscale in the target environment or leverage a provided quickstart example. This process assumes use of `examples/full-no-bastion.tf`.
+5. Create a main.tf with the modules necessary to build Logscale in the target environment or leverage a provided quickstart example. By default, this repository links to `examples/full-no-bastion.tf`.
 ```
 ln -s repository-path/examples/full-no-bastion.tf repository-path/main.tf
 ```
@@ -824,6 +841,7 @@ terraform apply -target module.kafka -var-file $TFVAR_FILE
 ```
 terraform apply -target module.logscale -var-file $TFVAR_FILE
 ```
+
 
 # References
 - [Cert Manager Documentation](https://cert-manager.io/docs/)

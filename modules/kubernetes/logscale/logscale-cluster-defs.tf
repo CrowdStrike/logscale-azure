@@ -14,7 +14,8 @@ locals {
   logscale_hostname = "${var.logscale_public_fqdn}"
 
   # This is the image to use for installing logscale
-  logscale_image = "humio/humio-core:${var.logscale_image_version}"
+  logscale_image = var.logscale_image != null ? var.logscale_image : "humio/humio-core:${var.logscale_image_version}"
+  imagePullSecrets = var.logscale_image != null ? [{ name = var.image_pull_secret }] : null
 
   # The kubernetes secret containing the strimzi cert for our nodes to connect to the cluster
   kafka_truststore_secret_name = "${var.name_prefix}-strimzi-kafka-cluster-ca-cert"
@@ -328,6 +329,9 @@ locals {
       extraHumioVolumeMounts    = local.extraHumioVolumeMounts_filtered
       extraVolumes              = local.extraVolumes_filtered
       image                     = local.logscale_image
+
+      imagePullSecrets          = local.imagePullSecrets 
+      
       nodeCount                 = var.logscale_ui_pod_count
       resources = {
         limits = {
@@ -413,6 +417,8 @@ locals {
       extraHumioVolumeMounts    = local.extraHumioVolumeMounts_filtered
       extraVolumes              = local.extraVolumes_filtered
       image                     = local.logscale_image
+      imagePullSecrets          = local.imagePullSecrets 
+
       nodeCount                 = var.logscale_ingest_pod_count
       resources = {
         limits = {
@@ -484,6 +490,7 @@ resource "kubernetes_manifest" "humio_cluster" {
       extraVolumes                    = local.extraVolumes_filtered
       hostname                        = local.logscale_hostname
       image                           = local.logscale_image
+      imagePullSecrets                = local.imagePullSecrets 
       license                         = local.logscale_license_ref
       nodeCount                       = local.logscale_digest_node_count
       resources                       = local.logscale_digest_resources_spec

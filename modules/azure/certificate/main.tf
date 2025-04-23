@@ -1,4 +1,3 @@
-
 /**
  * ## Module: azure/certificate
  * An optional module that can be used to provision a certificate within Azure KeyVault. This is expected to be used for self-signed
