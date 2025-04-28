@@ -12,7 +12,8 @@
     - [Targeted Terraform Application](#targeted-terraform)
 3. [Terraform Modules](#terraform-modules)
 4. [Build Process](#build-process)
-5. [References](#references)
+5. [Support](#support)
+6. [References](#references)
 
 
 # LogScale Reference Automations for Azure
@@ -841,7 +842,8 @@ terraform apply -target module.kafka -var-file $TFVAR_FILE
 ```
 terraform apply -target module.logscale -var-file $TFVAR_FILE
 ```
-
+# Support
+LogScale Reference Automations for Azure (logscale-azure) is an open source project, not a CrowdStrike product. As such, it carries no formal support, expressed or implied.
 
 # References
 - [Cert Manager Documentation](https://cert-manager.io/docs/)
