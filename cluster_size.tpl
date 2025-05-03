@@ -25,7 +25,8 @@ ${jsonencode(
         "kafka_broker_pod_replica_count": 3,
         "kafka_broker_resources": {"limits": {"cpu": 3, "memory": "24Gi"}, "requests": {"cpu": 3, "memory": "24Gi"}},
         "kafka_broker_data_disk_size": "1024Gi",
-        "kafka_broker_data_storage_class": "default",
+        "kafka_broker_data_storage_class": "managed-premium",
+        "kafka_broker_disk_count": "1"
 
         // digest nodes
         "logscale_digest_instance_type": "Standard_L8s_v3",
@@ -86,7 +87,8 @@ ${jsonencode(
         "kafka_broker_pod_replica_count": 5,
         "kafka_broker_resources": {"limits": {"cpu": 3, "memory": "24Gi"}, "requests": {"cpu": 3, "memory": "24Gi"}},
         "kafka_broker_data_disk_size": "1024Gi",
-        "kafka_broker_data_storage_class": "default",
+        "kafka_broker_data_storage_class": "managed-premium",
+        "kafka_broker_disk_count": "2"
 
         // digest nodes
         "logscale_digest_instance_type": "Standard_L16s_v3",
@@ -139,15 +141,16 @@ ${jsonencode(
         "system_node_root_disk_size": 40,
 
         // kafka nodes
-        "strimzi_node_instance_type": "Standard_E8s_v5",
+        "strimzi_node_instance_type": "Standard_E16s_v5",
         "strimzi_node_min_node_count": 7,
         "strimzi_node_max_node_count": 21,
-        "strimzi_node_desired_node_count": 7,
+        "strimzi_node_desired_node_count": 15,
         "strimzi_node_root_disk_size": 40,
-        "kafka_broker_pod_replica_count": 7,
-        "kafka_broker_resources": {"limits": {"cpu": 6, "memory": "48Gi"}, "requests": {"cpu": 6, "memory": "48Gi"}},
-        "kafka_broker_data_disk_size": "2048Gi",
+        "kafka_broker_pod_replica_count": 15,
+        "kafka_broker_resources": {"limits": {"cpu": 14, "memory": "102Gi"}, "requests": {"cpu": 14, "memory": "102Gi"}},
+        "kafka_broker_data_disk_size": "1024Gi",
         "kafka_broker_data_storage_class": "managed-premium",
+        "kafka_broker_disk_count": "4",
 
         // digest nodes
         "logscale_digest_instance_type": "Standard_L16s_v3",
@@ -155,7 +158,7 @@ ${jsonencode(
         "logscale_digest_min_node_count": 21,
         "logscale_digest_max_node_count": 45,
         "logscale_digest_desired_node_count":21,
-        "logscale_digest_pod_count":15,
+        "logscale_digest_pod_count":21,
         "logscale_digest_data_disk_size": "3000Gi",
         "logscale_digest_resources": {"limits": {"cpu": 14, "memory": "102Gi"}, "requests": {"cpu": 14, "memory": "102Gi"}},
         "logscale_target_replication_factor": 2,
@@ -208,6 +211,7 @@ ${jsonencode(
         "kafka_broker_resources": {"limits": {"cpu": 14, "memory": "102Gi"}, "requests": {"cpu": 14, "memory": "102Gi"}},
         "kafka_broker_data_disk_size": "2048Gi",
         "kafka_broker_data_storage_class": "managed-premium",
+        "kafka_broker_disk_count": "6"
 
         // digest nodes
         "logscale_digest_instance_type": "Standard_L32s_v3",
@@ -268,6 +272,7 @@ ${jsonencode(
         "kafka_broker_resources": {"limits": {"cpu": 14, "memory": "102Gi"}, "requests": {"cpu": 14, "memory": "102Gi"}},
         "kafka_broker_data_disk_size": "2048Gi",
         "kafka_broker_data_storage_class": "managed-premium",
+        "kafka_broker_disk_count": "8"
 
         // digest nodes
         "logscale_digest_instance_type": "Standard_L64s_v3",
