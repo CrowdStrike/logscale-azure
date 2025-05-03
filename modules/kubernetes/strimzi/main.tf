@@ -12,6 +12,7 @@ locals {
   broker_count = var.kafka_broker_pod_replica_count <= 3 ? 0 : var.kafka_broker_pod_replica_count - local.controller_count
 
   kubernetes_namespace = "${var.k8s_namespace_prefix}"
+  io_threads = var.num_kafka_volumes * 2
 }
 
 # Helm for Strimzi
@@ -80,6 +81,7 @@ resource "kubernetes_manifest" "kafka_cluster" {
           "ssl.enabled.protocols"                    = "TLSv1.3, TLSv1.2"
           "ssl.protocol"                             = "TLSv1.3"
           "ssl.client.auth"                          = "required"
+          "num.io.threads"                           = "${local.io_threads}"
         }
         "listeners" = [
           {
@@ -172,15 +174,33 @@ resource "kubernetes_manifest" "kafka-node-pool" {
         "replicas"    = local.controller_count
         "roles"       = [ "controller", "broker" ]
 
-        "storage"     = {
-          "type"          = "persistent-claim"
-          "deleteClaim"   = false
-          "size"          = var.kafka_broker_data_disk_size
-          "type"          = "persistent-claim"
-          "class"         = var.kube_storage_class_for_kafka
-          "kraftMetadata" = "shared"            
+
+        storage    = {
+          type = "jbod"
+          volumes = concat([
+            # Always have at least one mount
+            {
+              id            = 0
+              type          = "persistent-claim"
+              deleteClaim   = false
+              size          = var.kafka_broker_data_disk_size
+              type          = "persistent-claim"
+              class         = var.kube_storage_class_for_kafka
+              kraftMetadata = "shared"
+            }
+          ],[
+            # Additional mounts are created to increase throughput per host
+            for idx in range(1, var.num_kafka_volumes + 1) : {
+              id            = idx
+              type          = "persistent-claim"
+              deleteClaim   = false
+              size          = var.kafka_broker_data_disk_size
+              type          = "persistent-claim"
+              class         = var.kube_storage_class_for_kafka
+            }
+          ])
         }
-        
+
     }
   }
 
@@ -203,14 +223,32 @@ resource "kubernetes_manifest" "kafka-node-pool-extrabrokers" {
         "replicas"    = local.broker_count
         "roles"       = [ "broker" ]
 
-        "storage"     = {
-          "type"          = "persistent-claim"
-          "deleteClaim"   = false
-          "size"          = var.kafka_broker_data_disk_size
-          "type"          = "persistent-claim"
-          "class"         = var.kube_storage_class_for_kafka
-          "kraftMetadata" = "shared"            
+        storage    = {
+          type = "jbod"
+          volumes = concat([
+            # Always have at least one mount
+            {
+              id            = 0
+              type          = "persistent-claim"
+              deleteClaim   = false
+              size          = var.kafka_broker_data_disk_size
+              type          = "persistent-claim"
+              class         = var.kube_storage_class_for_kafka
+              kraftMetadata = "shared"
+            }
+          ],[
+            # Additional mounts are created to increase throughput per host
+            for idx in range(1, var.num_kafka_volumes + 1) : {
+              id            = idx
+              type          = "persistent-claim"
+              deleteClaim   = false
+              size          = var.kafka_broker_data_disk_size
+              type          = "persistent-claim"
+              class         = var.kube_storage_class_for_kafka
+            }
+          ])
         }
+
         
     }
   }

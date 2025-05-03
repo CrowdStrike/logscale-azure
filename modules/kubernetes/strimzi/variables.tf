@@ -46,3 +46,9 @@ variable "k8s_namespace_prefix" {
   description       = "Multiple namespaces will be created to contain resources using this prefix."
   type              = string
 }
+
+variable "num_kafka_volumes" {
+  description       = "Kafka brokers will have at least 1 volume. This specifies additional volumes to increase throughput by spreading partitions across multiple disks."
+  type              = number
+  default           = 1
+}

@@ -22,10 +22,6 @@ variable "azure_storage_endpoint_base" {
   type = string
   description = "Connection endpoint for the azure storage bucket."
 }
-variable "azure_storage_region" {
-  type = string
-  description = "Region of the storage bucket."  
-}
 
 variable "logscale_public_fqdn" {
   type = string
