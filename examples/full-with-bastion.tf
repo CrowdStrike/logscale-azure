@@ -230,6 +230,7 @@ module "kafka" {
   kafka_broker_pod_replica_count                = local.node_group_definitions["kafka_broker_pod_replica_count"]
   kafka_broker_resources                        = local.node_group_definitions["kafka_broker_resources"]
   kafka_broker_data_disk_size                   = local.node_group_definitions["kafka_broker_data_disk_size"]
+  num_kafka_volumes                             = local.node_group_definitions["kafka_broker_disk_count"]
  
   name_prefix                                   = local.resource_name_prefix
 
@@ -330,7 +331,6 @@ module "logscale" {
   logscale_ingest_resources                     = local.node_group_definitions["logscale_ingest_resources"]
   logscale_ingest_data_disk_size                = local.node_group_definitions["logscale_ingest_data_disk_size"]
 
-  azure_storage_region                          = var.azure_resource_group_region
   azure_storage_account_name                    = module.logscale-storage-account.storage_acct_name
   azure_storage_container_name                  = module.logscale-storage-account.storage_acct_container_name
   azure_storage_endpoint_base                   = module.logscale-storage-account.storage_acct_blob_endpoint

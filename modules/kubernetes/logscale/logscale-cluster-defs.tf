@@ -31,16 +31,12 @@ locals {
   update_strategy = {
       type                  = "RollingUpdate"
       enableZoneAwareness   = true
-      maxUnavailable        = 1
+      maxUnavailable        = "50%"
 
     }    
 
   # Environment variables to apply to all humiocluster pods
   commonEnvironmentVariables = [
-      { 
-          name = "AZURE_BUCKET_STORAGE_ENABLED"
-          value = "true"
-      },
       {
           name = "AZURE_STORAGE_USE_HTTP_PROXY"
           value = "false"
@@ -60,10 +56,6 @@ locals {
       {
           name = "AZURE_STORAGE_OBJECT_KEY_PREFIX"
           value = var.name_prefix
-      },
-      {
-          name = "AZURE_STORAGE_REGION"
-          value = var.azure_storage_region
       },
       {
           name = "AZURE_STORAGE_ACCOUNTKEY"
