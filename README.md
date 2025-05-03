@@ -659,6 +659,7 @@ This module installs Strimzi Kafka in kraft mode for use with the logscale inges
 | kafka\_broker\_resources | The resource requests and limits for cpu and memory to apply to the pods formatted in a json map. Example: {"limits": {"cpu": 6, "memory": "48Gi"}, "requests": {"cpu": 6, "memory": "48Gi"}} | `map` | n/a | yes |
 | kube\_storage\_class\_for\_kafka | In AKS, we expect to use the 'default' storage class for managed SSD but this could be any storage class you have configured in kubernetes. | `string` | `"default"` | no |
 | name\_prefix | Identifier attached to named resources to help them stand out. | `string` | n/a | yes |
+| num\_kafka\_volumes | Kafka brokers will have at least 1 volume. This specifies additional volumes to increase throughput by spreading partitions across multiple disks. | `number` | `1` | no |
 | strimzi\_operator\_chart\_version | Helm release chart version for Strimzi. | `string` | n/a | yes |
 | strimzi\_operator\_repo | Strimzi operator repo. | `string` | n/a | yes |
 
@@ -744,7 +745,6 @@ to Logscale systems.
 | azure\_storage\_account\_name | Storage account name where logscale will connect for object storage. | `string` | n/a | yes |
 | azure\_storage\_container\_name | Storage container within the account identified by var.azure\_storage\_account\_name where data will be stored. | `string` | n/a | yes |
 | azure\_storage\_endpoint\_base | Connection endpoint for the azure storage bucket. | `string` | n/a | yes |
-| azure\_storage\_region | Region of the storage bucket. | `string` | n/a | yes |
 | cert\_issuer\_name | Certificates issuer name for the Logscale Cluster | `string` | n/a | yes |
 | humio\_operator\_chart\_version | This is the version of the helm chart that installs the humio operator version chosen in variable humio\_operator\_version. | `string` | n/a | yes |
 | humio\_operator\_extra\_values | Resource Management for logscale pods | `map(string)` | n/a | yes |
