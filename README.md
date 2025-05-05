@@ -320,46 +320,46 @@ This module provisions all core requirements for the Azure infrastructure includ
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| bastion\_network\_subnet | A list of networks to associate to the bastion host subnet. | `list` | n/a | yes |
-| enable\_azure\_ddos\_protection | Enable Azure DDOS Protection | `bool` | n/a | yes |
-| enabled\_logscale\_digest\_service\_endpoints | List of service endpoints required for the subnet. Storage is required for vnet-only access. | `list` | <pre>[<br/>  "Microsoft.Storage"<br/>]</pre> | no |
-| environment | Azure cloud enviroment to use for your resources. Values include: public, usgovernment, german, and china. | `string` | n/a | yes |
-| logscale\_cluster\_type | Type of cluster being built. | `string` | n/a | yes |
-| logscale\_lb\_internal\_only | The nginx ingress controller to logscale will create a managed azure load balancer with public availability. In this core module, this variable determines if the public IP address for this load balancer needs to be created. | `bool` | `false` | no |
-| name\_prefix | Identifier attached to named resources to help them stand out. | `string` | n/a | yes |
-| network\_subnet\_aks\_logscale\_digest\_nodes | A list of networks to associate to the kubernetes subnet. | `list` | n/a | yes |
-| network\_subnet\_aks\_system\_nodes | A list of networks to associate to the kubernetes subnet. | `list` | n/a | yes |
-| network\_subnet\_ingest\_nodes | A list of networks to associate to the ingest node subnet. | `list` | n/a | yes |
-| network\_subnet\_ingress\_nodes | A list of networks to associate to the ingress node subnet. | `list` | n/a | yes |
-| network\_subnet\_kafka\_nodes | A list of networks to associate to the kafka subnet. | `list` | n/a | yes |
-| network\_subnet\_ui\_nodes | A list of networks to associate to the ui node subnet. | `list` | n/a | yes |
-| provision\_kafka\_servers | Set this to true to provision strimzi kafka within this kubernetes cluster. It should be false if you are bringing your own kafka implementation. | `bool` | `true` | no |
-| resource\_group\_region | The Azure cloud region for the resource group and associated resources. | `string` | n/a | yes |
-| subscription\_id | Subscription ID for your Azure resources. | `string` | n/a | yes |
-| tags | A map of tags to apply to all created resources. | `map` | n/a | yes |
-| vnet\_address\_space | Address space to assign to the virtual network that will resources associated to the kubernetes cluster. | `list` | n/a | yes |
+| <a name="input_bastion_network_subnet"></a> [bastion\_network\_subnet](#input\_bastion\_network\_subnet) | A list of networks to associate to the bastion host subnet. | `list` | n/a | yes |
+| <a name="input_enable_azure_ddos_protection"></a> [enable\_azure\_ddos\_protection](#input\_enable\_azure\_ddos\_protection) | Enable Azure DDOS Protection | `bool` | n/a | yes |
+| <a name="input_enabled_logscale_digest_service_endpoints"></a> [enabled\_logscale\_digest\_service\_endpoints](#input\_enabled\_logscale\_digest\_service\_endpoints) | List of service endpoints required for the subnet. Storage is required for vnet-only access. | `list` | <pre>[<br/>  "Microsoft.Storage"<br/>]</pre> | no |
+| <a name="input_environment"></a> [environment](#input\_environment) | Azure cloud enviroment to use for your resources. Values include: public, usgovernment, german, and china. | `string` | n/a | yes |
+| <a name="input_logscale_cluster_type"></a> [logscale\_cluster\_type](#input\_logscale\_cluster\_type) | Type of cluster being built. | `string` | n/a | yes |
+| <a name="input_logscale_lb_internal_only"></a> [logscale\_lb\_internal\_only](#input\_logscale\_lb\_internal\_only) | The nginx ingress controller to logscale will create a managed azure load balancer with public availability. In this core module, this variable determines if the public IP address for this load balancer needs to be created. | `bool` | `false` | no |
+| <a name="input_name_prefix"></a> [name\_prefix](#input\_name\_prefix) | Identifier attached to named resources to help them stand out. | `string` | n/a | yes |
+| <a name="input_network_subnet_aks_logscale_digest_nodes"></a> [network\_subnet\_aks\_logscale\_digest\_nodes](#input\_network\_subnet\_aks\_logscale\_digest\_nodes) | A list of networks to associate to the kubernetes subnet. | `list` | n/a | yes |
+| <a name="input_network_subnet_aks_system_nodes"></a> [network\_subnet\_aks\_system\_nodes](#input\_network\_subnet\_aks\_system\_nodes) | A list of networks to associate to the kubernetes subnet. | `list` | n/a | yes |
+| <a name="input_network_subnet_ingest_nodes"></a> [network\_subnet\_ingest\_nodes](#input\_network\_subnet\_ingest\_nodes) | A list of networks to associate to the ingest node subnet. | `list` | n/a | yes |
+| <a name="input_network_subnet_ingress_nodes"></a> [network\_subnet\_ingress\_nodes](#input\_network\_subnet\_ingress\_nodes) | A list of networks to associate to the ingress node subnet. | `list` | n/a | yes |
+| <a name="input_network_subnet_kafka_nodes"></a> [network\_subnet\_kafka\_nodes](#input\_network\_subnet\_kafka\_nodes) | A list of networks to associate to the kafka subnet. | `list` | n/a | yes |
+| <a name="input_network_subnet_ui_nodes"></a> [network\_subnet\_ui\_nodes](#input\_network\_subnet\_ui\_nodes) | A list of networks to associate to the ui node subnet. | `list` | n/a | yes |
+| <a name="input_provision_kafka_servers"></a> [provision\_kafka\_servers](#input\_provision\_kafka\_servers) | Set this to true to provision strimzi kafka within this kubernetes cluster. It should be false if you are bringing your own kafka implementation. | `bool` | `true` | no |
+| <a name="input_resource_group_region"></a> [resource\_group\_region](#input\_resource\_group\_region) | The Azure cloud region for the resource group and associated resources. | `string` | n/a | yes |
+| <a name="input_subscription_id"></a> [subscription\_id](#input\_subscription\_id) | Subscription ID for your Azure resources. | `string` | n/a | yes |
+| <a name="input_tags"></a> [tags](#input\_tags) | A map of tags to apply to all created resources. | `map` | n/a | yes |
+| <a name="input_vnet_address_space"></a> [vnet\_address\_space](#input\_vnet\_address\_space) | Address space to assign to the virtual network that will resources associated to the kubernetes cluster. | `list` | n/a | yes |
 
 ### Outputs
 
 | Name | Description |
 |------|-------------|
-| bastion\_subnet\_id | n/a |
-| ingress-pub-fqdn | FQDN for logscale ingress when using a public endpoint. |
-| ingress-pub-ip | IP Address for logscale ingress when using a public endpoint. |
-| ingress-pub-pip-name | n/a |
-| ingress-pup-pip-domain-name-label | n/a |
-| kafka\_nodes\_subnet\_id | n/a |
-| logscale\_digest\_nodes\_subnet\_id | n/a |
-| logscale\_ingest\_nodes\_subnet\_id | n/a |
-| logscale\_ingress\_nodes\_subnet\_id | n/a |
-| logscale\_ui\_nodes\_subnet\_id | n/a |
-| nat\_gw\_public\_ip | NAT GW IP address for your subnets which can be used to allow access as necessary to other environments. |
-| resource\_group\_id | n/a |
-| resource\_group\_name | Azure Resource Group |
-| resource\_group\_region | n/a |
-| system\_nodes\_subnet\_id | n/a |
-| vnet\_id | n/a |
-| vnet\_name | n/a |
+| <a name="output_bastion_subnet_id"></a> [bastion\_subnet\_id](#output\_bastion\_subnet\_id) | n/a |
+| <a name="output_ingress-pub-fqdn"></a> [ingress-pub-fqdn](#output\_ingress-pub-fqdn) | FQDN for logscale ingress when using a public endpoint. |
+| <a name="output_ingress-pub-ip"></a> [ingress-pub-ip](#output\_ingress-pub-ip) | IP Address for logscale ingress when using a public endpoint. |
+| <a name="output_ingress-pub-pip-name"></a> [ingress-pub-pip-name](#output\_ingress-pub-pip-name) | n/a |
+| <a name="output_ingress-pup-pip-domain-name-label"></a> [ingress-pup-pip-domain-name-label](#output\_ingress-pup-pip-domain-name-label) | n/a |
+| <a name="output_kafka_nodes_subnet_id"></a> [kafka\_nodes\_subnet\_id](#output\_kafka\_nodes\_subnet\_id) | n/a |
+| <a name="output_logscale_digest_nodes_subnet_id"></a> [logscale\_digest\_nodes\_subnet\_id](#output\_logscale\_digest\_nodes\_subnet\_id) | n/a |
+| <a name="output_logscale_ingest_nodes_subnet_id"></a> [logscale\_ingest\_nodes\_subnet\_id](#output\_logscale\_ingest\_nodes\_subnet\_id) | n/a |
+| <a name="output_logscale_ingress_nodes_subnet_id"></a> [logscale\_ingress\_nodes\_subnet\_id](#output\_logscale\_ingress\_nodes\_subnet\_id) | n/a |
+| <a name="output_logscale_ui_nodes_subnet_id"></a> [logscale\_ui\_nodes\_subnet\_id](#output\_logscale\_ui\_nodes\_subnet\_id) | n/a |
+| <a name="output_nat_gw_public_ip"></a> [nat\_gw\_public\_ip](#output\_nat\_gw\_public\_ip) | NAT GW IP address for your subnets which can be used to allow access as necessary to other environments. |
+| <a name="output_resource_group_id"></a> [resource\_group\_id](#output\_resource\_group\_id) | n/a |
+| <a name="output_resource_group_name"></a> [resource\_group\_name](#output\_resource\_group\_name) | Azure Resource Group |
+| <a name="output_resource_group_region"></a> [resource\_group\_region](#output\_resource\_group\_region) | n/a |
+| <a name="output_system_nodes_subnet_id"></a> [system\_nodes\_subnet\_id](#output\_system\_nodes\_subnet\_id) | n/a |
+| <a name="output_vnet_id"></a> [vnet\_id](#output\_vnet\_id) | n/a |
+| <a name="output_vnet_name"></a> [vnet\_name](#output\_vnet\_name) | n/a |
 
 <!-- END_AZCORE_MAIN_DOCS -->
 
@@ -371,86 +371,86 @@ This module provisions managed Azure Kubernetes within the environment.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| admin\_ssh\_pubkey | Public key for SSH access to the bastion host. | `string` | n/a | yes |
-| admin\_username | Admin username for ssh access to k8s nodes. | `string` | n/a | yes |
-| aks\_system\_nodes\_subnet\_id | Subnet ID for AKS system nodes to live in. | `any` | n/a | yes |
-| authorized\_ip\_ranges | IP Ranges allowed to access the public kubernetes API | `list` | `[]` | no |
-| azure\_availability\_zones | The availability zones to use with your kubernetes cluster. Defaults to null making the cluster regional with no guarantee of HA in the event of zone outage. | `list` | `null` | no |
-| azure\_keyvault\_id | Azure KeyVault id used for storing secrets related to this infrastructure | `string` | n/a | yes |
-| azure\_keyvault\_secret\_expiration\_date | When secrets should expire. | `string` | n/a | yes |
-| azure\_policy\_enabled | Enable the Azure Policy for AKS add-on? | `bool` | n/a | yes |
-| cost\_analysis\_enabled | Enable cost analysis for this AKS cluster? | `bool` | n/a | yes |
-| diag\_logging\_eventhub\_authorization\_rule\_id | The rule ID allowing authorization to the eventhub. | `string` | `null` | no |
-| diag\_logging\_eventhub\_name | The target eventhub name where audit logging will be sent. Use in conjuction with the eventhub\_authorization\_rule\_id | `string` | `null` | no |
-| diag\_logging\_loganalytics\_id | The ID of the log analytics workspace to send diagnostic logging. | `string` | `null` | no |
-| diag\_logging\_storage\_account\_id | The target storage account id where audit logging will be sent. | `string` | `null` | no |
-| disk\_encryption\_key\_expiration\_date | Optionally set when the disk encryption key used for AKS nodes should expire. Defaults to null on the assumption that this AKS cluster might be long-lived. | `string` | `null` | no |
-| enable\_auditlogging\_to\_eventhub | Enable audit logging to a target eventhub. | `bool` | `false` | no |
-| enable\_auditlogging\_to\_loganalytics | Enable audit logging to a target log analytics workspace. | `bool` | `false` | no |
-| enable\_auditlogging\_to\_storage | Enable audit logging to a target storage account | `bool` | `false` | no |
-| enable\_kv\_metrics\_diag\_logging | When sending diagnostic logs for the eventhub resource, we can optionally enable metrics as well. | `bool` | `false` | no |
-| environment | Azure cloud enviroment to use for your resources. | `string` | n/a | yes |
-| ip\_ranges\_allowed\_https | IP Ranges allowed to access the nginx-ingress loadbalancer pods | `list` | `[]` | no |
-| kafka\_nodes\_subnet\_id | Subnet ID where kafka nodes will live. | `string` | n/a | yes |
-| kubernetes\_diagnostic\_log\_categories | List of enabled diagnostic log categories for the kubernetes cluster. | `list` | <pre>[<br/>  "kube-apiserver",<br/>  "kube-controller-manager",<br/>  "kube-scheduler",<br/>  "kube-audit",<br/>  "kube-audit-admin"<br/>]</pre> | no |
-| logscale\_cluster\_type | Logscale cluster type | `string` | n/a | yes |
-| logscale\_digest\_nodes\_subnet\_id | Subnet ID for logscale digest nodes. | `any` | n/a | yes |
-| logscale\_ingest\_node\_desired\_count | n/a | `number` | n/a | yes |
-| logscale\_ingest\_node\_max\_count | n/a | `number` | n/a | yes |
-| logscale\_ingest\_node\_min\_count | n/a | `number` | n/a | yes |
-| logscale\_ingest\_nodes\_subnet\_id | Subnet ID for ingest nodes. | `any` | n/a | yes |
-| logscale\_ingest\_os\_disk\_size | n/a | `number` | n/a | yes |
-| logscale\_ingest\_vmsize | n/a | `string` | n/a | yes |
-| logscale\_ingress\_node\_desired\_count | n/a | `number` | n/a | yes |
-| logscale\_ingress\_node\_max\_count | n/a | `number` | n/a | yes |
-| logscale\_ingress\_node\_min\_count | n/a | `number` | n/a | yes |
-| logscale\_ingress\_nodes\_subnet\_id | Subnet ID for ingest nodes. | `any` | n/a | yes |
-| logscale\_ingress\_os\_disk\_size | n/a | `number` | n/a | yes |
-| logscale\_ingress\_vmsize | n/a | `string` | n/a | yes |
-| logscale\_node\_desired\_count | n/a | `number` | n/a | yes |
-| logscale\_node\_max\_count | n/a | `number` | n/a | yes |
-| logscale\_node\_min\_count | n/a | `number` | n/a | yes |
-| logscale\_node\_os\_disk\_size\_gb | n/a | `number` | n/a | yes |
-| logscale\_node\_vmsize | n/a | `string` | n/a | yes |
-| logscale\_ui\_node\_desired\_count | n/a | `number` | n/a | yes |
-| logscale\_ui\_node\_max\_count | n/a | `number` | n/a | yes |
-| logscale\_ui\_node\_min\_count | n/a | `number` | n/a | yes |
-| logscale\_ui\_nodes\_subnet\_id | Subnet ID for ingest nodes. | `any` | n/a | yes |
-| logscale\_ui\_os\_disk\_size | n/a | `number` | n/a | yes |
-| logscale\_ui\_vmsize | n/a | `string` | n/a | yes |
-| name\_prefix | Identifier attached to named resources to help them stand out. | `string` | n/a | yes |
-| private\_cluster\_enabled | Should the kubernetes API be private only? Setting to private has implications to how to run this IaaC. Refer to documentation for more detail. | `bool` | n/a | yes |
-| provision\_kafka\_servers | Set this to true to provision strimzi kafka within this kubernetes cluster. It should be false if you are bringing your own kafka implementation. | `bool` | `true` | no |
-| resource\_group\_id | The ID of the resource group where the kubernetes managed identity will be granted network contributor access. | `string` | n/a | yes |
-| resource\_group\_name | The Azure cloud region for the resource group and associated resources. | `string` | n/a | yes |
-| resource\_group\_region | The Azure cloud region for the resource group and associated resources. | `string` | n/a | yes |
-| sku\_tier | Tier for the AKS cluster, Standard or Premium | `string` | `"Standard"` | no |
-| strimzi\_node\_desired\_count | n/a | `number` | n/a | yes |
-| strimzi\_node\_instance\_type | n/a | `string` | n/a | yes |
-| strimzi\_node\_max\_count | n/a | `number` | n/a | yes |
-| strimzi\_node\_min\_count | n/a | `number` | n/a | yes |
-| strimzi\_node\_os\_disk\_size\_gb | n/a | `number` | n/a | yes |
-| subscription\_id | Subscription ID for your Azure resources. | `string` | n/a | yes |
-| system\_node\_desired\_count | n/a | `number` | n/a | yes |
-| system\_node\_max\_count | n/a | `number` | n/a | yes |
-| system\_node\_min\_count | n/a | `number` | n/a | yes |
-| system\_node\_os\_disk\_size\_gb | n/a | `number` | n/a | yes |
-| system\_node\_vmsize | n/a | `string` | n/a | yes |
-| tags | A map of tags to apply to all created resources. | `map` | n/a | yes |
-| use\_custom\_certificate | Use a custom provided certificate for ingress. In this module, this setting controls creation of a NSG rule that allows for Let's Encrypt ACME challenges. | `bool` | `false` | no |
+| <a name="input_admin_ssh_pubkey"></a> [admin\_ssh\_pubkey](#input\_admin\_ssh\_pubkey) | Public key for SSH access to the bastion host. | `string` | n/a | yes |
+| <a name="input_admin_username"></a> [admin\_username](#input\_admin\_username) | Admin username for ssh access to k8s nodes. | `string` | n/a | yes |
+| <a name="input_aks_system_nodes_subnet_id"></a> [aks\_system\_nodes\_subnet\_id](#input\_aks\_system\_nodes\_subnet\_id) | Subnet ID for AKS system nodes to live in. | `any` | n/a | yes |
+| <a name="input_authorized_ip_ranges"></a> [authorized\_ip\_ranges](#input\_authorized\_ip\_ranges) | IP Ranges allowed to access the public kubernetes API | `list` | `[]` | no |
+| <a name="input_azure_availability_zones"></a> [azure\_availability\_zones](#input\_azure\_availability\_zones) | The availability zones to use with your kubernetes cluster. Defaults to null making the cluster regional with no guarantee of HA in the event of zone outage. | `list` | `null` | no |
+| <a name="input_azure_keyvault_id"></a> [azure\_keyvault\_id](#input\_azure\_keyvault\_id) | Azure KeyVault id used for storing secrets related to this infrastructure | `string` | n/a | yes |
+| <a name="input_azure_keyvault_secret_expiration_date"></a> [azure\_keyvault\_secret\_expiration\_date](#input\_azure\_keyvault\_secret\_expiration\_date) | When secrets should expire. | `string` | n/a | yes |
+| <a name="input_azure_policy_enabled"></a> [azure\_policy\_enabled](#input\_azure\_policy\_enabled) | Enable the Azure Policy for AKS add-on? | `bool` | n/a | yes |
+| <a name="input_cost_analysis_enabled"></a> [cost\_analysis\_enabled](#input\_cost\_analysis\_enabled) | Enable cost analysis for this AKS cluster? | `bool` | n/a | yes |
+| <a name="input_diag_logging_eventhub_authorization_rule_id"></a> [diag\_logging\_eventhub\_authorization\_rule\_id](#input\_diag\_logging\_eventhub\_authorization\_rule\_id) | The rule ID allowing authorization to the eventhub. | `string` | `null` | no |
+| <a name="input_diag_logging_eventhub_name"></a> [diag\_logging\_eventhub\_name](#input\_diag\_logging\_eventhub\_name) | The target eventhub name where audit logging will be sent. Use in conjuction with the eventhub\_authorization\_rule\_id | `string` | `null` | no |
+| <a name="input_diag_logging_loganalytics_id"></a> [diag\_logging\_loganalytics\_id](#input\_diag\_logging\_loganalytics\_id) | The ID of the log analytics workspace to send diagnostic logging. | `string` | `null` | no |
+| <a name="input_diag_logging_storage_account_id"></a> [diag\_logging\_storage\_account\_id](#input\_diag\_logging\_storage\_account\_id) | The target storage account id where audit logging will be sent. | `string` | `null` | no |
+| <a name="input_disk_encryption_key_expiration_date"></a> [disk\_encryption\_key\_expiration\_date](#input\_disk\_encryption\_key\_expiration\_date) | Optionally set when the disk encryption key used for AKS nodes should expire. Defaults to null on the assumption that this AKS cluster might be long-lived. | `string` | `null` | no |
+| <a name="input_enable_auditlogging_to_eventhub"></a> [enable\_auditlogging\_to\_eventhub](#input\_enable\_auditlogging\_to\_eventhub) | Enable audit logging to a target eventhub. | `bool` | `false` | no |
+| <a name="input_enable_auditlogging_to_loganalytics"></a> [enable\_auditlogging\_to\_loganalytics](#input\_enable\_auditlogging\_to\_loganalytics) | Enable audit logging to a target log analytics workspace. | `bool` | `false` | no |
+| <a name="input_enable_auditlogging_to_storage"></a> [enable\_auditlogging\_to\_storage](#input\_enable\_auditlogging\_to\_storage) | Enable audit logging to a target storage account | `bool` | `false` | no |
+| <a name="input_enable_kv_metrics_diag_logging"></a> [enable\_kv\_metrics\_diag\_logging](#input\_enable\_kv\_metrics\_diag\_logging) | When sending diagnostic logs for the eventhub resource, we can optionally enable metrics as well. | `bool` | `false` | no |
+| <a name="input_environment"></a> [environment](#input\_environment) | Azure cloud enviroment to use for your resources. | `string` | n/a | yes |
+| <a name="input_ip_ranges_allowed_https"></a> [ip\_ranges\_allowed\_https](#input\_ip\_ranges\_allowed\_https) | IP Ranges allowed to access the nginx-ingress loadbalancer pods | `list` | `[]` | no |
+| <a name="input_kafka_nodes_subnet_id"></a> [kafka\_nodes\_subnet\_id](#input\_kafka\_nodes\_subnet\_id) | Subnet ID where kafka nodes will live. | `string` | n/a | yes |
+| <a name="input_kubernetes_diagnostic_log_categories"></a> [kubernetes\_diagnostic\_log\_categories](#input\_kubernetes\_diagnostic\_log\_categories) | List of enabled diagnostic log categories for the kubernetes cluster. | `list` | <pre>[<br/>  "kube-apiserver",<br/>  "kube-controller-manager",<br/>  "kube-scheduler",<br/>  "kube-audit",<br/>  "kube-audit-admin"<br/>]</pre> | no |
+| <a name="input_logscale_cluster_type"></a> [logscale\_cluster\_type](#input\_logscale\_cluster\_type) | Logscale cluster type | `string` | n/a | yes |
+| <a name="input_logscale_digest_nodes_subnet_id"></a> [logscale\_digest\_nodes\_subnet\_id](#input\_logscale\_digest\_nodes\_subnet\_id) | Subnet ID for logscale digest nodes. | `any` | n/a | yes |
+| <a name="input_logscale_ingest_node_desired_count"></a> [logscale\_ingest\_node\_desired\_count](#input\_logscale\_ingest\_node\_desired\_count) | n/a | `number` | n/a | yes |
+| <a name="input_logscale_ingest_node_max_count"></a> [logscale\_ingest\_node\_max\_count](#input\_logscale\_ingest\_node\_max\_count) | n/a | `number` | n/a | yes |
+| <a name="input_logscale_ingest_node_min_count"></a> [logscale\_ingest\_node\_min\_count](#input\_logscale\_ingest\_node\_min\_count) | n/a | `number` | n/a | yes |
+| <a name="input_logscale_ingest_nodes_subnet_id"></a> [logscale\_ingest\_nodes\_subnet\_id](#input\_logscale\_ingest\_nodes\_subnet\_id) | Subnet ID for ingest nodes. | `any` | n/a | yes |
+| <a name="input_logscale_ingest_os_disk_size"></a> [logscale\_ingest\_os\_disk\_size](#input\_logscale\_ingest\_os\_disk\_size) | n/a | `number` | n/a | yes |
+| <a name="input_logscale_ingest_vmsize"></a> [logscale\_ingest\_vmsize](#input\_logscale\_ingest\_vmsize) | n/a | `string` | n/a | yes |
+| <a name="input_logscale_ingress_node_desired_count"></a> [logscale\_ingress\_node\_desired\_count](#input\_logscale\_ingress\_node\_desired\_count) | n/a | `number` | n/a | yes |
+| <a name="input_logscale_ingress_node_max_count"></a> [logscale\_ingress\_node\_max\_count](#input\_logscale\_ingress\_node\_max\_count) | n/a | `number` | n/a | yes |
+| <a name="input_logscale_ingress_node_min_count"></a> [logscale\_ingress\_node\_min\_count](#input\_logscale\_ingress\_node\_min\_count) | n/a | `number` | n/a | yes |
+| <a name="input_logscale_ingress_nodes_subnet_id"></a> [logscale\_ingress\_nodes\_subnet\_id](#input\_logscale\_ingress\_nodes\_subnet\_id) | Subnet ID for ingest nodes. | `any` | n/a | yes |
+| <a name="input_logscale_ingress_os_disk_size"></a> [logscale\_ingress\_os\_disk\_size](#input\_logscale\_ingress\_os\_disk\_size) | n/a | `number` | n/a | yes |
+| <a name="input_logscale_ingress_vmsize"></a> [logscale\_ingress\_vmsize](#input\_logscale\_ingress\_vmsize) | n/a | `string` | n/a | yes |
+| <a name="input_logscale_node_desired_count"></a> [logscale\_node\_desired\_count](#input\_logscale\_node\_desired\_count) | n/a | `number` | n/a | yes |
+| <a name="input_logscale_node_max_count"></a> [logscale\_node\_max\_count](#input\_logscale\_node\_max\_count) | n/a | `number` | n/a | yes |
+| <a name="input_logscale_node_min_count"></a> [logscale\_node\_min\_count](#input\_logscale\_node\_min\_count) | n/a | `number` | n/a | yes |
+| <a name="input_logscale_node_os_disk_size_gb"></a> [logscale\_node\_os\_disk\_size\_gb](#input\_logscale\_node\_os\_disk\_size\_gb) | n/a | `number` | n/a | yes |
+| <a name="input_logscale_node_vmsize"></a> [logscale\_node\_vmsize](#input\_logscale\_node\_vmsize) | n/a | `string` | n/a | yes |
+| <a name="input_logscale_ui_node_desired_count"></a> [logscale\_ui\_node\_desired\_count](#input\_logscale\_ui\_node\_desired\_count) | n/a | `number` | n/a | yes |
+| <a name="input_logscale_ui_node_max_count"></a> [logscale\_ui\_node\_max\_count](#input\_logscale\_ui\_node\_max\_count) | n/a | `number` | n/a | yes |
+| <a name="input_logscale_ui_node_min_count"></a> [logscale\_ui\_node\_min\_count](#input\_logscale\_ui\_node\_min\_count) | n/a | `number` | n/a | yes |
+| <a name="input_logscale_ui_nodes_subnet_id"></a> [logscale\_ui\_nodes\_subnet\_id](#input\_logscale\_ui\_nodes\_subnet\_id) | Subnet ID for ingest nodes. | `any` | n/a | yes |
+| <a name="input_logscale_ui_os_disk_size"></a> [logscale\_ui\_os\_disk\_size](#input\_logscale\_ui\_os\_disk\_size) | n/a | `number` | n/a | yes |
+| <a name="input_logscale_ui_vmsize"></a> [logscale\_ui\_vmsize](#input\_logscale\_ui\_vmsize) | n/a | `string` | n/a | yes |
+| <a name="input_name_prefix"></a> [name\_prefix](#input\_name\_prefix) | Identifier attached to named resources to help them stand out. | `string` | n/a | yes |
+| <a name="input_private_cluster_enabled"></a> [private\_cluster\_enabled](#input\_private\_cluster\_enabled) | Should the kubernetes API be private only? Setting to private has implications to how to run this IaaC. Refer to documentation for more detail. | `bool` | n/a | yes |
+| <a name="input_provision_kafka_servers"></a> [provision\_kafka\_servers](#input\_provision\_kafka\_servers) | Set this to true to provision strimzi kafka within this kubernetes cluster. It should be false if you are bringing your own kafka implementation. | `bool` | `true` | no |
+| <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The ID of the resource group where the kubernetes managed identity will be granted network contributor access. | `string` | n/a | yes |
+| <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | The Azure cloud region for the resource group and associated resources. | `string` | n/a | yes |
+| <a name="input_resource_group_region"></a> [resource\_group\_region](#input\_resource\_group\_region) | The Azure cloud region for the resource group and associated resources. | `string` | n/a | yes |
+| <a name="input_sku_tier"></a> [sku\_tier](#input\_sku\_tier) | Tier for the AKS cluster, Standard or Premium | `string` | `"Standard"` | no |
+| <a name="input_strimzi_node_desired_count"></a> [strimzi\_node\_desired\_count](#input\_strimzi\_node\_desired\_count) | n/a | `number` | n/a | yes |
+| <a name="input_strimzi_node_instance_type"></a> [strimzi\_node\_instance\_type](#input\_strimzi\_node\_instance\_type) | n/a | `string` | n/a | yes |
+| <a name="input_strimzi_node_max_count"></a> [strimzi\_node\_max\_count](#input\_strimzi\_node\_max\_count) | n/a | `number` | n/a | yes |
+| <a name="input_strimzi_node_min_count"></a> [strimzi\_node\_min\_count](#input\_strimzi\_node\_min\_count) | n/a | `number` | n/a | yes |
+| <a name="input_strimzi_node_os_disk_size_gb"></a> [strimzi\_node\_os\_disk\_size\_gb](#input\_strimzi\_node\_os\_disk\_size\_gb) | n/a | `number` | n/a | yes |
+| <a name="input_subscription_id"></a> [subscription\_id](#input\_subscription\_id) | Subscription ID for your Azure resources. | `string` | n/a | yes |
+| <a name="input_system_node_desired_count"></a> [system\_node\_desired\_count](#input\_system\_node\_desired\_count) | n/a | `number` | n/a | yes |
+| <a name="input_system_node_max_count"></a> [system\_node\_max\_count](#input\_system\_node\_max\_count) | n/a | `number` | n/a | yes |
+| <a name="input_system_node_min_count"></a> [system\_node\_min\_count](#input\_system\_node\_min\_count) | n/a | `number` | n/a | yes |
+| <a name="input_system_node_os_disk_size_gb"></a> [system\_node\_os\_disk\_size\_gb](#input\_system\_node\_os\_disk\_size\_gb) | n/a | `number` | n/a | yes |
+| <a name="input_system_node_vmsize"></a> [system\_node\_vmsize](#input\_system\_node\_vmsize) | n/a | `string` | n/a | yes |
+| <a name="input_tags"></a> [tags](#input\_tags) | A map of tags to apply to all created resources. | `map` | n/a | yes |
+| <a name="input_use_custom_certificate"></a> [use\_custom\_certificate](#input\_use\_custom\_certificate) | Use a custom provided certificate for ingress. In this module, this setting controls creation of a NSG rule that allows for Let's Encrypt ACME challenges. | `bool` | `false` | no |
 
 ### Outputs
 
 | Name | Description |
 |------|-------------|
-| k8s\_client\_certificate\_kv\_name | n/a |
-| k8s\_client\_key\_kv\_name | n/a |
-| k8s\_cluster\_ca\_certificate\_kv\_name | n/a |
-| k8s\_cluster\_endpoint | n/a |
-| k8s\_cluster\_id | n/a |
-| k8s\_cluster\_name | n/a |
-| k8s\_cluster\_principal\_id | Kubernetes information |
-| k8s\_kube\_config\_kv\_name | n/a |
+| <a name="output_k8s_client_certificate_kv_name"></a> [k8s\_client\_certificate\_kv\_name](#output\_k8s\_client\_certificate\_kv\_name) | n/a |
+| <a name="output_k8s_client_key_kv_name"></a> [k8s\_client\_key\_kv\_name](#output\_k8s\_client\_key\_kv\_name) | n/a |
+| <a name="output_k8s_cluster_ca_certificate_kv_name"></a> [k8s\_cluster\_ca\_certificate\_kv\_name](#output\_k8s\_cluster\_ca\_certificate\_kv\_name) | n/a |
+| <a name="output_k8s_cluster_endpoint"></a> [k8s\_cluster\_endpoint](#output\_k8s\_cluster\_endpoint) | n/a |
+| <a name="output_k8s_cluster_id"></a> [k8s\_cluster\_id](#output\_k8s\_cluster\_id) | n/a |
+| <a name="output_k8s_cluster_name"></a> [k8s\_cluster\_name](#output\_k8s\_cluster\_name) | n/a |
+| <a name="output_k8s_cluster_principal_id"></a> [k8s\_cluster\_principal\_id](#output\_k8s\_cluster\_principal\_id) | Kubernetes information |
+| <a name="output_k8s_kube_config_kv_name"></a> [k8s\_kube\_config\_kv\_name](#output\_k8s\_kube\_config\_kv\_name) | n/a |
 
 <!-- END_AZAKS_MAIN_DOCS -->
 
@@ -463,27 +463,27 @@ environment and setting the kubernetes API to private access only.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| admin\_ssh\_pubkey | Public key for SSH access to the bastion host. | `string` | n/a | yes |
-| admin\_username | Admin username for ssh access to k8s nodes. | `string` | n/a | yes |
-| bastion\_host\_size | Sizing for the bastion host. | `string` | n/a | yes |
-| bastion\_subnet\_id | Subnet ID to attach the bastion host NIC. | `string` | n/a | yes |
-| environment | Azure cloud enviroment to use for your resources. | `string` | n/a | yes |
-| ip\_ranges\_allowed | List of IP addresses or CIDR notated ranges that can access the bastion host. | `list` | n/a | yes |
-| name\_prefix | Identifier attached to named resources to help them stand out. | `string` | n/a | yes |
-| resource\_group\_name | The Azure cloud region for the resource group and associated resources. | `string` | n/a | yes |
-| resource\_group\_region | The Azure cloud region for the resource group and associated resources. | `string` | n/a | yes |
-| subscription\_id | Subscription ID for your Azure resources. | `string` | n/a | yes |
-| tags | A map of tags to apply to all created resources. | `map` | n/a | yes |
-| vnet\_name | Name of the virtual network where this resource will live | `string` | n/a | yes |
+| <a name="input_admin_ssh_pubkey"></a> [admin\_ssh\_pubkey](#input\_admin\_ssh\_pubkey) | Public key for SSH access to the bastion host. | `string` | n/a | yes |
+| <a name="input_admin_username"></a> [admin\_username](#input\_admin\_username) | Admin username for ssh access to k8s nodes. | `string` | n/a | yes |
+| <a name="input_bastion_host_size"></a> [bastion\_host\_size](#input\_bastion\_host\_size) | Sizing for the bastion host. | `string` | n/a | yes |
+| <a name="input_bastion_subnet_id"></a> [bastion\_subnet\_id](#input\_bastion\_subnet\_id) | Subnet ID to attach the bastion host NIC. | `string` | n/a | yes |
+| <a name="input_environment"></a> [environment](#input\_environment) | Azure cloud enviroment to use for your resources. | `string` | n/a | yes |
+| <a name="input_ip_ranges_allowed"></a> [ip\_ranges\_allowed](#input\_ip\_ranges\_allowed) | List of IP addresses or CIDR notated ranges that can access the bastion host. | `list` | n/a | yes |
+| <a name="input_name_prefix"></a> [name\_prefix](#input\_name\_prefix) | Identifier attached to named resources to help them stand out. | `string` | n/a | yes |
+| <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | The Azure cloud region for the resource group and associated resources. | `string` | n/a | yes |
+| <a name="input_resource_group_region"></a> [resource\_group\_region](#input\_resource\_group\_region) | The Azure cloud region for the resource group and associated resources. | `string` | n/a | yes |
+| <a name="input_subscription_id"></a> [subscription\_id](#input\_subscription\_id) | Subscription ID for your Azure resources. | `string` | n/a | yes |
+| <a name="input_tags"></a> [tags](#input\_tags) | A map of tags to apply to all created resources. | `map` | n/a | yes |
+| <a name="input_vnet_name"></a> [vnet\_name](#input\_vnet\_name) | Name of the virtual network where this resource will live | `string` | n/a | yes |
 
 ### Outputs
 
 | Name | Description |
 |------|-------------|
-| bastion\_host\_private\_ip | n/a |
-| bastion\_nsg\_name | n/a |
-| bastion\_public\_dns\_name | n/a |
-| bastion\_public\_ip\_address | Bastion Host Connection Information |
+| <a name="output_bastion_host_private_ip"></a> [bastion\_host\_private\_ip](#output\_bastion\_host\_private\_ip) | n/a |
+| <a name="output_bastion_nsg_name"></a> [bastion\_nsg\_name](#output\_bastion\_nsg\_name) | n/a |
+| <a name="output_bastion_public_dns_name"></a> [bastion\_public\_dns\_name](#output\_bastion\_public\_dns\_name) | n/a |
+| <a name="output_bastion_public_ip_address"></a> [bastion\_public\_ip\_address](#output\_bastion\_public\_ip\_address) | Bastion Host Connection Information |
 
 <!-- END_AZBAS_MAIN_DOCS -->
 
@@ -496,17 +496,17 @@ test certificates but depending on the configuration of your KeyVault, it can be
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| azure\_keyvault\_id | The Azure Keyvault ID storing all the secrets above. | `string` | n/a | yes |
-| cert\_issuer | The issuer to use for certificate generation. Defaults to Self but can match any issuer registered in your environment. | `string` | `"Self"` | no |
-| logscale\_public\_fqdn | The FQDN tied to the public IP address for logscale ingress. This is the resource that will have a certificate provisioned from let's encrypt. | `string` | n/a | yes |
-| name\_prefix | Identifier attached to named resources to help them stand out. | `string` | n/a | yes |
-| subject\_alternative\_names | List of alternative names for the certificate. | `list` | `[]` | no |
+| <a name="input_azure_keyvault_id"></a> [azure\_keyvault\_id](#input\_azure\_keyvault\_id) | The Azure Keyvault ID storing all the secrets above. | `string` | n/a | yes |
+| <a name="input_cert_issuer"></a> [cert\_issuer](#input\_cert\_issuer) | The issuer to use for certificate generation. Defaults to Self but can match any issuer registered in your environment. | `string` | `"Self"` | no |
+| <a name="input_logscale_public_fqdn"></a> [logscale\_public\_fqdn](#input\_logscale\_public\_fqdn) | The FQDN tied to the public IP address for logscale ingress. This is the resource that will have a certificate provisioned from let's encrypt. | `string` | n/a | yes |
+| <a name="input_name_prefix"></a> [name\_prefix](#input\_name\_prefix) | Identifier attached to named resources to help them stand out. | `string` | n/a | yes |
+| <a name="input_subject_alternative_names"></a> [subject\_alternative\_names](#input\_subject\_alternative\_names) | List of alternative names for the certificate. | `list` | `[]` | no |
 
 ### Outputs
 
 | Name | Description |
 |------|-------------|
-| certificate\_keyvault\_name | n/a |
+| <a name="output_certificate_keyvault_name"></a> [certificate\_keyvault\_name](#output\_certificate\_keyvault\_name) | n/a |
 
 <!-- END_AZCERT_MAIN_DOCS -->
 
@@ -518,18 +518,18 @@ This optional module can be used to provision a managed identity in Azure and as
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| name\_prefix | Identifier attached to named resources to help them stand out. | `string` | n/a | yes |
-| resource\_group\_name | The Azure cloud region for the resource group and associated resources. | `string` | n/a | yes |
-| resource\_group\_region | The Azure cloud region for the resource group and associated resources. | `string` | n/a | yes |
-| role\_definition\_name | Built-in role definition to assign to the created identity | `string` | `"Storage Blob Data Owner"` | no |
-| tags | A map of tags to apply to all created resources. | `map` | n/a | yes |
+| <a name="input_name_prefix"></a> [name\_prefix](#input\_name\_prefix) | Identifier attached to named resources to help them stand out. | `string` | n/a | yes |
+| <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | The Azure cloud region for the resource group and associated resources. | `string` | n/a | yes |
+| <a name="input_resource_group_region"></a> [resource\_group\_region](#input\_resource\_group\_region) | The Azure cloud region for the resource group and associated resources. | `string` | n/a | yes |
+| <a name="input_role_definition_name"></a> [role\_definition\_name](#input\_role\_definition\_name) | Built-in role definition to assign to the created identity | `string` | `"Storage Blob Data Owner"` | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | A map of tags to apply to all created resources. | `map` | n/a | yes |
 
 ### Outputs
 
 | Name | Description |
 |------|-------------|
-| managed\_identity\_resource\_id | n/a |
-| managed\_identity\_resource\_principal\_id | n/a |
+| <a name="output_managed_identity_resource_id"></a> [managed\_identity\_resource\_id](#output\_managed\_identity\_resource\_id) | n/a |
+| <a name="output_managed_identity_resource_principal_id"></a> [managed\_identity\_resource\_principal\_id](#output\_managed\_identity\_resource\_principal\_id) | n/a |
 
 <!-- END_AZIDENT_MAIN_DOCS -->
 
@@ -541,34 +541,34 @@ This module provisions an Azure Keyvault for storing sensititve environment secr
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| certificate\_permissions | The keyvault will be created with an access policy that grants permission to the calling user to do most things for the purposes of this terraform run. These permissions can be adjusted as required. | `list` | <pre>[<br/>  "Create",<br/>  "Delete",<br/>  "Get",<br/>  "GetIssuers",<br/>  "Import",<br/>  "List",<br/>  "ListIssuers",<br/>  "Update"<br/>]</pre> | no |
-| diag\_logging\_eventhub\_authorization\_rule\_id | The rule ID allowing authorization to the eventhub. | `string` | `null` | no |
-| diag\_logging\_eventhub\_name | The target eventhub name where audit logging for the keyvault will be sent. Use in conjuction with the eventhub\_authorization\_rule\_id | `string` | `null` | no |
-| diag\_logging\_loganalytics\_id | The ID of the log analytics workspace to send diagnostic logging. | `string` | `null` | no |
-| diag\_logging\_storage\_account\_id | The target storage account id where audit logging for the keyvault will be sent. | `string` | `null` | no |
-| enable\_auditlogging\_to\_eventhub | Enable audit logging to a target eventhub. | `bool` | `false` | no |
-| enable\_auditlogging\_to\_loganalytics | Enable audit logging to a target log analytics workspace. | `bool` | `false` | no |
-| enable\_auditlogging\_to\_storage | Enable audit logging to a target storage account | `bool` | `false` | no |
-| enable\_kv\_metrics\_diag\_logging | When sending diagnostic logs for the eventhub resource, we can optionally enable metrics as well. | `bool` | `false` | no |
-| enabled\_for\_deployment | Allow virtual machines to retrieve certificates stored as secrets in the vault | `bool` | `true` | no |
-| enabled\_for\_disk\_encryption | Allow azure disk encryption to retrieve and unwrap keys in the vault | `bool` | `true` | no |
-| ip\_ranges\_allowed\_kv\_access | IP Ranges allowed access to keyvault outside of trusted AzureServices. | `list` | `[]` | no |
-| key\_permissions | The keyvault will be created with an access policy that grants permission to the calling user to do most things for the purposes of this terraform run. These permissions can be adjusted as required. | `list` | <pre>[<br/>  "Get",<br/>  "List",<br/>  "Update",<br/>  "Delete",<br/>  "Encrypt",<br/>  "Decrypt",<br/>  "WrapKey",<br/>  "UnwrapKey",<br/>  "Create",<br/>  "GetRotationPolicy",<br/>  "SetRotationPolicy",<br/>  "Recover",<br/>  "Purge",<br/>  "Backup"<br/>]</pre> | no |
-| name\_prefix | Identifier attached to named resources to help them stand out. | `string` | n/a | yes |
-| purge\_protection\_enabled | Enable purge protection for KV resources | `bool` | `true` | no |
-| resource\_group\_name | The Azure cloud region for the resource group and associated resources. | `string` | n/a | yes |
-| resource\_group\_region | The Azure cloud region for the resource group and associated resources. | `string` | n/a | yes |
-| secret\_permissions | The keyvault will be created with an access policy that grants permission to the calling user to do most things for the purposes of this terraform run. These permissions can be adjusted as required. | `list` | <pre>[<br/>  "Get",<br/>  "List",<br/>  "Set",<br/>  "Delete",<br/>  "Recover"<br/>]</pre> | no |
-| sku\_name | Standard or Premium SKU for the key vault. | `string` | `"standard"` | no |
-| soft\_delete\_retention\_days | The number of days to retain items once soft-deleted. Values can be 7-90 | `number` | `7` | no |
-| tags | A map of tags to apply to all created resources. | `map` | n/a | yes |
+| <a name="input_certificate_permissions"></a> [certificate\_permissions](#input\_certificate\_permissions) | The keyvault will be created with an access policy that grants permission to the calling user to do most things for the purposes of this terraform run. These permissions can be adjusted as required. | `list` | <pre>[<br/>  "Create",<br/>  "Delete",<br/>  "Get",<br/>  "GetIssuers",<br/>  "Import",<br/>  "List",<br/>  "ListIssuers",<br/>  "Update"<br/>]</pre> | no |
+| <a name="input_diag_logging_eventhub_authorization_rule_id"></a> [diag\_logging\_eventhub\_authorization\_rule\_id](#input\_diag\_logging\_eventhub\_authorization\_rule\_id) | The rule ID allowing authorization to the eventhub. | `string` | `null` | no |
+| <a name="input_diag_logging_eventhub_name"></a> [diag\_logging\_eventhub\_name](#input\_diag\_logging\_eventhub\_name) | The target eventhub name where audit logging for the keyvault will be sent. Use in conjuction with the eventhub\_authorization\_rule\_id | `string` | `null` | no |
+| <a name="input_diag_logging_loganalytics_id"></a> [diag\_logging\_loganalytics\_id](#input\_diag\_logging\_loganalytics\_id) | The ID of the log analytics workspace to send diagnostic logging. | `string` | `null` | no |
+| <a name="input_diag_logging_storage_account_id"></a> [diag\_logging\_storage\_account\_id](#input\_diag\_logging\_storage\_account\_id) | The target storage account id where audit logging for the keyvault will be sent. | `string` | `null` | no |
+| <a name="input_enable_auditlogging_to_eventhub"></a> [enable\_auditlogging\_to\_eventhub](#input\_enable\_auditlogging\_to\_eventhub) | Enable audit logging to a target eventhub. | `bool` | `false` | no |
+| <a name="input_enable_auditlogging_to_loganalytics"></a> [enable\_auditlogging\_to\_loganalytics](#input\_enable\_auditlogging\_to\_loganalytics) | Enable audit logging to a target log analytics workspace. | `bool` | `false` | no |
+| <a name="input_enable_auditlogging_to_storage"></a> [enable\_auditlogging\_to\_storage](#input\_enable\_auditlogging\_to\_storage) | Enable audit logging to a target storage account | `bool` | `false` | no |
+| <a name="input_enable_kv_metrics_diag_logging"></a> [enable\_kv\_metrics\_diag\_logging](#input\_enable\_kv\_metrics\_diag\_logging) | When sending diagnostic logs for the eventhub resource, we can optionally enable metrics as well. | `bool` | `false` | no |
+| <a name="input_enabled_for_deployment"></a> [enabled\_for\_deployment](#input\_enabled\_for\_deployment) | Allow virtual machines to retrieve certificates stored as secrets in the vault | `bool` | `true` | no |
+| <a name="input_enabled_for_disk_encryption"></a> [enabled\_for\_disk\_encryption](#input\_enabled\_for\_disk\_encryption) | Allow azure disk encryption to retrieve and unwrap keys in the vault | `bool` | `true` | no |
+| <a name="input_ip_ranges_allowed_kv_access"></a> [ip\_ranges\_allowed\_kv\_access](#input\_ip\_ranges\_allowed\_kv\_access) | IP Ranges allowed access to keyvault outside of trusted AzureServices. | `list` | `[]` | no |
+| <a name="input_key_permissions"></a> [key\_permissions](#input\_key\_permissions) | The keyvault will be created with an access policy that grants permission to the calling user to do most things for the purposes of this terraform run. These permissions can be adjusted as required. | `list` | <pre>[<br/>  "Get",<br/>  "List",<br/>  "Update",<br/>  "Delete",<br/>  "Encrypt",<br/>  "Decrypt",<br/>  "WrapKey",<br/>  "UnwrapKey",<br/>  "Create",<br/>  "GetRotationPolicy",<br/>  "SetRotationPolicy",<br/>  "Recover",<br/>  "Purge",<br/>  "Backup"<br/>]</pre> | no |
+| <a name="input_name_prefix"></a> [name\_prefix](#input\_name\_prefix) | Identifier attached to named resources to help them stand out. | `string` | n/a | yes |
+| <a name="input_purge_protection_enabled"></a> [purge\_protection\_enabled](#input\_purge\_protection\_enabled) | Enable purge protection for KV resources | `bool` | `true` | no |
+| <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | The Azure cloud region for the resource group and associated resources. | `string` | n/a | yes |
+| <a name="input_resource_group_region"></a> [resource\_group\_region](#input\_resource\_group\_region) | The Azure cloud region for the resource group and associated resources. | `string` | n/a | yes |
+| <a name="input_secret_permissions"></a> [secret\_permissions](#input\_secret\_permissions) | The keyvault will be created with an access policy that grants permission to the calling user to do most things for the purposes of this terraform run. These permissions can be adjusted as required. | `list` | <pre>[<br/>  "Get",<br/>  "List",<br/>  "Set",<br/>  "Delete",<br/>  "Recover"<br/>]</pre> | no |
+| <a name="input_sku_name"></a> [sku\_name](#input\_sku\_name) | Standard or Premium SKU for the key vault. | `string` | `"standard"` | no |
+| <a name="input_soft_delete_retention_days"></a> [soft\_delete\_retention\_days](#input\_soft\_delete\_retention\_days) | The number of days to retain items once soft-deleted. Values can be 7-90 | `number` | `7` | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | A map of tags to apply to all created resources. | `map` | n/a | yes |
 
 ### Outputs
 
 | Name | Description |
 |------|-------------|
-| keyvault\_id | n/a |
-| keyvault\_name | n/a |
+| <a name="output_keyvault_id"></a> [keyvault\_id](#output\_keyvault\_id) | n/a |
+| <a name="output_keyvault_name"></a> [keyvault\_name](#output\_keyvault\_name) | n/a |
 
 <!-- END_AZKV_MAIN_DOCS -->
 
@@ -580,45 +580,45 @@ This module provisions a storage account and optional container designed for pro
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| azure\_keyvault\_id | Azure KeyVault id used for storing secrets related to this infrastructure | `string` | n/a | yes |
-| azure\_keyvault\_secret\_expiration\_date | When secrets should expire. | `string` | n/a | yes |
-| create\_container | n/a | `bool` | `false` | no |
-| diag\_logging\_eventhub\_authorization\_rule\_id | The rule ID allowing authorization to the eventhub. | `string` | `null` | no |
-| diag\_logging\_eventhub\_name | The target eventhub name where audit logging will be sent. Use in conjuction with the eventhub\_authorization\_rule\_id | `string` | `null` | no |
-| diag\_logging\_loganalytics\_id | The ID of the log analytics workspace to send diagnostic logging. | `string` | `null` | no |
-| diag\_logging\_storage\_account\_id | The target storage account id where audit logging will be sent. | `string` | `null` | no |
-| enable\_auditlogging\_to\_eventhub | Enable audit logging to a target eventhub. | `bool` | `false` | no |
-| enable\_auditlogging\_to\_loganalytics | Enable audit logging to a target log analytics workspace. | `bool` | `false` | no |
-| enable\_auditlogging\_to\_storage | Enable audit logging to a target storage account | `bool` | `false` | no |
-| enable\_hns | n/a | `bool` | `true` | no |
-| ip\_ranges\_allowed\_storage\_account\_access | IP Ranges allowed access to the storage account | `list` | `[]` | no |
-| min\_tls\_version | Minimum TLS version accepted by the storage container. | `string` | `"TLS1_2"` | no |
-| name\_prefix | Identifier attached to named resources to help them stand out. | `string` | n/a | yes |
-| resource\_group\_name | The Azure cloud region for the resource group and associated resources. | `string` | n/a | yes |
-| resource\_group\_region | The Azure cloud region for the resource group and associated resources. | `string` | n/a | yes |
-| shared\_access\_key\_enabled | Allow shared access keys to the storage containers. Defaults to true, as of Logscale 1.174, this method of access is required. | `bool` | `true` | no |
-| storage\_access\_default\_action | By default, allow or deny access to the storage account | `string` | `"Deny"` | no |
-| storage\_account\_blob\_log\_categories | List of enabled diagnostic log categories for the storage account. | `list` | <pre>[<br/>  "StorageRead",<br/>  "StorageWrite",<br/>  "StorageDelete"<br/>]</pre> | no |
-| storage\_account\_file\_log\_categories | List of enabled diagnostic log categories for the storage account. | `list` | <pre>[<br/>  "StorageRead",<br/>  "StorageWrite",<br/>  "StorageDelete"<br/>]</pre> | no |
-| storage\_account\_kind | n/a | `string` | `"StorageV2"` | no |
-| storage\_account\_queue\_log\_categories | List of enabled diagnostic log categories for the storage account. | `list` | <pre>[<br/>  "StorageRead",<br/>  "StorageWrite",<br/>  "StorageDelete"<br/>]</pre> | no |
-| storage\_account\_replication | n/a | `string` | `"LRS"` | no |
-| storage\_account\_table\_log\_categories | List of enabled diagnostic log categories for the storage account. | `list` | <pre>[<br/>  "StorageRead",<br/>  "StorageWrite",<br/>  "StorageDelete"<br/>]</pre> | no |
-| storage\_account\_tier | Storage account tier. | `string` | `"Standard"` | no |
-| storage\_network\_rules\_bypass | Defines traffic that can bypass the network-based restrictions applied. Can be a list containing: Metrics, Logging, and/or AzureServices. Can also be set to: None | `list` | <pre>[<br/>  "AzureServices",<br/>  "Metrics",<br/>  "Logging"<br/>]</pre> | no |
-| tags | A map of tags to apply to all created resources. | `map` | n/a | yes |
-| vnet\_subnets\_allowed\_storage\_account\_access | List of subnet ids in the vnet allowed access to the storage account | `list` | `[]` | no |
+| <a name="input_azure_keyvault_id"></a> [azure\_keyvault\_id](#input\_azure\_keyvault\_id) | Azure KeyVault id used for storing secrets related to this infrastructure | `string` | n/a | yes |
+| <a name="input_azure_keyvault_secret_expiration_date"></a> [azure\_keyvault\_secret\_expiration\_date](#input\_azure\_keyvault\_secret\_expiration\_date) | When secrets should expire. | `string` | n/a | yes |
+| <a name="input_create_container"></a> [create\_container](#input\_create\_container) | n/a | `bool` | `false` | no |
+| <a name="input_diag_logging_eventhub_authorization_rule_id"></a> [diag\_logging\_eventhub\_authorization\_rule\_id](#input\_diag\_logging\_eventhub\_authorization\_rule\_id) | The rule ID allowing authorization to the eventhub. | `string` | `null` | no |
+| <a name="input_diag_logging_eventhub_name"></a> [diag\_logging\_eventhub\_name](#input\_diag\_logging\_eventhub\_name) | The target eventhub name where audit logging will be sent. Use in conjuction with the eventhub\_authorization\_rule\_id | `string` | `null` | no |
+| <a name="input_diag_logging_loganalytics_id"></a> [diag\_logging\_loganalytics\_id](#input\_diag\_logging\_loganalytics\_id) | The ID of the log analytics workspace to send diagnostic logging. | `string` | `null` | no |
+| <a name="input_diag_logging_storage_account_id"></a> [diag\_logging\_storage\_account\_id](#input\_diag\_logging\_storage\_account\_id) | The target storage account id where audit logging will be sent. | `string` | `null` | no |
+| <a name="input_enable_auditlogging_to_eventhub"></a> [enable\_auditlogging\_to\_eventhub](#input\_enable\_auditlogging\_to\_eventhub) | Enable audit logging to a target eventhub. | `bool` | `false` | no |
+| <a name="input_enable_auditlogging_to_loganalytics"></a> [enable\_auditlogging\_to\_loganalytics](#input\_enable\_auditlogging\_to\_loganalytics) | Enable audit logging to a target log analytics workspace. | `bool` | `false` | no |
+| <a name="input_enable_auditlogging_to_storage"></a> [enable\_auditlogging\_to\_storage](#input\_enable\_auditlogging\_to\_storage) | Enable audit logging to a target storage account | `bool` | `false` | no |
+| <a name="input_enable_hns"></a> [enable\_hns](#input\_enable\_hns) | n/a | `bool` | `true` | no |
+| <a name="input_ip_ranges_allowed_storage_account_access"></a> [ip\_ranges\_allowed\_storage\_account\_access](#input\_ip\_ranges\_allowed\_storage\_account\_access) | IP Ranges allowed access to the storage account | `list` | `[]` | no |
+| <a name="input_min_tls_version"></a> [min\_tls\_version](#input\_min\_tls\_version) | Minimum TLS version accepted by the storage container. | `string` | `"TLS1_2"` | no |
+| <a name="input_name_prefix"></a> [name\_prefix](#input\_name\_prefix) | Identifier attached to named resources to help them stand out. | `string` | n/a | yes |
+| <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | The Azure cloud region for the resource group and associated resources. | `string` | n/a | yes |
+| <a name="input_resource_group_region"></a> [resource\_group\_region](#input\_resource\_group\_region) | The Azure cloud region for the resource group and associated resources. | `string` | n/a | yes |
+| <a name="input_shared_access_key_enabled"></a> [shared\_access\_key\_enabled](#input\_shared\_access\_key\_enabled) | Allow shared access keys to the storage containers. Defaults to true, as of Logscale 1.174, this method of access is required. | `bool` | `true` | no |
+| <a name="input_storage_access_default_action"></a> [storage\_access\_default\_action](#input\_storage\_access\_default\_action) | By default, allow or deny access to the storage account | `string` | `"Deny"` | no |
+| <a name="input_storage_account_blob_log_categories"></a> [storage\_account\_blob\_log\_categories](#input\_storage\_account\_blob\_log\_categories) | List of enabled diagnostic log categories for the storage account. | `list` | <pre>[<br/>  "StorageRead",<br/>  "StorageWrite",<br/>  "StorageDelete"<br/>]</pre> | no |
+| <a name="input_storage_account_file_log_categories"></a> [storage\_account\_file\_log\_categories](#input\_storage\_account\_file\_log\_categories) | List of enabled diagnostic log categories for the storage account. | `list` | <pre>[<br/>  "StorageRead",<br/>  "StorageWrite",<br/>  "StorageDelete"<br/>]</pre> | no |
+| <a name="input_storage_account_kind"></a> [storage\_account\_kind](#input\_storage\_account\_kind) | n/a | `string` | `"StorageV2"` | no |
+| <a name="input_storage_account_queue_log_categories"></a> [storage\_account\_queue\_log\_categories](#input\_storage\_account\_queue\_log\_categories) | List of enabled diagnostic log categories for the storage account. | `list` | <pre>[<br/>  "StorageRead",<br/>  "StorageWrite",<br/>  "StorageDelete"<br/>]</pre> | no |
+| <a name="input_storage_account_replication"></a> [storage\_account\_replication](#input\_storage\_account\_replication) | n/a | `string` | `"LRS"` | no |
+| <a name="input_storage_account_table_log_categories"></a> [storage\_account\_table\_log\_categories](#input\_storage\_account\_table\_log\_categories) | List of enabled diagnostic log categories for the storage account. | `list` | <pre>[<br/>  "StorageRead",<br/>  "StorageWrite",<br/>  "StorageDelete"<br/>]</pre> | no |
+| <a name="input_storage_account_tier"></a> [storage\_account\_tier](#input\_storage\_account\_tier) | Storage account tier. | `string` | `"Standard"` | no |
+| <a name="input_storage_network_rules_bypass"></a> [storage\_network\_rules\_bypass](#input\_storage\_network\_rules\_bypass) | Defines traffic that can bypass the network-based restrictions applied. Can be a list containing: Metrics, Logging, and/or AzureServices. Can also be set to: None | `list` | <pre>[<br/>  "AzureServices",<br/>  "Metrics",<br/>  "Logging"<br/>]</pre> | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | A map of tags to apply to all created resources. | `map` | n/a | yes |
+| <a name="input_vnet_subnets_allowed_storage_account_access"></a> [vnet\_subnets\_allowed\_storage\_account\_access](#input\_vnet\_subnets\_allowed\_storage\_account\_access) | List of subnet ids in the vnet allowed access to the storage account | `list` | `[]` | no |
 
 ### Outputs
 
 | Name | Description |
 |------|-------------|
-| storage\_acct\_access\_key\_kv | n/a |
-| storage\_acct\_blob\_endpoint | n/a |
-| storage\_acct\_container\_id | n/a |
-| storage\_acct\_container\_name | n/a |
-| storage\_acct\_id | n/a |
-| storage\_acct\_name | n/a |
+| <a name="output_storage_acct_access_key_kv"></a> [storage\_acct\_access\_key\_kv](#output\_storage\_acct\_access\_key\_kv) | n/a |
+| <a name="output_storage_acct_blob_endpoint"></a> [storage\_acct\_blob\_endpoint](#output\_storage\_acct\_blob\_endpoint) | n/a |
+| <a name="output_storage_acct_container_id"></a> [storage\_acct\_container\_id](#output\_storage\_acct\_container\_id) | n/a |
+| <a name="output_storage_acct_container_name"></a> [storage\_acct\_container\_name](#output\_storage\_acct\_container\_name) | n/a |
+| <a name="output_storage_acct_id"></a> [storage\_acct\_id](#output\_storage\_acct\_id) | n/a |
+| <a name="output_storage_acct_name"></a> [storage\_acct\_name](#output\_storage\_acct\_name) | n/a |
 
 <!-- END_AZSTOR_MAIN_DOCS -->
 
@@ -631,11 +631,11 @@ kubernetes module to ensure successful terraform planning.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| cm\_crds\_url | Cert Manager CRDs URL | `string` | `"https://github.com/cert-manager/cert-manager/releases/download/v1.17.1/cert-manager.crds.yaml"` | no |
-| humio\_operator\_version | Humio Operator version | `string` | n/a | yes |
-| k8s\_config\_context | Configuration context name, typically the kubernetes server name. | `any` | n/a | yes |
-| k8s\_config\_path | The path to k8s configuration. | `any` | n/a | yes |
-| strimzi\_operator\_version | Used to get CRDs for strimzi and install them. | `string` | n/a | yes |
+| <a name="input_cm_crds_url"></a> [cm\_crds\_url](#input\_cm\_crds\_url) | Cert Manager CRDs URL | `string` | `"https://github.com/cert-manager/cert-manager/releases/download/v1.17.1/cert-manager.crds.yaml"` | no |
+| <a name="input_humio_operator_version"></a> [humio\_operator\_version](#input\_humio\_operator\_version) | Humio Operator version | `string` | n/a | yes |
+| <a name="input_k8s_config_context"></a> [k8s\_config\_context](#input\_k8s\_config\_context) | Configuration context name, typically the kubernetes server name. | `any` | n/a | yes |
+| <a name="input_k8s_config_path"></a> [k8s\_config\_path](#input\_k8s\_config\_path) | The path to k8s configuration. | `any` | n/a | yes |
+| <a name="input_strimzi_operator_version"></a> [strimzi\_operator\_version](#input\_strimzi\_operator\_version) | Used to get CRDs for strimzi and install them. | `string` | n/a | yes |
 
 ### Outputs
 
@@ -651,23 +651,23 @@ This module installs Strimzi Kafka in kraft mode for use with the logscale inges
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| k8s\_config\_context | Configuration context name, typically the kubernetes server name. | `any` | n/a | yes |
-| k8s\_config\_path | The path to k8s configuration. | `any` | n/a | yes |
-| k8s\_namespace\_prefix | Multiple namespaces will be created to contain resources using this prefix. | `string` | n/a | yes |
-| kafka\_broker\_data\_disk\_size | The size of the data disk to provision for each kafka broker. (i.e. 2048Gi) | `string` | n/a | yes |
-| kafka\_broker\_pod\_replica\_count | The number of pods to run in this kafka cluster. | `number` | n/a | yes |
-| kafka\_broker\_resources | The resource requests and limits for cpu and memory to apply to the pods formatted in a json map. Example: {"limits": {"cpu": 6, "memory": "48Gi"}, "requests": {"cpu": 6, "memory": "48Gi"}} | `map` | n/a | yes |
-| kube\_storage\_class\_for\_kafka | In AKS, we expect to use the 'default' storage class for managed SSD but this could be any storage class you have configured in kubernetes. | `string` | `"default"` | no |
-| name\_prefix | Identifier attached to named resources to help them stand out. | `string` | n/a | yes |
-| num\_kafka\_volumes | Kafka brokers will have at least 1 volume. This specifies additional volumes to increase throughput by spreading partitions across multiple disks. | `number` | `1` | no |
-| strimzi\_operator\_chart\_version | Helm release chart version for Strimzi. | `string` | n/a | yes |
-| strimzi\_operator\_repo | Strimzi operator repo. | `string` | n/a | yes |
+| <a name="input_k8s_config_context"></a> [k8s\_config\_context](#input\_k8s\_config\_context) | Configuration context name, typically the kubernetes server name. | `any` | n/a | yes |
+| <a name="input_k8s_config_path"></a> [k8s\_config\_path](#input\_k8s\_config\_path) | The path to k8s configuration. | `any` | n/a | yes |
+| <a name="input_k8s_namespace_prefix"></a> [k8s\_namespace\_prefix](#input\_k8s\_namespace\_prefix) | Multiple namespaces will be created to contain resources using this prefix. | `string` | n/a | yes |
+| <a name="input_kafka_broker_data_disk_size"></a> [kafka\_broker\_data\_disk\_size](#input\_kafka\_broker\_data\_disk\_size) | The size of the data disk to provision for each kafka broker. (i.e. 2048Gi) | `string` | n/a | yes |
+| <a name="input_kafka_broker_pod_replica_count"></a> [kafka\_broker\_pod\_replica\_count](#input\_kafka\_broker\_pod\_replica\_count) | The number of pods to run in this kafka cluster. | `number` | n/a | yes |
+| <a name="input_kafka_broker_resources"></a> [kafka\_broker\_resources](#input\_kafka\_broker\_resources) | The resource requests and limits for cpu and memory to apply to the pods formatted in a json map. Example: {"limits": {"cpu": 6, "memory": "48Gi"}, "requests": {"cpu": 6, "memory": "48Gi"}} | `map` | n/a | yes |
+| <a name="input_kube_storage_class_for_kafka"></a> [kube\_storage\_class\_for\_kafka](#input\_kube\_storage\_class\_for\_kafka) | In AKS, we expect to use the 'default' storage class for managed SSD but this could be any storage class you have configured in kubernetes. | `string` | `"default"` | no |
+| <a name="input_name_prefix"></a> [name\_prefix](#input\_name\_prefix) | Identifier attached to named resources to help them stand out. | `string` | n/a | yes |
+| <a name="input_num_kafka_volumes"></a> [num\_kafka\_volumes](#input\_num\_kafka\_volumes) | Kafka brokers will have at least 1 volume. This specifies additional volumes to increase throughput by spreading partitions across multiple disks. | `number` | `1` | no |
+| <a name="input_strimzi_operator_chart_version"></a> [strimzi\_operator\_chart\_version](#input\_strimzi\_operator\_chart\_version) | Helm release chart version for Strimzi. | `string` | n/a | yes |
+| <a name="input_strimzi_operator_repo"></a> [strimzi\_operator\_repo](#input\_strimzi\_operator\_repo) | Strimzi operator repo. | `string` | n/a | yes |
 
 ### Outputs
 
 | Name | Description |
 |------|-------------|
-| kafka-connection-string | n/a |
+| <a name="output_kafka-connection-string"></a> [kafka-connection-string](#output\_kafka-connection-string) | n/a |
 
 <!-- END_K8STRIMZ_MAIN_DOCS -->
 
@@ -687,48 +687,48 @@ module without impact to these values.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| azure\_keyvault\_id | The Azure Keyvault ID storing all the secrets above. | `any` | n/a | yes |
-| azure\_keyvault\_secret\_expiration\_date | When secrets should expire. | `string` | n/a | yes |
-| azure\_logscale\_ingress\_domain\_name\_label | The domain name label associated with the public IP resource in var.azure\_logscale\_ingress\_pip\_name | `string` | n/a | yes |
-| azure\_logscale\_ingress\_pip\_name | The public IP resource name to pass to Azure for associating with the managed load balancer. | `string` | n/a | yes |
-| azure\_storage\_acct\_kv\_name | Azure Keyvault item storing the storage access key. | `string` | n/a | yes |
-| cert\_ca\_server | Certificate Authority Server. | `string` | n/a | yes |
-| cert\_issuer\_email | Certificates issuer email for the Logscale Cluster | `string` | n/a | yes |
-| cert\_issuer\_kind | Certificates issuer kind for the Logscale cluster. | `string` | n/a | yes |
-| cert\_issuer\_name | Certificates issuer name for the Logscale Cluster | `string` | n/a | yes |
-| cert\_issuer\_private\_key | Certificates issuer private key for the Logscale Cluster | `string` | n/a | yes |
-| cm\_repo | The cert-manager repository. | `string` | `"https://charts.jetstack.io"` | no |
-| cm\_version | The cert-manager helm chart version | `string` | n/a | yes |
-| custom\_tls\_certificate\_keyvault\_entry | The keyvault entry containing the TLS certificate | `string` | `null` | no |
-| k8s\_config\_context | Configuration context name, typically the kubernetes server name. | `any` | n/a | yes |
-| k8s\_config\_path | The path to k8s configuration. | `any` | n/a | yes |
-| k8s\_namespace\_prefix | Multiple namespaces will be created to contain resources using this prefix. | `string` | `"log"` | no |
-| logscale\_cluster\_type | Logscale cluster type | `string` | n/a | yes |
-| logscale\_ingress\_data\_disk\_size | The size of the data disk to provision for each ingress pod. (i.e. 20Gi) | `string` | n/a | yes |
-| logscale\_ingress\_max\_pod\_count | The maximum number of ingress pods. | `number` | n/a | yes |
-| logscale\_ingress\_min\_pod\_count | The minimum number of ingress pods. | `number` | n/a | yes |
-| logscale\_ingress\_pod\_count | The number of ingress pods to start with. | `number` | n/a | yes |
-| logscale\_ingress\_resources | The resource requests and limits for cpu and memory to apply ingress pods formatted in a json map. Example: {"limits": {"cpu": 2, "memory": "2Gi"}, "requests": {"cpu": 2, "memory": "2Gi"}} | `map` | n/a | yes |
-| logscale\_lb\_internal\_only | The nginx ingress controller to logscale will create a managed azure load balancer. This can be public or private. Set this to false to make it public. | `bool` | n/a | yes |
-| logscale\_license | Your logscale license. | `string` | n/a | yes |
-| logscale\_public\_fqdn | The FQDN tied to the public IP address for logscale ingress. This is the resource that will have a certificate provisioned from let's encrypt. | `string` | n/a | yes |
-| logscale\_public\_ip | The public IP address for logscale ingress. | `string` | n/a | yes |
-| name\_prefix | Identifier attached to named resources to help them stand out. | `string` | n/a | yes |
-| nginx\_ingress\_helm\_chart\_version | The version of nginx-ingress to install in the environment. Reference: github.com/kubernetes/ingress-nginx for helm chart version to nginx version mapping. | `string` | n/a | yes |
-| password\_rotation\_arbitrary\_value | This can be any old value and does not factor into password generation. When changed, it will result in a new password being generated and saved to kubernetes secrets. | `string` | `"defaultstring"` | no |
-| resource\_group\_name | The Azure resource group containing the public IP created for the azure load balancer tied to the nginx-ingress resource in this recipe. | `string` | n/a | yes |
-| topo\_lvm\_chart\_version | TopoLVM Chart version to use for installation. | `string` | n/a | yes |
-| use\_custom\_certificate | Use a custom provided certificate on the frontend instead of Let's Encrypt? | `bool` | `false` | no |
+| <a name="input_azure_keyvault_id"></a> [azure\_keyvault\_id](#input\_azure\_keyvault\_id) | The Azure Keyvault ID storing all the secrets above. | `any` | n/a | yes |
+| <a name="input_azure_keyvault_secret_expiration_date"></a> [azure\_keyvault\_secret\_expiration\_date](#input\_azure\_keyvault\_secret\_expiration\_date) | When secrets should expire. | `string` | n/a | yes |
+| <a name="input_azure_logscale_ingress_domain_name_label"></a> [azure\_logscale\_ingress\_domain\_name\_label](#input\_azure\_logscale\_ingress\_domain\_name\_label) | The domain name label associated with the public IP resource in var.azure\_logscale\_ingress\_pip\_name | `string` | n/a | yes |
+| <a name="input_azure_logscale_ingress_pip_name"></a> [azure\_logscale\_ingress\_pip\_name](#input\_azure\_logscale\_ingress\_pip\_name) | The public IP resource name to pass to Azure for associating with the managed load balancer. | `string` | n/a | yes |
+| <a name="input_azure_storage_acct_kv_name"></a> [azure\_storage\_acct\_kv\_name](#input\_azure\_storage\_acct\_kv\_name) | Azure Keyvault item storing the storage access key. | `string` | n/a | yes |
+| <a name="input_cert_ca_server"></a> [cert\_ca\_server](#input\_cert\_ca\_server) | Certificate Authority Server. | `string` | n/a | yes |
+| <a name="input_cert_issuer_email"></a> [cert\_issuer\_email](#input\_cert\_issuer\_email) | Certificates issuer email for the Logscale Cluster | `string` | n/a | yes |
+| <a name="input_cert_issuer_kind"></a> [cert\_issuer\_kind](#input\_cert\_issuer\_kind) | Certificates issuer kind for the Logscale cluster. | `string` | n/a | yes |
+| <a name="input_cert_issuer_name"></a> [cert\_issuer\_name](#input\_cert\_issuer\_name) | Certificates issuer name for the Logscale Cluster | `string` | n/a | yes |
+| <a name="input_cert_issuer_private_key"></a> [cert\_issuer\_private\_key](#input\_cert\_issuer\_private\_key) | Certificates issuer private key for the Logscale Cluster | `string` | n/a | yes |
+| <a name="input_cm_repo"></a> [cm\_repo](#input\_cm\_repo) | The cert-manager repository. | `string` | `"https://charts.jetstack.io"` | no |
+| <a name="input_cm_version"></a> [cm\_version](#input\_cm\_version) | The cert-manager helm chart version | `string` | n/a | yes |
+| <a name="input_custom_tls_certificate_keyvault_entry"></a> [custom\_tls\_certificate\_keyvault\_entry](#input\_custom\_tls\_certificate\_keyvault\_entry) | The keyvault entry containing the TLS certificate | `string` | `null` | no |
+| <a name="input_k8s_config_context"></a> [k8s\_config\_context](#input\_k8s\_config\_context) | Configuration context name, typically the kubernetes server name. | `any` | n/a | yes |
+| <a name="input_k8s_config_path"></a> [k8s\_config\_path](#input\_k8s\_config\_path) | The path to k8s configuration. | `any` | n/a | yes |
+| <a name="input_k8s_namespace_prefix"></a> [k8s\_namespace\_prefix](#input\_k8s\_namespace\_prefix) | Multiple namespaces will be created to contain resources using this prefix. | `string` | `"log"` | no |
+| <a name="input_logscale_cluster_type"></a> [logscale\_cluster\_type](#input\_logscale\_cluster\_type) | Logscale cluster type | `string` | n/a | yes |
+| <a name="input_logscale_ingress_data_disk_size"></a> [logscale\_ingress\_data\_disk\_size](#input\_logscale\_ingress\_data\_disk\_size) | The size of the data disk to provision for each ingress pod. (i.e. 20Gi) | `string` | n/a | yes |
+| <a name="input_logscale_ingress_max_pod_count"></a> [logscale\_ingress\_max\_pod\_count](#input\_logscale\_ingress\_max\_pod\_count) | The maximum number of ingress pods. | `number` | n/a | yes |
+| <a name="input_logscale_ingress_min_pod_count"></a> [logscale\_ingress\_min\_pod\_count](#input\_logscale\_ingress\_min\_pod\_count) | The minimum number of ingress pods. | `number` | n/a | yes |
+| <a name="input_logscale_ingress_pod_count"></a> [logscale\_ingress\_pod\_count](#input\_logscale\_ingress\_pod\_count) | The number of ingress pods to start with. | `number` | n/a | yes |
+| <a name="input_logscale_ingress_resources"></a> [logscale\_ingress\_resources](#input\_logscale\_ingress\_resources) | The resource requests and limits for cpu and memory to apply ingress pods formatted in a json map. Example: {"limits": {"cpu": 2, "memory": "2Gi"}, "requests": {"cpu": 2, "memory": "2Gi"}} | `map` | n/a | yes |
+| <a name="input_logscale_lb_internal_only"></a> [logscale\_lb\_internal\_only](#input\_logscale\_lb\_internal\_only) | The nginx ingress controller to logscale will create a managed azure load balancer. This can be public or private. Set this to false to make it public. | `bool` | n/a | yes |
+| <a name="input_logscale_license"></a> [logscale\_license](#input\_logscale\_license) | Your logscale license. | `string` | n/a | yes |
+| <a name="input_logscale_public_fqdn"></a> [logscale\_public\_fqdn](#input\_logscale\_public\_fqdn) | The FQDN tied to the public IP address for logscale ingress. This is the resource that will have a certificate provisioned from let's encrypt. | `string` | n/a | yes |
+| <a name="input_logscale_public_ip"></a> [logscale\_public\_ip](#input\_logscale\_public\_ip) | The public IP address for logscale ingress. | `string` | n/a | yes |
+| <a name="input_name_prefix"></a> [name\_prefix](#input\_name\_prefix) | Identifier attached to named resources to help them stand out. | `string` | n/a | yes |
+| <a name="input_nginx_ingress_helm_chart_version"></a> [nginx\_ingress\_helm\_chart\_version](#input\_nginx\_ingress\_helm\_chart\_version) | The version of nginx-ingress to install in the environment. Reference: github.com/kubernetes/ingress-nginx for helm chart version to nginx version mapping. | `string` | n/a | yes |
+| <a name="input_password_rotation_arbitrary_value"></a> [password\_rotation\_arbitrary\_value](#input\_password\_rotation\_arbitrary\_value) | This can be any old value and does not factor into password generation. When changed, it will result in a new password being generated and saved to kubernetes secrets. | `string` | `"defaultstring"` | no |
+| <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | The Azure resource group containing the public IP created for the azure load balancer tied to the nginx-ingress resource in this recipe. | `string` | n/a | yes |
+| <a name="input_topo_lvm_chart_version"></a> [topo\_lvm\_chart\_version](#input\_topo\_lvm\_chart\_version) | TopoLVM Chart version to use for installation. | `string` | n/a | yes |
+| <a name="input_use_custom_certificate"></a> [use\_custom\_certificate](#input\_use\_custom\_certificate) | Use a custom provided certificate on the frontend instead of Let's Encrypt? | `bool` | `false` | no |
 
 ### Outputs
 
 | Name | Description |
 |------|-------------|
-| k8s\_secret\_encryption\_key | n/a |
-| k8s\_secret\_logscale\_license | n/a |
-| k8s\_secret\_static\_user\_logins | n/a |
-| k8s\_secret\_storage\_access\_key | n/a |
-| k8s\_secret\_user\_tls\_cert | n/a |
+| <a name="output_k8s_secret_encryption_key"></a> [k8s\_secret\_encryption\_key](#output\_k8s\_secret\_encryption\_key) | n/a |
+| <a name="output_k8s_secret_logscale_license"></a> [k8s\_secret\_logscale\_license](#output\_k8s\_secret\_logscale\_license) | n/a |
+| <a name="output_k8s_secret_static_user_logins"></a> [k8s\_secret\_static\_user\_logins](#output\_k8s\_secret\_static\_user\_logins) | n/a |
+| <a name="output_k8s_secret_storage_access_key"></a> [k8s\_secret\_storage\_access\_key](#output\_k8s\_secret\_storage\_access\_key) | n/a |
+| <a name="output_k8s_secret_user_tls_cert"></a> [k8s\_secret\_user\_tls\_cert](#output\_k8s\_secret\_user\_tls\_cert) | n/a |
 
 <!-- END_K8LSPR_MAIN_DOCS -->
 
@@ -742,45 +742,45 @@ to Logscale systems.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| azure\_storage\_account\_name | Storage account name where logscale will connect for object storage. | `string` | n/a | yes |
-| azure\_storage\_container\_name | Storage container within the account identified by var.azure\_storage\_account\_name where data will be stored. | `string` | n/a | yes |
-| azure\_storage\_endpoint\_base | Connection endpoint for the azure storage bucket. | `string` | n/a | yes |
-| cert\_issuer\_name | Certificates issuer name for the Logscale Cluster | `string` | n/a | yes |
-| humio\_operator\_chart\_version | This is the version of the helm chart that installs the humio operator version chosen in variable humio\_operator\_version. | `string` | n/a | yes |
-| humio\_operator\_extra\_values | Resource Management for logscale pods | `map(string)` | n/a | yes |
-| humio\_operator\_repo | The humio operator repository. | `string` | `"https://humio.github.io/humio-operator"` | no |
-| humio\_operator\_version | The humio operator controls provisioning of logscale resources within kubernetes. | `string` | n/a | yes |
-| image\_pull\_secret | The kubernetes secret containing credentials to access the image repository. Required when setting logscale\_image. | `string` | `"regcred"` | no |
-| k8s\_config\_context | Configuration context name, typically the kubernetes server name. | `any` | n/a | yes |
-| k8s\_config\_path | The path to k8s configuration. | `any` | n/a | yes |
-| k8s\_namespace\_prefix | Multiple namespaces will be created to contain resources using this prefix. | `string` | `"log"` | no |
-| k8s\_secret\_encryption\_key | The k8s secret containing the logscale storage encryption key value. | `string` | n/a | yes |
-| k8s\_secret\_logscale\_license | The k8s secret containing the logscale license. | `string` | n/a | yes |
-| k8s\_secret\_static\_user\_logins | The k8s secret containing that static user logon list | `string` | n/a | yes |
-| k8s\_secret\_storage\_access\_key | The k8s secret containing the azure bucket storage access key. | `string` | n/a | yes |
-| k8s\_secret\_user\_tls\_cert | The k8s secret containing the user provided TLS cert for logscale | `string` | `null` | no |
-| kafka\_broker\_servers | Kafka connection string used by logscale. | `string` | n/a | yes |
-| kube\_storage\_class\_for\_logscale | Kubernetes storage class to use when provisioning persistent claims for digest nodes. | `string` | `"topolvm-provisioner"` | no |
-| kube\_storage\_class\_for\_logscale\_ingest | In AKS, we expect to use the 'default' storage class for managed SSD but this could be any storage class you have configured in kubernetes. | `string` | `"default"` | no |
-| kube\_storage\_class\_for\_logscale\_ui | In AKS, we expect to use the 'default' storage class for managed SSD but this could be any storage class you have configured in kubernetes. | `string` | `"default"` | no |
-| logscale\_cluster\_type | Logscale cluster type | `string` | n/a | yes |
-| logscale\_digest\_data\_disk\_size | n/a | `any` | n/a | yes |
-| logscale\_digest\_pod\_count | Resources for digest nodes | `any` | n/a | yes |
-| logscale\_digest\_resources | n/a | `any` | n/a | yes |
-| logscale\_image | This can be used to specify a full image ref spec. The expectation is that the imagePullSecrets kubernetes secret will exist. | `string` | `null` | no |
-| logscale\_image\_version | The version of logscale to install. | `string` | `""` | no |
-| logscale\_ingest\_data\_disk\_size | n/a | `any` | n/a | yes |
-| logscale\_ingest\_pod\_count | Resources for ingest nodes | `any` | n/a | yes |
-| logscale\_ingest\_resources | n/a | `any` | n/a | yes |
-| logscale\_public\_fqdn | The FQDN tied to the public IP address for logscale ingress. This is the resource that will have a certificate provisioned from let's encrypt. | `string` | n/a | yes |
-| logscale\_ui\_data\_disk\_size | n/a | `any` | n/a | yes |
-| logscale\_ui\_pod\_count | n/a | `any` | n/a | yes |
-| logscale\_ui\_resources | Resources for ui/query coordinator nodes | `any` | n/a | yes |
-| name\_prefix | Identifier attached to named resources to help them stand out. | `string` | n/a | yes |
-| provision\_kafka\_servers | Set this to true if we provisioned strimzi kafka servers during this process. | `bool` | n/a | yes |
-| target\_replication\_factor | The default replication factor for logscale. | `number` | `2` | no |
-| use\_custom\_certificate | Use a custom provided certificate on the frontend instead of Let's Encrypt? | `bool` | `false` | no |
-| user\_logscale\_envvars | These are environment variables passed into the HumioCluster resource spec definition that will be used for all created logscale instances. Supports string values and kubernetes secret refs. Will override any values defined by default in the configuration. | <pre>list(object({<br/>    name=string,<br/>    value=optional(string)<br/>    valueFrom=optional(object({<br/>      secretKeyRef = object({<br/>        name = string<br/>        key = string<br/>      })<br/>    }))<br/>  }))</pre> | `[]` | no |
+| <a name="input_azure_storage_account_name"></a> [azure\_storage\_account\_name](#input\_azure\_storage\_account\_name) | Storage account name where logscale will connect for object storage. | `string` | n/a | yes |
+| <a name="input_azure_storage_container_name"></a> [azure\_storage\_container\_name](#input\_azure\_storage\_container\_name) | Storage container within the account identified by var.azure\_storage\_account\_name where data will be stored. | `string` | n/a | yes |
+| <a name="input_azure_storage_endpoint_base"></a> [azure\_storage\_endpoint\_base](#input\_azure\_storage\_endpoint\_base) | Connection endpoint for the azure storage bucket. | `string` | n/a | yes |
+| <a name="input_cert_issuer_name"></a> [cert\_issuer\_name](#input\_cert\_issuer\_name) | Certificates issuer name for the Logscale Cluster | `string` | n/a | yes |
+| <a name="input_humio_operator_chart_version"></a> [humio\_operator\_chart\_version](#input\_humio\_operator\_chart\_version) | This is the version of the helm chart that installs the humio operator version chosen in variable humio\_operator\_version. | `string` | n/a | yes |
+| <a name="input_humio_operator_extra_values"></a> [humio\_operator\_extra\_values](#input\_humio\_operator\_extra\_values) | Resource Management for logscale pods | `map(string)` | n/a | yes |
+| <a name="input_humio_operator_repo"></a> [humio\_operator\_repo](#input\_humio\_operator\_repo) | The humio operator repository. | `string` | `"https://humio.github.io/humio-operator"` | no |
+| <a name="input_humio_operator_version"></a> [humio\_operator\_version](#input\_humio\_operator\_version) | The humio operator controls provisioning of logscale resources within kubernetes. | `string` | n/a | yes |
+| <a name="input_image_pull_secret"></a> [image\_pull\_secret](#input\_image\_pull\_secret) | The kubernetes secret containing credentials to access the image repository. Required when setting logscale\_image. | `string` | `"regcred"` | no |
+| <a name="input_k8s_config_context"></a> [k8s\_config\_context](#input\_k8s\_config\_context) | Configuration context name, typically the kubernetes server name. | `any` | n/a | yes |
+| <a name="input_k8s_config_path"></a> [k8s\_config\_path](#input\_k8s\_config\_path) | The path to k8s configuration. | `any` | n/a | yes |
+| <a name="input_k8s_namespace_prefix"></a> [k8s\_namespace\_prefix](#input\_k8s\_namespace\_prefix) | Multiple namespaces will be created to contain resources using this prefix. | `string` | `"log"` | no |
+| <a name="input_k8s_secret_encryption_key"></a> [k8s\_secret\_encryption\_key](#input\_k8s\_secret\_encryption\_key) | The k8s secret containing the logscale storage encryption key value. | `string` | n/a | yes |
+| <a name="input_k8s_secret_logscale_license"></a> [k8s\_secret\_logscale\_license](#input\_k8s\_secret\_logscale\_license) | The k8s secret containing the logscale license. | `string` | n/a | yes |
+| <a name="input_k8s_secret_static_user_logins"></a> [k8s\_secret\_static\_user\_logins](#input\_k8s\_secret\_static\_user\_logins) | The k8s secret containing that static user logon list | `string` | n/a | yes |
+| <a name="input_k8s_secret_storage_access_key"></a> [k8s\_secret\_storage\_access\_key](#input\_k8s\_secret\_storage\_access\_key) | The k8s secret containing the azure bucket storage access key. | `string` | n/a | yes |
+| <a name="input_k8s_secret_user_tls_cert"></a> [k8s\_secret\_user\_tls\_cert](#input\_k8s\_secret\_user\_tls\_cert) | The k8s secret containing the user provided TLS cert for logscale | `string` | `null` | no |
+| <a name="input_kafka_broker_servers"></a> [kafka\_broker\_servers](#input\_kafka\_broker\_servers) | Kafka connection string used by logscale. | `string` | n/a | yes |
+| <a name="input_kube_storage_class_for_logscale"></a> [kube\_storage\_class\_for\_logscale](#input\_kube\_storage\_class\_for\_logscale) | Kubernetes storage class to use when provisioning persistent claims for digest nodes. | `string` | `"topolvm-provisioner"` | no |
+| <a name="input_kube_storage_class_for_logscale_ingest"></a> [kube\_storage\_class\_for\_logscale\_ingest](#input\_kube\_storage\_class\_for\_logscale\_ingest) | In AKS, we expect to use the 'default' storage class for managed SSD but this could be any storage class you have configured in kubernetes. | `string` | `"default"` | no |
+| <a name="input_kube_storage_class_for_logscale_ui"></a> [kube\_storage\_class\_for\_logscale\_ui](#input\_kube\_storage\_class\_for\_logscale\_ui) | In AKS, we expect to use the 'default' storage class for managed SSD but this could be any storage class you have configured in kubernetes. | `string` | `"default"` | no |
+| <a name="input_logscale_cluster_type"></a> [logscale\_cluster\_type](#input\_logscale\_cluster\_type) | Logscale cluster type | `string` | n/a | yes |
+| <a name="input_logscale_digest_data_disk_size"></a> [logscale\_digest\_data\_disk\_size](#input\_logscale\_digest\_data\_disk\_size) | n/a | `any` | n/a | yes |
+| <a name="input_logscale_digest_pod_count"></a> [logscale\_digest\_pod\_count](#input\_logscale\_digest\_pod\_count) | Resources for digest nodes | `any` | n/a | yes |
+| <a name="input_logscale_digest_resources"></a> [logscale\_digest\_resources](#input\_logscale\_digest\_resources) | n/a | `any` | n/a | yes |
+| <a name="input_logscale_image"></a> [logscale\_image](#input\_logscale\_image) | This can be used to specify a full image ref spec. The expectation is that the imagePullSecrets kubernetes secret will exist. | `string` | `null` | no |
+| <a name="input_logscale_image_version"></a> [logscale\_image\_version](#input\_logscale\_image\_version) | The version of logscale to install. | `string` | `""` | no |
+| <a name="input_logscale_ingest_data_disk_size"></a> [logscale\_ingest\_data\_disk\_size](#input\_logscale\_ingest\_data\_disk\_size) | n/a | `any` | n/a | yes |
+| <a name="input_logscale_ingest_pod_count"></a> [logscale\_ingest\_pod\_count](#input\_logscale\_ingest\_pod\_count) | Resources for ingest nodes | `any` | n/a | yes |
+| <a name="input_logscale_ingest_resources"></a> [logscale\_ingest\_resources](#input\_logscale\_ingest\_resources) | n/a | `any` | n/a | yes |
+| <a name="input_logscale_public_fqdn"></a> [logscale\_public\_fqdn](#input\_logscale\_public\_fqdn) | The FQDN tied to the public IP address for logscale ingress. This is the resource that will have a certificate provisioned from let's encrypt. | `string` | n/a | yes |
+| <a name="input_logscale_ui_data_disk_size"></a> [logscale\_ui\_data\_disk\_size](#input\_logscale\_ui\_data\_disk\_size) | n/a | `any` | n/a | yes |
+| <a name="input_logscale_ui_pod_count"></a> [logscale\_ui\_pod\_count](#input\_logscale\_ui\_pod\_count) | n/a | `any` | n/a | yes |
+| <a name="input_logscale_ui_resources"></a> [logscale\_ui\_resources](#input\_logscale\_ui\_resources) | Resources for ui/query coordinator nodes | `any` | n/a | yes |
+| <a name="input_name_prefix"></a> [name\_prefix](#input\_name\_prefix) | Identifier attached to named resources to help them stand out. | `string` | n/a | yes |
+| <a name="input_provision_kafka_servers"></a> [provision\_kafka\_servers](#input\_provision\_kafka\_servers) | Set this to true if we provisioned strimzi kafka servers during this process. | `bool` | n/a | yes |
+| <a name="input_target_replication_factor"></a> [target\_replication\_factor](#input\_target\_replication\_factor) | The default replication factor for logscale. | `number` | `2` | no |
+| <a name="input_use_custom_certificate"></a> [use\_custom\_certificate](#input\_use\_custom\_certificate) | Use a custom provided certificate on the frontend instead of Let's Encrypt? | `bool` | `false` | no |
+| <a name="input_user_logscale_envvars"></a> [user\_logscale\_envvars](#input\_user\_logscale\_envvars) | These are environment variables passed into the HumioCluster resource spec definition that will be used for all created logscale instances. Supports string values and kubernetes secret refs. Will override any values defined by default in the configuration. | <pre>list(object({<br/>    name=string,<br/>    value=optional(string)<br/>    valueFrom=optional(object({<br/>      secretKeyRef = object({<br/>        name = string<br/>        key = string<br/>      })<br/>    }))<br/>  }))</pre> | `[]` | no |
 
 ### Outputs
 
