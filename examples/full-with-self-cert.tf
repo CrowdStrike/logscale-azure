@@ -339,6 +339,8 @@ module "logscale" {
   k8s_secret_encryption_key                     = module.logscale-prereqs.k8s_secret_encryption_key
   k8s_secret_storage_access_key                 = module.logscale-prereqs.k8s_secret_storage_access_key
   k8s_secret_user_tls_cert                      = module.logscale-prereqs.k8s_secret_user_tls_cert
+
+  logscale_update_strategy                      = var.logscale_update_strategy
 }
 
 

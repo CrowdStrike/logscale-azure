@@ -184,8 +184,21 @@ variable "user_logscale_envvars" {
 
 variable "k8s_config_path" {
   description = "The path to k8s configuration."
+  type = string
 }
 
 variable "k8s_config_context" {
   description = "Configuration context name, typically the kubernetes server name."
+  type = string
+}
+
+variable "logscale_update_strategy" {
+  description = "When describing a HumioCluster resource, you can provide a map value to describe how updates should be applied. Defaults to RollingUpdate, 50% maximum unavailable, zone awareness enabled."
+  type = map
+  default = {
+      type                  = "RollingUpdate"
+      enableZoneAwareness   = true
+      minReadySeconds       = 120
+      maxUnavailable        = "50%"
+    }    
 }

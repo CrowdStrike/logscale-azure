@@ -496,3 +496,14 @@ variable "use_own_certificate_for_ingress" {
   type = bool
   description = "Set to true if you plan to bring your own certificate for logscale ingest/ui access."
 }
+
+variable "logscale_update_strategy" {
+  description = "When describing a HumioCluster resource, you can provide a map value to describe how updates should be applied. Defaults to RollingUpdate, 50% maximum unavailable, zone awareness enabled. Reference: https://github.com/humio/humio-operator/blob/master/docs/api.md#humioclusterspecupdatestrategy"
+  type = map
+  default = {
+      type                  = "RollingUpdate"
+      enableZoneAwareness   = true
+      minReadySeconds       = 120
+      maxUnavailable        = "50%"
+    }    
+}

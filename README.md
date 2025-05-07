@@ -272,6 +272,7 @@ how to run this terraform to build your Azure environment.
 | logscale\_lb\_internal\_only | The nginx ingress controller to logscale will create a managed azure load balancer with public availability. Setting to true will remove the ability to generate Let's Encrypt certificates in addition to removing public access. | `bool` | `false` | no |
 | logscale\_license | Your logscale license data. | `string` | n/a | yes |
 | logscale\_namespace | The kubernetes namespace used by strimzi, logscale, and nginx-ingress. | `string` | `"logging"` | no |
+| logscale\_update\_strategy | When describing a HumioCluster resource, you can provide a map value to describe how updates should be applied. Defaults to RollingUpdate, 50% maximum unavailable, zone awareness enabled. Reference: https://github.com/humio/humio-operator/blob/master/docs/api.md#humioclusterspecupdatestrategy | `map` | <pre>{<br/>  "enableZoneAwareness": true,<br/>  "maxUnavailable": "50%",<br/>  "minReadySeconds": 120,<br/>  "type": "RollingUpdate"<br/>}</pre> | no |
 | network\_subnet\_aks\_ingest\_nodes | A list of networks to associate to the ingress node subnet. | `list` | <pre>[<br/>  "172.16.5.0/24"<br/>]</pre> | no |
 | network\_subnet\_aks\_ingress\_nodes | A list of networks to associate to the ingress node subnet. | `list` | <pre>[<br/>  "172.16.4.0/24"<br/>]</pre> | no |
 | network\_subnet\_aks\_logscale\_digest\_nodes | Subnet for the kubernetes node pool hosting logscale digest nodes. | `list` | <pre>[<br/>  "172.16.3.0/24"<br/>]</pre> | no |
@@ -751,8 +752,8 @@ to Logscale systems.
 | <a name="input_humio_operator_repo"></a> [humio\_operator\_repo](#input\_humio\_operator\_repo) | The humio operator repository. | `string` | `"https://humio.github.io/humio-operator"` | no |
 | <a name="input_humio_operator_version"></a> [humio\_operator\_version](#input\_humio\_operator\_version) | The humio operator controls provisioning of logscale resources within kubernetes. | `string` | n/a | yes |
 | <a name="input_image_pull_secret"></a> [image\_pull\_secret](#input\_image\_pull\_secret) | The kubernetes secret containing credentials to access the image repository. Required when setting logscale\_image. | `string` | `"regcred"` | no |
-| <a name="input_k8s_config_context"></a> [k8s\_config\_context](#input\_k8s\_config\_context) | Configuration context name, typically the kubernetes server name. | `any` | n/a | yes |
-| <a name="input_k8s_config_path"></a> [k8s\_config\_path](#input\_k8s\_config\_path) | The path to k8s configuration. | `any` | n/a | yes |
+| <a name="input_k8s_config_context"></a> [k8s\_config\_context](#input\_k8s\_config\_context) | Configuration context name, typically the kubernetes server name. | `string` | n/a | yes |
+| <a name="input_k8s_config_path"></a> [k8s\_config\_path](#input\_k8s\_config\_path) | The path to k8s configuration. | `string` | n/a | yes |
 | <a name="input_k8s_namespace_prefix"></a> [k8s\_namespace\_prefix](#input\_k8s\_namespace\_prefix) | Multiple namespaces will be created to contain resources using this prefix. | `string` | `"log"` | no |
 | <a name="input_k8s_secret_encryption_key"></a> [k8s\_secret\_encryption\_key](#input\_k8s\_secret\_encryption\_key) | The k8s secret containing the logscale storage encryption key value. | `string` | n/a | yes |
 | <a name="input_k8s_secret_logscale_license"></a> [k8s\_secret\_logscale\_license](#input\_k8s\_secret\_logscale\_license) | The k8s secret containing the logscale license. | `string` | n/a | yes |
@@ -776,6 +777,7 @@ to Logscale systems.
 | <a name="input_logscale_ui_data_disk_size"></a> [logscale\_ui\_data\_disk\_size](#input\_logscale\_ui\_data\_disk\_size) | n/a | `any` | n/a | yes |
 | <a name="input_logscale_ui_pod_count"></a> [logscale\_ui\_pod\_count](#input\_logscale\_ui\_pod\_count) | n/a | `any` | n/a | yes |
 | <a name="input_logscale_ui_resources"></a> [logscale\_ui\_resources](#input\_logscale\_ui\_resources) | Resources for ui/query coordinator nodes | `any` | n/a | yes |
+| <a name="input_logscale_update_strategy"></a> [logscale\_update\_strategy](#input\_logscale\_update\_strategy) | When describing a HumioCluster resource, you can provide a map value to describe how updates should be applied. Defaults to RollingUpdate, 50% maximum unavailable, zone awareness enabled. | `map` | <pre>{<br/>  "enableZoneAwareness": true,<br/>  "maxUnavailable": "50%",<br/>  "minReadySeconds": 120,<br/>  "type": "RollingUpdate"<br/>}</pre> | no |
 | <a name="input_name_prefix"></a> [name\_prefix](#input\_name\_prefix) | Identifier attached to named resources to help them stand out. | `string` | n/a | yes |
 | <a name="input_provision_kafka_servers"></a> [provision\_kafka\_servers](#input\_provision\_kafka\_servers) | Set this to true if we provisioned strimzi kafka servers during this process. | `bool` | n/a | yes |
 | <a name="input_target_replication_factor"></a> [target\_replication\_factor](#input\_target\_replication\_factor) | The default replication factor for logscale. | `number` | `2` | no |

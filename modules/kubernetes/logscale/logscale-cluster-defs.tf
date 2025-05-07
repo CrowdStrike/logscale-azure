@@ -26,14 +26,6 @@ locals {
       # extraHostnames      = [string, string, ...]
       # caSecretName        = string
     }
-  
-  # Update strategy spec for humiocluster objects (This should be configurable via a variable), options include: OnDelete, RollingUpdate, ReplaceAllOnUpdate, RollingUpdateBestEffort
-  update_strategy = {
-      type                  = "RollingUpdate"
-      enableZoneAwareness   = true
-      maxUnavailable        = "50%"
-
-    }    
 
   # Environment variables to apply to all humiocluster pods
   commonEnvironmentVariables = [
@@ -335,7 +327,7 @@ locals {
           memory                = var.logscale_ui_resources["requests"]["memory"]
         }
       }
-      updateStrategy            = local.update_strategy
+      updateStrategy            = var.logscale_update_strategy
     }
   }
 
@@ -422,7 +414,7 @@ locals {
           memory                = var.logscale_ingest_resources["requests"]["memory"]
         }
       }
-      updateStrategy            = local.update_strategy
+      updateStrategy            = var.logscale_update_strategy
     }
   }
 
@@ -487,7 +479,7 @@ resource "kubernetes_manifest" "humio_cluster" {
       nodeCount                       = local.logscale_digest_node_count
       resources                       = local.logscale_digest_resources_spec
       targetReplicationFactor         = local.target_replication_factor
-      updateStrategy                  = local.update_strategy
+      updateStrategy                  = var.logscale_update_strategy
       tls                             = local.logscale_tls_spec
 
       nodePools                       = local.selected_node_pools

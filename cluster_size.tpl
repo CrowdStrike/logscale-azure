@@ -26,7 +26,7 @@ ${jsonencode(
         "kafka_broker_resources": {"limits": {"cpu": 3, "memory": "24Gi"}, "requests": {"cpu": 3, "memory": "24Gi"}},
         "kafka_broker_data_disk_size": "1024Gi",
         "kafka_broker_data_storage_class": "managed-premium",
-        "kafka_broker_disk_count": "1"
+        "kafka_broker_disk_count": "1",
 
         // digest nodes
         "logscale_digest_instance_type": "Standard_L8s_v3",
@@ -88,7 +88,7 @@ ${jsonencode(
         "kafka_broker_resources": {"limits": {"cpu": 3, "memory": "24Gi"}, "requests": {"cpu": 3, "memory": "24Gi"}},
         "kafka_broker_data_disk_size": "1024Gi",
         "kafka_broker_data_storage_class": "managed-premium",
-        "kafka_broker_disk_count": "2"
+        "kafka_broker_disk_count": "2",
 
         // digest nodes
         "logscale_digest_instance_type": "Standard_L16s_v3",
