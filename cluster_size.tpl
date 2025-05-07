@@ -17,7 +17,7 @@ ${jsonencode(
         "system_node_root_disk_size": 40,
 
         // kafka nodes
-        "strimzi_node_instance_type": "Standard_E4_v5",
+        "strimzi_node_instance_type": "Standard_E8s_v5",
         "strimzi_node_min_node_count": 3,
         "strimzi_node_max_node_count": 5,
         "strimzi_node_desired_node_count": 3,
@@ -79,7 +79,7 @@ ${jsonencode(
         "system_node_root_disk_size": 40,
 
         // kafka nodes
-        "strimzi_node_instance_type": "Standard_E4_v5",
+        "strimzi_node_instance_type": "Standard_E8s_v5",
         "strimzi_node_min_node_count": 5,
         "strimzi_node_max_node_count": 15,
         "strimzi_node_desired_node_count": 5,
@@ -202,10 +202,10 @@ ${jsonencode(
         "system_node_root_disk_size": 40,
 
         // kafka nodes
-        "strimzi_node_instance_type": "Standard_E16s_v5",
-        "strimzi_node_min_node_count": 7,
-        "strimzi_node_max_node_count": 30,
-        "strimzi_node_desired_node_count": 9,
+        "strimzi_node_instance_type": "Standard_E20s_v5",
+        "strimzi_node_min_node_count": 14,
+        "strimzi_node_max_node_count": 45,
+        "strimzi_node_desired_node_count": 30,
         "strimzi_node_root_disk_size": 40,
         "kafka_broker_pod_replica_count": 9,
         "kafka_broker_resources": {"limits": {"cpu": 14, "memory": "102Gi"}, "requests": {"cpu": 14, "memory": "102Gi"}},
@@ -263,10 +263,10 @@ ${jsonencode(
         "system_node_root_disk_size": 40,
 
         // kafka nodes
-        "strimzi_node_instance_type": "Standard_E16s_v5",
-        "strimzi_node_min_node_count": 12,
+        "strimzi_node_instance_type": "Standard_E32s_v5",
+        "strimzi_node_min_node_count": 21,
         "strimzi_node_max_node_count": 45,
-        "strimzi_node_desired_node_count": 18,
+        "strimzi_node_desired_node_count": 33,
         "strimzi_node_root_disk_size": 40,
         "kafka_broker_pod_replica_count": 28,
         "kafka_broker_resources": {"limits": {"cpu": 14, "memory": "102Gi"}, "requests": {"cpu": 14, "memory": "102Gi"}},

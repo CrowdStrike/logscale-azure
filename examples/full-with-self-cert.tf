@@ -297,6 +297,7 @@ module "logscale" {
   logscale_cluster_type                         = var.logscale_cluster_type
 
   logscale_image_version                        = var.logscale_image_version
+  logscale_image                                = var.logscale_image
   humio_operator_extra_values                   = var.humio_operator_extra_values
   humio_operator_repo                           = var.humio_operator_repo
   humio_operator_chart_version                  = var.humio_operator_chart_version
