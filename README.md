@@ -747,6 +747,7 @@ to Logscale systems.
 | <a name="input_azure_storage_container_name"></a> [azure\_storage\_container\_name](#input\_azure\_storage\_container\_name) | Storage container within the account identified by var.azure\_storage\_account\_name where data will be stored. | `string` | n/a | yes |
 | <a name="input_azure_storage_endpoint_base"></a> [azure\_storage\_endpoint\_base](#input\_azure\_storage\_endpoint\_base) | Connection endpoint for the azure storage bucket. | `string` | n/a | yes |
 | <a name="input_cert_issuer_name"></a> [cert\_issuer\_name](#input\_cert\_issuer\_name) | Certificates issuer name for the Logscale Cluster | `string` | n/a | yes |
+| <a name="input_enable_intracluster_tls"></a> [enable\_intracluster\_tls](#input\_enable\_intracluster\_tls) | Controls use of TLS between cluster components. Default: true. Can be useful to turn off when testing. | `bool` | `true` | no |
 | <a name="input_humio_operator_chart_version"></a> [humio\_operator\_chart\_version](#input\_humio\_operator\_chart\_version) | This is the version of the helm chart that installs the humio operator version chosen in variable humio\_operator\_version. | `string` | n/a | yes |
 | <a name="input_humio_operator_extra_values"></a> [humio\_operator\_extra\_values](#input\_humio\_operator\_extra\_values) | Resource Management for logscale pods | `map(string)` | n/a | yes |
 | <a name="input_humio_operator_repo"></a> [humio\_operator\_repo](#input\_humio\_operator\_repo) | The humio operator repository. | `string` | `"https://humio.github.io/humio-operator"` | no |

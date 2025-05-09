@@ -34,7 +34,7 @@ locals {
   # These annotations are applied to the ingress controller
   nginx_annotations = {
     # Set backend to use HTTPS when intracluster is TLS enabled
-    "nginx.ingress.kubernetes.io/backend-protocol"                    = "HTTPS"
+    "nginx.ingress.kubernetes.io/backend-protocol"                    = var.enable_intracluster_tls ? "HTTPS" : "HTTP"
 
     # Request affinity based on session cookie
     "nginx.ingress.kubernetes.io/affinity"                            = "cookie"

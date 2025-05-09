@@ -60,11 +60,7 @@ resource "kubernetes_daemonset" "lvm-setup" {
           }
           resources {
             limits = {
-              memory = "200Mi"
-              cpu = "100m"
-            }
-            requests = {
-              memory = "200Mi"
+              memory = "100Mi"
               cpu = "100m"
             }
           }
