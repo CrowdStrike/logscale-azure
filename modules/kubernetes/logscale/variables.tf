@@ -202,3 +202,9 @@ variable "logscale_update_strategy" {
       maxUnavailable        = "50%"
     }    
 }
+
+variable "enable_intracluster_tls" {
+  description = "Controls use of TLS between cluster components. Default: true. Can be useful to turn off when testing."
+  default = true
+  type = bool
+}

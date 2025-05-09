@@ -22,7 +22,7 @@ locals {
 
   # Enable/Disable TLS for logscale intracluster communications
   logscale_tls_spec = {
-      enabled               = true
+      enabled               = var.enable_intracluster_tls
       # extraHostnames      = [string, string, ...]
       # caSecretName        = string
     }
