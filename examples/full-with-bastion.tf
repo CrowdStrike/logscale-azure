@@ -102,6 +102,13 @@ module "azure-kubernetes" {
   cost_analysis_enabled                         = var.aks_cost_analysis_enabled
   azure_availability_zones                      = var.azure_availability_zones
 
+  kubernetes_version                            = var.aks_kubernetes_version
+  k8s_automatic_upgrade_channel                 = var.k8s_automatic_upgrade_channel
+  k8s_node_os_upgrade_channel                   = var.k8s_node_os_upgrade_channel
+  k8s_maintenance_window_auto_upgrade           = var.k8s_maintenance_window_auto_upgrade
+  k8s_general_maintenance_windows               = var.k8s_general_maintenance_windows
+  k8s_maintenance_window_node_os                = var.k8s_maintenance_window_node_os
+
   authorized_ip_ranges                          = concat( var.ip_ranges_allowed_to_kubeapi, ["${module.azure-core.nat_gw_public_ip}/32"] )
   use_custom_certificate                        = var.use_own_certificate_for_ingress
 

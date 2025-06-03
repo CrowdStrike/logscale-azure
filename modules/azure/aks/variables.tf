@@ -294,3 +294,74 @@ variable "use_custom_certificate" {
   type = bool
   description = "Use a custom provided certificate for ingress. In this module, this setting controls creation of a NSG rule that allows for Let's Encrypt ACME challenges."
 }
+
+variable "kubernetes_version" {
+    default = null
+    type = string
+    description = "Allows specification of the kubernetes version for AKS. Default of 'null' forces use of the latest recommended version at time of provisioning."
+}
+
+variable "k8s_automatic_upgrade_channel" {
+    default = "patch"
+    type = string
+    description = "Upgrade channel for the kubernetes cluster."
+    
+    validation {
+        condition       = contains(["none","patch","stable","rapid","node-image"], var.k8s_automatic_upgrade_channel)
+        error_message   = "Invalid upgrade channel specified for AKS. Refer to https://learn.microsoft.com/en-us/azure/aks/auto-upgrade-cluster?tabs=azure-cli#cluster-auto-upgrade-channels for more information on upgrade channels." 
+    }
+}
+
+variable "k8s_node_os_upgrade_channel" {
+    default = "SecurityPatch"
+    type = string
+    description = "Upgrade channel for the kubernetes nodes."
+    
+    validation {
+        condition       = contains(["None","NodeImage","SecurityPatch","Unmanaged"], var.k8s_node_os_upgrade_channel)
+        error_message   = "Invalid upgrade channel specified for AKS nodes. Refer to https://learn.microsoft.com/en-us/azure/aks/auto-upgrade-node-os-image?tabs=azure-cli#channels-for-node-os-image-upgrades for more information on upgrade channels." 
+    }
+}
+
+variable "k8s_general_maintenance_windows" {
+    type = list(object({
+        day   = string
+        hours = list(number)
+    }))
+    description = "This specifies when maintenance operations can be performed on the cluster and will take priority when more specific schedules are not set (i.e. maintenance_window_auto_upgrade, maintenance_window_node_os)."
+    default = [ 
+        { 
+            day   = "Sunday"
+            hours = [2, 3, 4] 
+        } 
+    ]
+}
+
+# These windows assume a weekly or relativemonthly approach. Additional options are available but will not work with the current terraform implementation.
+variable "k8s_maintenance_window_auto_upgrade" {
+  type = object({
+    frequency    = string       # "Weekly", "RelativeMonthly"
+    interval     = number       # How often the schedule occurs (e.g., every 1 week/month)
+    duration     = number       # Length of maintenance window in hours
+    day_of_week  = string       # Required for Weekly frequency
+    utc_offset   = string       # e.g., "+00:00", "-07:00"
+    start_time   = string       # 24-hour format "HH:mm"
+    week_index   = optional(string) # Required when frequency is RelativeMonthly
+  })
+  description = "Allows for more granular control over AKS auto upgrades"
+  default = null
+}
+
+variable "k8s_maintenance_window_node_os" {
+  type = object({
+    frequency    = string               # "Weekly", "RelativeMonthly"
+    interval     = number               # How often the schedule occurs (e.g., every 1 week/month)
+    duration     = number               # Length of maintenance window in hours
+    day_of_week  = string               # Required for Weekly / RelativeMonthly frequency
+    utc_offset   = string               # e.g., "+00:00", "-07:00"
+    start_time   = string               # 24-hour format "HH:mm"
+    week_index   = optional(string)     # Required when frequency is RelativeMonthly
+  })
+  description = "Sets a maintenance window for OS upgrades to AKS nodes."
+  default = null
+}
