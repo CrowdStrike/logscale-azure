@@ -60,10 +60,10 @@ use_own_certificate_for_ingress         = false
 # This controls installation of resources in kubernetes.
 strimzi_operator_version                = "0.45.0"
 strimzi_operator_chart_version          = "0.45.0"
-logscale_image_version                  = "1.179.0"
+logscale_image_version                  = "latest"
 cm_version                              = "v1.15.1"
-humio_operator_chart_version            = "0.28.2"
-humio_operator_version                  = "0.28.2"
+humio_operator_chart_version            = "0.29.1"
+humio_operator_version                  = "0.29.1"
 topo_lvm_chart_version                  = "15.5.2"
 nginx_ingress_helm_chart_version        = "4.12.1"
 
@@ -76,8 +76,43 @@ user_logscale_envvars               = [
 # When defining the HumioCluster resource in kubernetes for the humio operator, you can define the update strategy here
 # Reference: https://github.com/humio/humio-operator/blob/master/docs/api.md#humioclusterspecupdatestrategy
 logscale_update_strategy = {
-    type = "RollingUpdate"
+    type = "RollingUpdateBestEffort"
     enableZoneAwareness = true
     minReadySeconds = 120
     maxUnavailable = "50%"
 }
+
+# Sets up an auto_upgrade schedule for the AKS cluster to occur monthly on the third Saturday of the month controlling when
+# kubernetes patch versions are applied to the cluster
+k8s_maintenance_window_auto_upgrade = {
+  frequency    = "RelativeMonthly"
+  interval     = 1
+  duration     = 8
+  day_of_week  = "Saturday"
+  week_index   = "Third"
+  utc_offset   = "+00:00"
+  start_time   = "01:00"
+}
+
+# This sets up a node OS update schedule that occurs every 2 weeks on Sundays.
+k8s_maintenance_window_node_os = {
+  frequency    = "Weekly"
+  interval     = 2
+  duration     = 6
+  day_of_week  = "Sunday"
+  utc_offset   = "+00:00"
+  start_time   = "01:00"
+}
+
+
+# This is a generic maintenance window. All other maintenance operations can occur during these allowed hours (UTC)
+k8s_general_maintenance_windows = [
+    { 
+        day   = "Saturday"
+        hours = [2, 3, 4] 
+    },  
+    { 
+        day   = "Sunday"
+        hours = [2, 3, 4] 
+    } 
+  ]

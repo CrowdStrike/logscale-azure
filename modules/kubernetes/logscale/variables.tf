@@ -193,10 +193,10 @@ variable "k8s_config_context" {
 }
 
 variable "logscale_update_strategy" {
-  description = "When describing a HumioCluster resource, you can provide a map value to describe how updates should be applied. Defaults to RollingUpdate, 50% maximum unavailable, zone awareness enabled."
+  description = "When describing a HumioCluster resource, you can provide a map value to describe how updates should be applied. Defaults to RollingUpdateBestEffort, 50% maximum unavailable, zone awareness enabled."
   type = map
   default = {
-      type                  = "RollingUpdate"
+      type                  = "RollingUpdateBestEffort"
       enableZoneAwareness   = true
       minReadySeconds       = 120
       maxUnavailable        = "50%"
