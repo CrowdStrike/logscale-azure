@@ -59,6 +59,8 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     location                                    = var.resource_group_region
     resource_group_name                         = var.resource_group_name
 
+    kubernetes_version                          = var.kubernetes_version
+
     name                                        = "aks-${var.name_prefix}"
     sku_tier                                    = var.sku_tier
 
@@ -68,8 +70,8 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     dns_prefix_private_cluster                  = var.private_cluster_enabled == true ? "aks-${var.name_prefix}" : null
     
     # automatically upgrade the kubernetes cluster to the latest supported patch version for the major/minor release
-    automatic_upgrade_channel                   = "patch"
-    node_os_upgrade_channel                     = "SecurityPatch"
+    automatic_upgrade_channel                   = var.k8s_automatic_upgrade_channel
+    node_os_upgrade_channel                     = var.k8s_node_os_upgrade_channel
     
     disk_encryption_set_id                      = azurerm_disk_encryption_set.aks-disk-encryption-set.id
 
@@ -146,7 +148,51 @@ resource "azurerm_kubernetes_cluster" "k8s" {
         ignore_changes                          = [ default_node_pool[0].node_count, tags ]
     }
 
-    
+    maintenance_window {
+        dynamic "allowed" {
+            for_each = var.k8s_general_maintenance_windows != null ? var.k8s_general_maintenance_windows : [] 
+
+            content {
+                day   = allowed.value.day
+                hours = allowed.value.hours
+            }
+        }
+    }
+
+    dynamic "maintenance_window_auto_upgrade" {
+        for_each = var.k8s_maintenance_window_auto_upgrade != null ? [var.k8s_maintenance_window_auto_upgrade] : []
+        
+        content {
+            frequency    = maintenance_window_auto_upgrade.value.frequency
+            interval     = maintenance_window_auto_upgrade.value.interval
+            duration     = maintenance_window_auto_upgrade.value.duration
+            day_of_week  = maintenance_window_auto_upgrade.value.day_of_week
+            utc_offset   = maintenance_window_auto_upgrade.value.utc_offset
+            start_time   = maintenance_window_auto_upgrade.value.start_time
+            
+            week_index = maintenance_window_auto_upgrade.value.frequency == "RelativeMonthly" ? maintenance_window_auto_upgrade.value.week_index : null
+            
+        }
+    }
+
+
+    dynamic "maintenance_window_node_os" {
+        for_each = var.k8s_maintenance_window_node_os != null ? [var.k8s_maintenance_window_node_os] : []
+
+
+        content {
+            frequency    = maintenance_window_node_os.value.frequency
+            interval     = maintenance_window_node_os.value.interval
+            duration     = maintenance_window_node_os.value.duration
+            day_of_week  = maintenance_window_node_os.value.day_of_week
+            utc_offset   = maintenance_window_node_os.value.utc_offset
+            start_time   = maintenance_window_node_os.value.start_time
+
+            # Only include week_index for RelativeMonthly
+            week_index = maintenance_window_node_os.value.frequency == "RelativeMonthly" ? maintenance_window_node_os.value.week_index : null
+            
+        }
+    }
 
     depends_on = [ azurerm_key_vault_access_policy.des-access-policy ]
 
