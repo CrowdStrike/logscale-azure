@@ -204,7 +204,7 @@ how to run this terraform to build your Azure environment.
 |------|---------|
 | azapi | ~>1.5 |
 | azurerm | ~>4.21.0 |
-| helm | >=2.13.2 |
+| helm | >=2.13.2,<3.0.0 |
 | http | ~>3.4.2 |
 | kubernetes | >=2.31.0 |
 | null | >=3.2 |
