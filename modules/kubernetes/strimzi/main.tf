@@ -12,7 +12,9 @@ locals {
   broker_count = var.kafka_broker_pod_replica_count <= 3 ? 0 : var.kafka_broker_pod_replica_count - local.controller_count
 
   kubernetes_namespace = "${var.k8s_namespace_prefix}"
-  io_threads = var.num_kafka_volumes * 2
+
+  # Default value is 8, recommendations for this setting vary. We'll stick with 8 unless we have more than 4 attached volumes.
+  io_threads = max(var.num_kafka_volumes * 2, 8)
 }
 
 # Helm for Strimzi

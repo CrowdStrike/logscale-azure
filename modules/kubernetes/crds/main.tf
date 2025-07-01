@@ -71,6 +71,25 @@ data "http" "humiobootstraptokens" {
   url = "https://raw.githubusercontent.com/humio/humio-operator/humio-operator-${var.humio_operator_version}/config/crd/bases/core.humio.com_humiobootstraptokens.yaml"
 }
 
+data "http" "humiofeatureflags" {
+  url = "https://raw.githubusercontent.com/humio/humio-operator/humio-operator-${var.humio_operator_version}/config/crd/bases/core.humio.com_humiofeatureflags.yaml"
+}
+ data "http" "humiogroups" {
+  url = "https://raw.githubusercontent.com/humio/humio-operator/humio-operator-${var.humio_operator_version}/config/crd/bases/core.humio.com_humiogroups.yaml"
+}
+ data "http" "humioorganizationpermissionroles" {
+  url = "https://raw.githubusercontent.com/humio/humio-operator/humio-operator-${var.humio_operator_version}/config/crd/bases/core.humio.com_humioorganizationpermissionroles.yaml"
+}
+ data "http" "humiosystempermissionroles" {
+  url = "https://raw.githubusercontent.com/humio/humio-operator/humio-operator-${var.humio_operator_version}/config/crd/bases/core.humio.com_humiosystempermissionroles.yaml"
+}
+ data "http" "humiousers" {
+  url = "https://raw.githubusercontent.com/humio/humio-operator/humio-operator-${var.humio_operator_version}/config/crd/bases/core.humio.com_humiousers.yaml"
+}
+ data "http" "humioviewpermissionroles" {
+  url = "https://raw.githubusercontent.com/humio/humio-operator/humio-operator-${var.humio_operator_version}/config/crd/bases/core.humio.com_humioviewpermissionroles.yaml"
+}
+
 # Decode and filter out the 'status' attribute from the CRD manifests
 locals {
   crds_manifests = flatten([
@@ -86,7 +105,13 @@ locals {
       data.http.humioscheduledsearches,
       data.http.humiofilteralerts,
       data.http.humioaggregatealerts,
-      data.http.humiobootstraptokens
+      data.http.humiobootstraptokens,
+      data.http.humiofeatureflags,
+      data.http.humiogroups,
+      data.http.humioorganizationpermissionroles,
+      data.http.humiosystempermissionroles,
+      data.http.humiousers,
+      data.http.humioviewpermissionroles
       ] : [
       { for k, v in yamldecode(data.response_body) : k => v if k != "status" }
     ]
