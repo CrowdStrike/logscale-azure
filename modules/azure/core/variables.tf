@@ -28,11 +28,6 @@ variable "vnet_address_space" {
     description = "Address space to assign to the virtual network that will resources associated to the kubernetes cluster."
 }
 
-variable "bastion_network_subnet" {
-    type = list
-    description = "A list of networks to associate to the bastion host subnet."
-}
-
 variable "network_subnet_kafka_nodes" {
     type = list
     description = "A list of networks to associate to the kafka subnet."    

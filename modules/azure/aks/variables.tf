@@ -97,7 +97,7 @@ variable "sku_tier" {
 variable "authorized_ip_ranges" {
     type = list
     description = "IP Ranges allowed to access the public kubernetes API"
-    default = []
+    default = null
 }
 
 variable "ip_ranges_allowed_https" {

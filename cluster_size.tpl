@@ -17,37 +17,25 @@ ${jsonencode(
         "system_node_root_disk_size": 40,
 
         // kafka nodes
-        "strimzi_node_instance_type": "Standard_E8s_v5",
+        "strimzi_node_instance_type": "Standard_L8s_v3", // Need NVMe disks for TopoLVM
         "strimzi_node_min_node_count": 3,
         "strimzi_node_max_node_count": 5,
         "strimzi_node_desired_node_count": 3,
         "strimzi_node_root_disk_size": 40,
-        "kafka_broker_pod_replica_count": 3,
-        "kafka_broker_resources": {"limits": {"cpu": 6, "memory": "56Gi"}, "requests": {"cpu": 6, "memory": "56Gi"}},
-        "kafka_broker_data_disk_size": "512Gi",
-        "kafka_broker_data_storage_class": "managed-premium",
-        "kafka_broker_disk_count": "2",
 
         // digest nodes
-        "logscale_digest_instance_type": "Standard_L8s_v3",
+        "logscale_digest_instance_type": "Standard_L8s_v3", // Need NVMe disks for Topo LVM
         "logscale_digest_root_disk_size": 40,
         "logscale_digest_min_node_count": 3,
         "logscale_digest_max_node_count": 3,
         "logscale_digest_desired_node_count": 3,
-        "logscale_digest_pod_count": 3,
-        "logscale_digest_data_disk_size": "1500Gi",
-        "logscale_digest_resources": {"limits": {"cpu": 6, "memory": "48Gi"}, "requests": {"cpu": 6, "memory": "48Gi"}},
-        "logscale_target_replication_factor": 2,
 
         // ingest nodes
-        "logscale_ingest_min_node_count": 1,
+        "logscale_ingest_min_node_count": 3,
         "logscale_ingest_max_node_count": 5,
         "logscale_ingest_desired_node_count": 3,
-        "logscale_ingest_pod_count": 3,
-        "logscale_ingest_instance_type": "Standard_F8s_v2",
+        "logscale_ingest_instance_type": "Standard_L8s_v3",  // Need NVMe disks for Topo LVM
         "logscale_ingest_root_disk_size": 40,
-        "logscale_ingest_data_disk_size": "60Gi",
-        "logscale_ingest_resources": {"limits": {"cpu": 6, "memory": "10Gi"}, "requests": {"cpu": 6, "memory": "10Gi"}},
 
         // ingress nodes
         "logscale_ingress_min_node_count": 2,
@@ -55,19 +43,13 @@ ${jsonencode(
         "logscale_ingress_desired_node_count": 2,
         "logscale_ingress_instance_type": "Standard_F4s_v2",
         "logscale_ingress_root_disk_size": 40,
-        "logscale_ingress_data_disk_size": "64Gi",
-        "logscale_ingress_resources": {"limits": {"cpu": 2, "memory": "4Gi"}, "requests": {"cpu": 2, "memory": "4Gi"}},
-        "logscale_basic_ingress_resources": {"limits": {"cpu": 1, "memory": "1Gi"}, "requests": {"cpu": 1, "memory": "1Gi"}},
 
         // ui nodes
         "logscale_ui_min_node_count": 1,
         "logscale_ui_max_node_count": 3,
         "logscale_ui_desired_node_count": 2,
-        "logscale_ui_pod_count": 2,
-        "logscale_ui_instance_type": "Standard_E4_v5",
+        "logscale_ui_instance_type": "Standard_L8s_v3", // Need NVMe disks for Topo LVM
         "logscale_ui_root_disk_size": 40,
-        "logscale_ui_data_disk_size": "60Gi",
-        "logscale_ui_resources": {"limits": {"cpu": 3, "memory": "24Gi"}, "requests": {"cpu": 3, "memory": "24Gi"}},
     },
 
     "small": {
@@ -79,16 +61,12 @@ ${jsonencode(
         "system_node_root_disk_size": 40,
 
         // kafka nodes
-        "strimzi_node_instance_type": "Standard_E16s_v5",
+        "strimzi_node_instance_type": "Standard_L16s_v3",
         "strimzi_node_min_node_count": 5,
         "strimzi_node_max_node_count": 15,
         "strimzi_node_desired_node_count": 5,
         "strimzi_node_root_disk_size": 40,
         "kafka_broker_pod_replica_count": 5,
-        "kafka_broker_resources": {"limits": {"cpu": 14, "memory": "102Gi"}, "requests": {"cpu": 14, "memory": "102Gi"}},
-        "kafka_broker_data_disk_size": "1024Gi",
-        "kafka_broker_data_storage_class": "managed-premium",
-        "kafka_broker_disk_count": "3",
 
         // digest nodes
         "logscale_digest_instance_type": "Standard_L16s_v3",
@@ -96,20 +74,13 @@ ${jsonencode(
         "logscale_digest_min_node_count": 6,
         "logscale_digest_max_node_count": 15,
         "logscale_digest_desired_node_count":6,
-        "logscale_digest_pod_count":6,
-        "logscale_digest_data_disk_size": "3000Gi",
-        "logscale_digest_resources": {"limits": {"cpu": 14, "memory": "100Gi"}, "requests": {"cpu": 14, "memory": "100Gi"}},
-        "logscale_target_replication_factor": 2,
 
         // ingest nodes
         "logscale_ingest_min_node_count": 6,
         "logscale_ingest_max_node_count": 21,
         "logscale_ingest_desired_node_count": 6,
-        "logscale_ingest_pod_count": 6,
-        "logscale_ingest_instance_type": "Standard_F8s_v2",
+        "logscale_ingest_instance_type": "Standard_L16s_v3",
         "logscale_ingest_root_disk_size": 40,
-        "logscale_ingest_data_disk_size": "60Gi",
-        "logscale_ingest_resources": {"limits": {"cpu": 6, "memory": "10Gi"}, "requests": {"cpu": 6, "memory": "10Gi"}},
 
         // ingress nodes
         "logscale_ingress_min_node_count": 3,
@@ -117,19 +88,13 @@ ${jsonencode(
         "logscale_ingress_desired_node_count": 3,
         "logscale_ingress_instance_type": "Standard_F4s_v2",
         "logscale_ingress_root_disk_size": 40,
-        "logscale_ingress_data_disk_size": "64Gi",
-        "logscale_ingress_resources": {"limits": {"cpu": 2, "memory": "4Gi"}, "requests": {"cpu": 2, "memory": "4Gi"}},
-        "logscale_basic_ingress_resources": {"limits": {"cpu": 2, "memory": "2Gi"}, "requests": {"cpu": 2, "memory": "2Gi"}},
 
         // ui nodes
         "logscale_ui_min_node_count": 3,
         "logscale_ui_max_node_count": 9,
         "logscale_ui_desired_node_count": 3,
-        "logscale_ui_pod_count": 3,
-        "logscale_ui_instance_type": "Standard_E4_v5",
+        "logscale_ui_instance_type": "Standard_L8s_v3",
         "logscale_ui_root_disk_size": 40,
-        "logscale_ui_data_disk_size": "128Gi",
-        "logscale_ui_resources": {"limits": {"cpu": 3, "memory": "24Gi"}, "requests": {"cpu": 3, "memory": "24Gi"}},
 
     },
     "medium": {
@@ -141,16 +106,11 @@ ${jsonencode(
         "system_node_root_disk_size": 40,
 
         // kafka nodes
-        "strimzi_node_instance_type": "Standard_E16s_v5",
+        "strimzi_node_instance_type": "Standard_L32s_v3",
         "strimzi_node_min_node_count": 7,
         "strimzi_node_max_node_count": 21,
         "strimzi_node_desired_node_count": 15,
         "strimzi_node_root_disk_size": 40,
-        "kafka_broker_pod_replica_count": 15,
-        "kafka_broker_resources": {"limits": {"cpu": 14, "memory": "102Gi"}, "requests": {"cpu": 14, "memory": "102Gi"}},
-        "kafka_broker_data_disk_size": "1024Gi",
-        "kafka_broker_data_storage_class": "managed-premium",
-        "kafka_broker_disk_count": "4",
 
         // digest nodes
         "logscale_digest_instance_type": "Standard_L16s_v3",
@@ -158,20 +118,13 @@ ${jsonencode(
         "logscale_digest_min_node_count": 21,
         "logscale_digest_max_node_count": 45,
         "logscale_digest_desired_node_count":21,
-        "logscale_digest_pod_count":21,
-        "logscale_digest_data_disk_size": "3000Gi",
-        "logscale_digest_resources": {"limits": {"cpu": 14, "memory": "102Gi"}, "requests": {"cpu": 14, "memory": "102Gi"}},
-        "logscale_target_replication_factor": 2,
 
         // ingest nodes
         "logscale_ingest_min_node_count": 15,
         "logscale_ingest_max_node_count": 45,
         "logscale_ingest_desired_node_count": 15,
-        "logscale_ingest_pod_count": 15,
-        "logscale_ingest_instance_type": "Standard_F16s_v2",
+        "logscale_ingest_instance_type": "Standard_L64s_v3",
         "logscale_ingest_root_disk_size": 40,
-        "logscale_ingest_data_disk_size": "60Gi",
-        "logscale_ingest_resources": {"limits": {"cpu": 14, "memory": "28Gi"}, "requests": {"cpu": 14, "memory": "28Gi"}},
 
         // ingress nodes
         "logscale_ingress_min_node_count": 6,
@@ -179,19 +132,13 @@ ${jsonencode(
         "logscale_ingress_desired_node_count": 6,
         "logscale_ingress_instance_type": "Standard_F8s_v2",
         "logscale_ingress_root_disk_size": 40,
-        "logscale_ingress_data_disk_size": "128Gi",
-        "logscale_ingress_resources": {"limits": {"cpu": 6, "memory": "10Gi"}, "requests": {"cpu": 6, "memory": "10Gi"}},
-        "logscale_basic_ingress_resources": {"limits": {"cpu": 2, "memory": "2Gi"}, "requests": {"cpu": 2, "memory": "2Gi"}},
         
         // ui nodes
         "logscale_ui_min_node_count": 6,
         "logscale_ui_max_node_count": 21,
         "logscale_ui_desired_node_count": 6,
-        "logscale_ui_pod_count": 6,
-        "logscale_ui_instance_type": "Standard_E8_v5",
+        "logscale_ui_instance_type": "Standard_L16s_v3",
         "logscale_ui_root_disk_size": 40,
-        "logscale_ui_data_disk_size": "250Gi",
-        "logscale_ui_resources": {"limits": {"cpu": 7, "memory": "56Gi"}, "requests": {"cpu": 7, "memory": "56Gi"}},
     },
     "large": {
         // system nodes
@@ -202,16 +149,11 @@ ${jsonencode(
         "system_node_root_disk_size": 40,
 
         // kafka nodes
-        "strimzi_node_instance_type": "Standard_E20s_v5",
+        "strimzi_node_instance_type": "Standard_L48s_v3",
         "strimzi_node_min_node_count": 14,
         "strimzi_node_max_node_count": 45,
         "strimzi_node_desired_node_count": 30,
         "strimzi_node_root_disk_size": 40,
-        "kafka_broker_pod_replica_count": 9,
-        "kafka_broker_resources": {"limits": {"cpu": 18, "memory": "140Gi"}, "requests": {"cpu": 18, "memory": "140Gi"}},
-        "kafka_broker_data_disk_size": "2048Gi",
-        "kafka_broker_data_storage_class": "managed-premium",
-        "kafka_broker_disk_count": "8"
 
         // digest nodes
         "logscale_digest_instance_type": "Standard_L32s_v3",
@@ -219,20 +161,13 @@ ${jsonencode(
         "logscale_digest_min_node_count": 21,
         "logscale_digest_max_node_count": 60,
         "logscale_digest_desired_node_count":42,
-        "logscale_digest_pod_count":42,
-        "logscale_digest_data_disk_size": "6000Gi",
-        "logscale_digest_resources": {"limits": {"cpu": 30, "memory": "240Gi"}, "requests": {"cpu": 30, "memory": "240Gi"}},
-        "logscale_target_replication_factor": 2,
 
         // ingest nodes
         "logscale_ingest_min_node_count": 15,
         "logscale_ingest_max_node_count": 45,
         "logscale_ingest_desired_node_count": 15,
-        "logscale_ingest_pod_count": 15,
-        "logscale_ingest_instance_type": "Standard_F32s_v2",
+        "logscale_ingest_instance_type": "Standard_L96s_v3",
         "logscale_ingest_root_disk_size": 40,
-        "logscale_ingest_data_disk_size": "128Gi",
-        "logscale_ingest_resources": {"limits": {"cpu": 30, "memory": "58Gi"}, "requests": {"cpu": 30, "memory": "58Gi"}},
 
         // ingress nodes
         "logscale_ingress_min_node_count": 6,
@@ -240,19 +175,13 @@ ${jsonencode(
         "logscale_ingress_desired_node_count": 6,
         "logscale_ingress_instance_type": "Standard_F16s_v2",
         "logscale_ingress_root_disk_size": 40,
-        "logscale_ingress_data_disk_size": "128Gi",
-        "logscale_ingress_resources": {"limits": {"cpu": 14, "memory": "22Gi"}, "requests": {"cpu": 14, "memory": "22Gi"}},
-        "logscale_basic_ingress_resources": {"limits": {"cpu": 4, "memory": "8Gi"}, "requests": {"cpu": 4, "memory": "8Gi"}},
         
         // ui nodes
         "logscale_ui_min_node_count": 6,
         "logscale_ui_max_node_count": 21,
         "logscale_ui_desired_node_count": 9,
-        "logscale_ui_pod_count": 9,
-        "logscale_ui_instance_type": "Standard_E16_v5",
+        "logscale_ui_instance_type": "Standard_L32s_v3",
         "logscale_ui_root_disk_size": 40,
-        "logscale_ui_data_disk_size": "250Gi",
-        "logscale_ui_resources": {"limits": {"cpu": 14, "memory": "102Gi"}, "requests": {"cpu": 14, "memory": "102Gi"}},
     },
     "xlarge": {
         // system nodes
@@ -263,16 +192,11 @@ ${jsonencode(
         "system_node_root_disk_size": 40,
 
         // kafka nodes
-        "strimzi_node_instance_type": "Standard_E32s_v5",
+        "strimzi_node_instance_type": "Standard_L64s_v3",
         "strimzi_node_min_node_count": 21,
         "strimzi_node_max_node_count": 45,
         "strimzi_node_desired_node_count": 33,
         "strimzi_node_root_disk_size": 40,
-        "kafka_broker_pod_replica_count": 28,
-        "kafka_broker_resources": {"limits": {"cpu": 30, "memory": "240Gi"}, "requests": {"cpu": 30, "memory": "240Gi"}},
-        "kafka_broker_data_disk_size": "2048Gi",
-        "kafka_broker_data_storage_class": "managed-premium",
-        "kafka_broker_disk_count": "10"
 
         // digest nodes
         "logscale_digest_instance_type": "Standard_L64s_v3",
@@ -280,20 +204,14 @@ ${jsonencode(
         "logscale_digest_min_node_count": 26,
         "logscale_digest_max_node_count": 120,
         "logscale_digest_desired_node_count":78,
-        "logscale_digest_pod_count":78,
-        "logscale_digest_data_disk_size": "12000Gi",
-        "logscale_digest_resources": {"limits": {"cpu": 62, "memory": "500Gi"}, "requests": {"cpu": 62, "memory": "500Gi"}},
-        "logscale_target_replication_factor": 2,
 
         // ingest nodes
         "logscale_ingest_min_node_count": 15,
         "logscale_ingest_max_node_count": 45,
         "logscale_ingest_desired_node_count": 18,
-        "logscale_ingest_pod_count": 18,
-        "logscale_ingest_instance_type": "Standard_F48s_v2",
+        "logscale_ingest_instance_type": "Standard_L48s_v3",
         "logscale_ingest_root_disk_size": 40,
-        "logscale_ingest_data_disk_size": "128Gi",
-        "logscale_ingest_resources": {"limits": {"cpu": 46, "memory": "92Gi"}, "requests": {"cpu": 46, "memory": "92Gi"}},
+
 
         // ingress nodes
         "logscale_ingress_min_node_count": 9,
@@ -301,19 +219,14 @@ ${jsonencode(
         "logscale_ingress_desired_node_count": 18,
         "logscale_ingress_instance_type": "Standard_F16s_v2",
         "logscale_ingress_root_disk_size": 40,
-        "logscale_ingress_data_disk_size": "128Gi",
-        "logscale_ingress_resources": {"limits": {"cpu": 14, "memory": "22Gi"}, "requests": {"cpu": 14, "memory": "22Gi"}},
-        "logscale_basic_ingress_resources": {"limits": {"cpu": 4, "memory": "8Gi"}, "requests": {"cpu": 4, "memory": "8Gi"}},
+
         
         // ui nodes
         "logscale_ui_min_node_count": 12,
         "logscale_ui_max_node_count": 30,
         "logscale_ui_desired_node_count": 18,
-        "logscale_ui_pod_count": 18,
-        "logscale_ui_instance_type": "Standard_E20_v5",
+        "logscale_ui_instance_type": "Standard_L64s_v3",
         "logscale_ui_root_disk_size": 40,
-        "logscale_ui_data_disk_size": "500Gi",
-        "logscale_ui_resources": {"limits": {"cpu": 18, "memory": "148Gi"}, "requests": {"cpu": 18, "memory": "148Gi"}},
     },
 }
 )}

@@ -46,12 +46,6 @@ variable "network_subnet_aks_system_nodes" {
     default         = ["172.16.0.0/24"]
 }
 
-variable "network_subnet_bastion_nodes" {
-    type            = list
-    description     = "Subnet for bastion nodes."
-    default         = ["172.16.1.0/26"]
-}
-
 variable "network_subnet_kafka_nodes" {
     type            = list
     description     = "Subnet for kubernetes node pool hosting the strimzi kafka nodes"
@@ -88,12 +82,6 @@ variable "tags" {
   default           = {}
 }
 
-variable "bastion_host_size" {
-  type              = string
-  description       = "Size of virtual machine to launch for bastion host."
-  default           = "Standard_A2_v2"
-}
-
 variable "admin_username" {
   type              = string
   description       = "Admin username for ssh access to resources."
@@ -113,13 +101,7 @@ variable "ip_ranges_allowed_storage_account_access" {
 
 variable "ip_ranges_allowed_to_kubeapi" {
   type              = list
-  description       = "IP ranges allowed to access the public kubernetes api"
-  default           = []
-}
-
-variable "ip_ranges_allowed_to_bastion" {
-  type              = list(string)
-  description       = "(Optional) List of IP addresses or CIDR notated ranges that can access the bastion host."
+  description       = "IP ranges allowed to access the public kubernetes api. Setting to null allows public access."
   default           = []
 }
 
@@ -131,14 +113,14 @@ variable "ip_ranges_allowed_https" {
 
 variable "ip_ranges_allowed_kv_access" {
   type              = list
-  description       = "List of IP Ranges that can access the key vault."
+  description       = "List of IP Ranges that can access the key vault. Setting to null allows public access."
   default           = []
 }
 
 variable "kubernetes_private_cluster_enabled" {
   type              = bool
   default           = false
-  description       = "When true, the kubernetes API is only accessible from internal networks (i.e. the bastion host). When false, the API is available to the list of IP ranges provided in variable ip_ranges_allowed_to_kubeapi."
+  description       = "When true, the kubernetes API is only accessible from internal networks. When false, the API is available to the list of IP ranges provided in variable ip_ranges_allowed_to_kubeapi."
 }
 
 variable "logscale_cluster_type" {
@@ -147,7 +129,7 @@ variable "logscale_cluster_type" {
 
   validation {
     condition       = contains(["basic", "ingress", "dedicated-ui", "advanced"], var.logscale_cluster_type)
-    error_message   = "logscale_cluster_type must be one of: basic, ingress, or advanced"
+    error_message   = "logscale_cluster_type must be one of: basic, ingress, dedicated-ui or advanced"
   }
 }
 
@@ -221,113 +203,6 @@ variable "logscale_account_kind" {
 
 }
 
-variable "humio_operator_version" {
-  description       = "The humio operator controls provisioning of logscale resources within kubernetes."
-  type              = string
-}
-
-variable "humio_operator_chart_version" {
-  description       = "This is the version of the helm chart that installs the humio operator version chosen in variable humio_operator_version."
-  type              = string
-}
-
-variable "cm_repo" {
-  description       = "The cert-manager repository."
-  type              = string
-  default           = "https://charts.jetstack.io"
-}
-
-variable "cm_version" {
-  description       = "The cert-manager helm chart version"
-  type              = string
-}
-
-variable "humio_operator_repo" {
-  description       = "The humio operator repository."
-  type              = string
-  default           = "https://humio.github.io/humio-operator"
-}
-
-
-variable "logscale_image_version" {
-  description       = "The version of logscale to install."
-  type              = string
-  default           = ""
-}
-
-variable "logscale_image" {
-  description       = "This can be used to specify a full image ref spec. The expectation is that the imagePullSecrets kubernetes secret will exist."
-  type              = string
-  default           = null
-}
-
-variable "logscale_license" {
-  description       = "Your logscale license data."
-  type              = string
-}
-
-variable "humio_operator_extra_values" {
-  description       = "Resource Management for logscale pods"
-  type              = map(string)
-  default = {
-    "operator.resources.limits.cpu"      = "250m"
-    "operator.resources.limits.memory"   = "750Mi"
-    "operator.resources.requests.cpu"    = "250m"
-    "operator.resources.requests.memory" = "750Mi"
-  }
-}
-
-variable "strimzi_operator_chart_version" {
-  type            = string
-  description     = "Helm chart version for installing strimzi."
-}
-
-variable "strimzi_operator_version" {
-  type            = string
-  description     = "Strimzi operator version for resource definition installation."
-}
-
-variable "strimzi_operator_repo" {
-  type            = string
-  description     = "Strimzi operator repo."
-  default         = "https://strimzi.io/charts/"
-}
-
-variable "cert_issuer_kind" {
-  description       = "Certificates issuer kind for the Logscale cluster."
-  type              = string
-  default           = "ClusterIssuer"
-}
-
-variable "cert_issuer_name" {
-  description       = "Certificates issuer name for the Logscale Cluster"
-  type              = string
-  default           = "letsencrypt-cluster-issuer"
-}
-
-variable "cert_issuer_email" {
-  description       = "Certificates issuer email address used with certificates provisioned in the cluster."
-  type              = string
-}
-
-variable "cert_issuer_private_key" {
-  description       = "This is the kubernetes secret where the private key for the certificate issuer will be stored."
-  type              = string
-  default           = "letsencrypt-cluster-issuer-key"
-}
-
-variable "cert_ca_server" {
-  description       = "Certificate Authority Server."
-  type              = string
-  default           = "https://acme-v02.api.letsencrypt.org/directory"
-}
-
-variable "logscale_lb_internal_only" {
-  description       = "The nginx ingress controller to logscale will create a managed azure load balancer with public availability. Setting to true will remove the ability to generate Let's Encrypt certificates in addition to removing public access."
-  type              = bool
-  default           = false
-}
-
 variable "aks_azure_policy_enabled" {
   type              = bool
   description       = "Enable the Azure Policy for AKS add-on allowing for security scanning of kubernetes resources."
@@ -356,12 +231,6 @@ variable "azure_keyvault_secret_expiration_days" {
   type            = number
   description     = "This ensures that secrets stored in Azure KeyVault expire after X number of days so they are not retained forever. This expiration date will update with every terraform run."
   default         = 60
-}
-
-variable "password_rotation_arbitrary_value" {
-  type            = string
-  description     = "This will not influence the password generated for logscale but, when modified, will cause the password to be regenerated."
-  default         = "defaultstring"
 }
 
 variable "enable_auditlogging_to_storage" {
@@ -412,19 +281,6 @@ variable "diag_logging_loganalytics_id" {
     type = string
 }
 
-# Variables to allow for custom provided TLS certificate
-variable "logscale_custom_tls_certificate_keyvault_name" {
-  type = string
-  description = "Name of the TLS certificate item (PEM format) stored in the Azure Keyvault created by this terraform"
-  default = null
-}
-
-variable "logscale_custom_tls_certificate_key_keyvault_name" {
-  type = string
-  description = "Name of the TLS certificate key item (PEM format) stored in the Azure Keyvault created by this terraform"
-  default = null
-}
-
 variable "azure_availability_zones" {
   description = "The availability zones to use with your kubernetes cluster. Defaults to null making the cluster regional with no guarantee of HA in the event of zone outage."
   default = null
@@ -435,77 +291,6 @@ variable "provision_kafka_servers" {
   description = "Set this to true to provision strimzi kafka within this kubernetes cluster. It should be false if you are bringing your own kafka implementation."
   default = true
   type = bool
-}
-
-variable "byo_kafka_connection_string" {
-  description = "Your own kafka environment connection string."
-  default = ""
-  type = string
-}
-
-variable "logscale_namespace" {
-  description       = "The kubernetes namespace used by strimzi, logscale, and nginx-ingress."
-  type              = string
-  default           = "logging"
-}
-
-variable "cm_namespace" {
-  description       = "Kubernetes namespace used by cert-manager."
-  type              = string
-  default           = "cert-manager"
-}
-
-variable "k8s_namespace_prefix" {
-  description       = "Multiple namespaces will be created to contain resources using this prefix."
-  type              = string
-  default           = "log"
-}
-
-variable "user_logscale_envvars" {
-  type = list(object({
-    name=string,
-    value=optional(string)
-    valueFrom=optional(object({
-      secretKeyRef = object({
-        name = string
-        key = string
-      })
-    }))
-  }))
-  description = "These are environment variables passed into the HumioCluster resource spec definition that will be used for all created logscale instances. Supports string values and kubernetes secret refs. Will override any values defined by default in the configuration."
-  default = []
-}
-
-variable "k8s_config_path" {
-  description = "The path that will contain the kubernetes configuration file, typically at ~/.kube/config"
-  default = "~/.kube/config"
-}
-
-variable "topo_lvm_chart_version" {
-  description = "Version of topo lvm to install."
-  type = string
-}
-
-variable "nginx_ingress_helm_chart_version" {
-  description = "The version of nginx-ingress to install in the environment. Reference: github.com/kubernetes/ingress-nginx for helm chart version to nginx version mapping."
-  type = string
-}
-
-variable "use_own_certificate_for_ingress" {
-  default = false
-  type = bool
-  description = "Set to true if you plan to bring your own certificate for logscale ingest/ui access."
-}
-
-variable "logscale_update_strategy" {
-  description = "When describing a HumioCluster resource, you can provide a map value to describe how updates should be applied. Defaults to RollingUpdateBestEffort, 50% maximum unavailable, zone awareness enabled. Reference: https://github.com/humio/humio-operator/blob/master/docs/api.md#humioclusterspecupdatestrategy"
-  type = map
-  default = {
-      type                  = "RollingUpdateBestEffort"
-      enableZoneAwareness   = true
-      minReadySeconds       = 120
-      maxUnavailable        = "50%"
-    }    
 }
 
 variable "aks_kubernetes_version" {
@@ -577,4 +362,47 @@ variable "k8s_maintenance_window_node_os" {
   })
   description = "Sets a maintenance window for OS upgrades to AKS nodes."
   default = null
+}
+
+variable "logscale_lb_internal_only" {
+  description       = "The nginx ingress controller to logscale will create a managed azure load balancer with public availability. Setting to true will remove the ability to generate Let's Encrypt certificates in addition to removing public access."
+  type              = bool
+  default           = false
+}
+
+variable "use_own_certificate_for_ingress" {
+  default = false
+  type = bool
+  description = "Set to true if you plan to bring your own certificate for logscale ingest/ui access."
+}
+
+variable "extra_user_logscale_envvars" {
+  type = list(object({
+    name=string,
+    value=optional(string)
+    valueFrom=optional(object({
+      secretKeyRef = object({
+        name = string
+        key = string
+      })
+    }))
+  }))
+  description = "Additional environment variables passed into the LogScale cluster. Supports string values and kubernetes secret refs."
+  default = []
+}
+
+variable "logscale_license" {
+  description = "Your logscale license data."
+  type        = string
+}
+
+variable "cert_issuer_email" {
+  description = "Certificates issuer email address used with certificates provisioned in the cluster."
+  type        = string
+}
+
+variable "logscale_cluster_k8s_namespace_name" {
+  description = "Kubernetes namespace name for LogScale deployment"
+  type        = string
+  default     = "log"
 }

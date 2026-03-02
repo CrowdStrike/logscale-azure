@@ -47,17 +47,6 @@ resource "azurerm_virtual_network" "logscale-vnet" {
 
 }
 
-# Subnet for bastion hosts
-resource "azurerm_subnet" "logscale-bastion-subnet" {
-  name                      = "${var.name_prefix}-s-bast"
-
-  virtual_network_name      = azurerm_virtual_network.logscale-vnet.name
-  resource_group_name       = azurerm_resource_group.rg.name
-
-  address_prefixes          = var.bastion_network_subnet
-
-}
-
 # Subnet for aks nodes
 resource "azurerm_subnet" "logscale-aks-system-subnet" {
   name                      = "${var.name_prefix}-s-aks"

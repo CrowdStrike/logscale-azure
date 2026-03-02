@@ -1,118 +1,177 @@
-# Define the Azure environment and location
+# ============================================================================
+# LogScale Azure v2 - Terraform Configuration Example
+# ============================================================================
+# Copy this file to terraform.tfvars and customize for your environment
+
+# ============================================================================
+# REQUIRED CONFIGURATION
+# ============================================================================
+
+# Your Azure subscription ID (REQUIRED)
 azure_subscription_id                   = "my-azure-subscription-id"
+
+# Azure Environment - usually "public" unless using specialized clouds
+# Options: public, usgovernment, german, china
 azure_environment                       = "public"
+
+# Azure Region - Choose based on data residency, latency, and compliance needs
+# Supported regions: eastus, westus, centralus, eastus2, westus2, northeurope
 azure_resource_group_region             = "centralus"
 
-# Resources created will include this string
+# Resource name prefix (max 8 characters, alphanumeric only)
+# Used in naming all Azure resources. Choose carefully - changing requires redeployment
 resource_name_prefix                    = "log"
 
-# Namespaces created in kubernetes will be prefixed with this (i.e. log-ingress = nginx) This prefix will be the namespace for logscale resources
-k8s_name_prefix                         = "log"
-
-# Tags are applied to cloud resources
-tags = {
-    managedBy                           = "terraform"
-    environment                         = "dev"
-    resourceOwner                       = "myteam"
-}
-
-# This SSH key is used for connecting to the bastion host or SSH to kubernetes nodes
+# SSH public key for node access (REQUIRED for troubleshooting)
+# Generate with: ssh-keygen -t rsa -b 4096 -C "logscale-azure-key"
+# Provide the public key content (from .pub file)
 admin_ssh_pubkey                        = "ssh-rsa ....pubkeydata.... user@host"
 
-# Cluster type and size
+# ============================================================================
+# CLUSTER CONFIGURATION
+# ============================================================================
+
+# Cluster type - Determines node pool configuration
+# basic: System + LogScale digest nodes (development/testing)
+# ingress: Adds dedicated ingress nodes (recommended)
+# dedicated-ui: Adds dedicated UI nodes (production)
+# advanced: Full deployment with separate ingest nodes (enterprise production)
 logscale_cluster_type                   = "basic"
+
+# Cluster size - Pre-configured sizing templates
+# xsmall: Development/testing (minimal resources)
+# small: Small production workloads
+# medium: Standard production workloads
+# large: High-volume production workloads
+# xlarge: Enterprise/high-scale production
 logscale_cluster_size                   = "xsmall"
 
-# Your logscale license
-logscale_license                        = ""
+# ============================================================================
+# SECURITY CONFIGURATION
+# ============================================================================
 
-# IP Ranges allowed to access various components of the infrastructure
+# IP Ranges allowed to access the Kubernetes API (CRITICAL SECURITY SETTING)
+# For production: Use your corporate network ranges only
+# For development: Can include your public IP for testing
+# Example: ["10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"] for private networks
 ip_ranges_allowed_to_kubeapi            = ["192.168.3.32/32", "192.168.4.1/32"]
+
+# IP ranges allowed to access LogScale UI/Ingestion endpoint
+# Set to internal networks for enterprise security
+# Leave empty [] to allow access from any IP (not recommended for production)
 ip_ranges_allowed_https                 = ["192.168.1.0/24"]
-ip_ranges_allowed_to_bastion            = ["192.168.3.32/32", "192.168.4.1/32"]
+
+# IP ranges allowed to access Azure Key Vault (CRITICAL SECURITY SETTING)
+# Should match or be more restrictive than kubeapi ranges
+# Key Vault contains encryption keys and storage credentials
 ip_ranges_allowed_kv_access             = ["192.168.3.32/32", "192.168.4.1/32"]
 
-# This email address will be used with Let's Encrypt for certificate generation
-cert_issuer_email                       = "myemail@mydomain"
-
-
-# Logscale Ingress Point is public by default; changing to internal will limit access to your VNET and resources that can communicate with that VNET
-logscale_lb_internal_only               = false
-
-# Kubernetes API is public by default, changing to private will require configuring kubernetes from a host inside the VNET (including running k8s portions of this terraform)
+# Private cluster configuration (ENTERPRISE RECOMMENDED)
+# true: Kubernetes API only accessible from private networks (requires VPN/ExpressRoute)
+# false: API accessible from internet (restricted by ip_ranges_allowed_to_kubeapi)
 kubernetes_private_cluster_enabled      = false
 
-# Secrets in KeyVault will have a default expiration date based on when you last ran the terraform. Set to "false" to keep secrets indefinitely.
-set_kv_expiration_dates                 = true
+# Internal load balancer only (ENTERPRISE RECOMMENDED)
+# true: LogScale accessible only from internal networks (requires VPN/ExpressRoute)
+# false: External load balancer with public IP (restricted by ip_ranges_allowed_https)
+# logscale_lb_internal_only              = false  # Uncomment and set to true for enterprise
 
-# Availability zones are leveraged with Kubernetes to spread nodes across AZ. Not available in all regions.
-azure_availability_zones                = [1,2,3]
+# ============================================================================
+# OPERATIONAL CONFIGURATION
+# ============================================================================
 
-# By default, strimzi kafka nodes are provisioned for use by Logscale. This can be disabled if kafka already exists.
-provision_kafka_servers                 = true
-
-# Path to your kubectl configuration
-k8s_config_path                         = "~/.kube/config"
-
-# When false: certificates will be generated with Let's Encrypt; When true: you need to provide a certificate and Let's Encrypt will not be used
-use_own_certificate_for_ingress         = false
-
-# This controls installation of resources in kubernetes.
-strimzi_operator_version                = "0.45.0"
-strimzi_operator_chart_version          = "0.45.0"
-logscale_image_version                  = "latest"
-cm_version                              = "v1.15.1"
-humio_operator_chart_version            = "0.29.1"
-humio_operator_version                  = "0.29.1"
-topo_lvm_chart_version                  = "15.5.2"
-nginx_ingress_helm_chart_version        = "4.12.1"
-
-# You can configure Logscale parameters with this variable which will override defaults in the terraform code
-user_logscale_envvars               = [ 
-    { "name" = "LOCAL_STORAGE_MIN_AGE_DAYS", "value" = "7" }, 
-    { "name" = "LOCAL_STORAGE_PERCENTAGE", "value" = "85" },
-    ]
-
-# When defining the HumioCluster resource in kubernetes for the humio operator, you can define the update strategy here
-# Reference: https://github.com/humio/humio-operator/blob/master/docs/api.md#humioclusterspecupdatestrategy
-logscale_update_strategy = {
-    type = "RollingUpdateBestEffort"
-    enableZoneAwareness = true
-    minReadySeconds = 120
-    maxUnavailable = "50%"
+# Resource tagging for cost allocation and management
+# Customize based on your organization's tagging strategy
+tags = {
+    managedBy                           = "terraform"
+    environment                         = "dev"              # dev/test/staging/prod
+    resourceOwner                       = "myteam"           # Team or department
+    costCenter                          = "engineering"      # For cost allocation
+    project                             = "logscale"         # Project name
 }
 
-# Sets up an auto_upgrade schedule for the AKS cluster to occur monthly on the third Saturday of the month controlling when
-# kubernetes patch versions are applied to the cluster
+# Key Vault secret expiration (ENTERPRISE: Set to true for compliance)
+# true: Secrets expire automatically, requiring periodic rotation
+# false: Secrets persist indefinitely (easier management, lower security)
+set_kv_expiration_dates                 = true
+
+# ============================================================================
+# HIGH AVAILABILITY CONFIGURATION
+# ============================================================================
+
+# Availability zones for multi-zone deployment (ENTERPRISE RECOMMENDED)
+# Spreads node pools across zones for high availability
+# Not available in all regions - check Azure documentation
+azure_availability_zones                = [1,2,3]
+
+# Storage replication for data durability
+# LRS: Local redundant (single datacenter)
+# ZRS: Zone redundant (multiple zones, same region)
+# GRS: Geo redundant (multiple regions)
+# GZRS: Geo-zone redundant (multiple zones and regions) - RECOMMENDED for enterprise
+# logscale_account_replication          = "LRS"  # Uncomment and set to "GZRS" for enterprise
+
+# ============================================================================
+# KAFKA CONFIGURATION
+# ============================================================================
+
+# Provision Kafka nodes for log streaming (recommended unless using external Kafka)
+# true: Deploy Strimzi Kafka nodes in the cluster
+# false: Use external Kafka cluster (requires separate configuration)
+provision_kafka_servers                 = true
+
+# ============================================================================
+# MAINTENANCE WINDOWS
+# ============================================================================
+# Configure maintenance windows for automated updates
+# Times are in UTC - adjust for your timezone and business requirements
+
+# Kubernetes version auto-upgrade schedule
+# Occurs monthly on the third Saturday - adjust for your maintenance schedule
 k8s_maintenance_window_auto_upgrade = {
   frequency    = "RelativeMonthly"
   interval     = 1
-  duration     = 8
-  day_of_week  = "Saturday"
-  week_index   = "Third"
-  utc_offset   = "+00:00"
-  start_time   = "01:00"
+  duration     = 8                    # Hours
+  day_of_week  = "Saturday"           # Day of week
+  week_index   = "Third"              # First/Second/Third/Fourth/Last
+  utc_offset   = "+00:00"             # Adjust for your timezone
+  start_time   = "01:00"              # 24-hour format
 }
 
-# This sets up a node OS update schedule that occurs every 2 weeks on Sundays.
+# Node OS patching schedule
+# Occurs every 2 weeks on Sunday - adjust for your patching cycle
 k8s_maintenance_window_node_os = {
   frequency    = "Weekly"
-  interval     = 2
-  duration     = 6
+  interval     = 2                    # Every 2 weeks
+  duration     = 6                    # Hours
   day_of_week  = "Sunday"
-  utc_offset   = "+00:00"
-  start_time   = "01:00"
+  utc_offset   = "+00:00"             # Adjust for your timezone
+  start_time   = "01:00"              # 24-hour format
 }
 
-
-# This is a generic maintenance window. All other maintenance operations can occur during these allowed hours (UTC)
+# General maintenance window - for other operations
+# Define when Azure can perform other maintenance tasks
 k8s_general_maintenance_windows = [
-    { 
+    {
         day   = "Saturday"
-        hours = [2, 3, 4] 
-    },  
-    { 
+        hours = [2, 3, 4]             # Hours in UTC
+    },
+    {
         day   = "Sunday"
-        hours = [2, 3, 4] 
-    } 
+        hours = [2, 3, 4]             # Hours in UTC
+    }
   ]
+
+# Custom Key Vault retention (7-90 days, enterprise compliance)
+# kv_soft_delete_retention_days         = 90
+
+# ============================================================================
+# VALIDATION NOTES
+# ============================================================================
+# Before applying:
+# 1. Verify azure_subscription_id is correct
+# 2. Ensure chosen region supports all required services
+# 3. Check Azure quotas for VM cores and other resources
+# 4. Validate IP ranges don't conflict with Azure networking
+# 5. Review maintenance windows for your timezone
+# 6. For enterprise: Consider enabling private cluster and internal LB
