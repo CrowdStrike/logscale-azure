@@ -4,10 +4,7 @@
 terraform.tfvars
 terraform.tfvars.*
 *.json
-azure_ref_arch.tfvars
-azure_ref_arch*.tfvars
 *.hcl
-_copiedfromaws/
 *.tfplan
 load-testing.tf
 doc-update.sh

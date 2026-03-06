@@ -33,7 +33,7 @@ how to run this terraform to build your Azure environment.
 | azure\_resource\_group\_region | The Azure cloud region for the resource group and associated resources. | `string` | n/a | yes |
 | azure\_subscription\_id | Subscription ID where you will build Azure resources. It is expected that you will be Owner of this subscription. | `string` | n/a | yes |
 | azure\_vnet\_address\_space | Address space to assign to the virtual network that will resources associated to the kubernetes cluster. | `list` | <pre>[<br/>  "172.16.0.0/16"<br/>]</pre> | no |
-| bastion\_host\_size | Size of virtual machine to launch for bastion host. | `string` | `"Standard_A2_v2"` | no |
+| cert\_issuer\_email | Certificates issuer email address used with certificates provisioned in the cluster. | `string` | n/a | yes |
 | diag\_logging\_eventhub\_authorization\_rule\_id | The rule ID allowing authorization to the eventhub. | `string` | `null` | no |
 | diag\_logging\_eventhub\_name | The target eventhub name where audit logging will be sent. Use in conjuction with the eventhub\_authorization\_rule\_id | `string` | `null` | no |
 | diag\_logging\_loganalytics\_id | The ID of the log analytics workspace to send diagnostic logging. | `string` | `null` | no |
@@ -43,10 +43,10 @@ how to run this terraform to build your Azure environment.
 | enable\_auditlogging\_to\_storage | Enable audit logging to a target storage account | `bool` | `false` | no |
 | enable\_azure\_ddos\_protection | Enable DDOS protection for the vnet created by this terraform. Note: DDOS protection will significantly increase the cost of this subscription. | `bool` | `false` | no |
 | enable\_kv\_metrics\_diag\_logging | When sending diagnostic logs for the eventhub resource, we can optionally enable metrics as well. | `bool` | `false` | no |
+| extra\_user\_logscale\_envvars | Additional environment variables passed into the LogScale cluster. Supports string values and kubernetes secret refs. | <pre>list(object({<br/>    name=string,<br/>    value=optional(string)<br/>    valueFrom=optional(object({<br/>      secretKeyRef = object({<br/>        name = string<br/>        key = string<br/>      })<br/>    }))<br/>  }))</pre> | `[]` | no |
 | ip\_ranges\_allowed\_https | List of IP Ranges that can access the ingress frontend for UI and logscale API operations, including ingestion. | `list` | `[]` | no |
 | ip\_ranges\_allowed\_kv\_access | List of IP Ranges that can access the key vault. | `list` | `[]` | no |
 | ip\_ranges\_allowed\_storage\_account\_access | IP ranges allowed to access created storage containers | `list` | `[]` | no |
-| ip\_ranges\_allowed\_to\_bastion | (Optional) List of IP addresses or CIDR notated ranges that can access the bastion host. | `list(string)` | `[]` | no |
 | ip\_ranges\_allowed\_to\_kubeapi | IP ranges allowed to access the public kubernetes api | `list` | `[]` | no |
 | k8s\_automatic\_upgrade\_channel | Upgrade channel for the kubernetes cluster. | `string` | `"patch"` | no |
 | k8s\_general\_maintenance\_windows | This specifies when maintenance operations can be performed on the cluster and will take priority when more specific schedules are not set (i.e. maintenance\_window\_auto\_upgrade, maintenance\_window\_node\_os). | <pre>list(object({<br/>        day   = string<br/>        hours = list(number)<br/>    }))</pre> | <pre>[<br/>  {<br/>    "day": "Sunday",<br/>    "hours": [<br/>      2,<br/>      3,<br/>      4<br/>    ]<br/>  }<br/>]</pre> | no |
@@ -63,13 +63,50 @@ how to run this terraform to build your Azure environment.
 | logscale\_account\_tier | Storage account tier. | `string` | `"Standard"` | no |
 | logscale\_cluster\_size | Size of the cluster to build in Azure. Reference cluster\_size.tpl for definitions. | `string` | `"xsmall"` | no |
 | logscale\_cluster\_type | Logscale cluster type | `string` | n/a | yes |
+| logscale\_cluster\_k8s\_namespace\_name | Kubernetes namespace name for LogScale deployment | `string` | `"log"` | no |
 | logscale\_lb\_internal\_only | The nginx ingress controller to logscale will create a managed azure load balancer with public availability. Setting to true will remove the ability to generate Let's Encrypt certificates in addition to removing public access. | `bool` | `false` | no |
+| logscale\_license | Your logscale license data. | `string` | n/a | yes |
+| humio\_operator\_version | The humio operator controls provisioning of logscale resources within kubernetes. | `string` | `"0.32.0"` | no |
+| humio\_operator\_chart\_version | This is the version of the helm chart that installs the humio operator version chosen in variable humio\_operator\_version. | `string` | `"0.32.0"` | no |
+| cm\_repo | The cert-manager repository. | `string` | `"https://charts.jetstack.io"` | no |
+| cm\_version | The cert-manager helm chart version | `string` | `"v1.17.1"` | no |
+| humio\_operator\_repo | The humio operator repository. | `string` | `"https://humio.github.io/humio-operator"` | no |
+| logscale\_image\_version | The version of logscale to install. | `string` | `"1.211.0"` | no |
+| logscale\_image | This can be used to specify a full image ref spec. The expectation is that the imagePullSecrets kubernetes secret will exist. | `string` | `null` | no |
+| humio\_operator\_extra\_values | Resource Management for logscale pods | `map(string)` | See variables.tf | no |
+| strimzi\_operator\_chart\_version | Helm chart version for installing strimzi. | `string` | `"0.47.0"` | no |
+| strimzi\_operator\_version | Strimzi operator version for resource definition installation. | `string` | `"0.47.0"` | no |
+| strimzi\_operator\_repo | Strimzi operator repo. | `string` | `"https://strimzi.io/charts/"` | no |
+| cert\_issuer\_kind | Certificates issuer kind for the Logscale cluster. | `string` | `"ClusterIssuer"` | no |
+| cert\_issuer\_name | Certificates issuer name for the Logscale Cluster | `string` | `"letsencrypt-cluster-issuer"` | no |
+| cert\_issuer\_private\_key | This is the kubernetes secret where the private key for the certificate issuer will be stored. | `string` | `"letsencrypt-cluster-issuer-key"` | no |
+| cert\_ca\_server | Certificate Authority Server. | `string` | `"https://acme-v02.api.letsencrypt.org/directory"` | no |
+| password\_rotation\_arbitrary\_value | This will not influence the password generated for logscale but, when modified, will cause the password to be regenerated. | `string` | `"defaultstring"` | no |
+| byo\_kafka\_connection\_string | Your own kafka environment connection string. | `string` | `""` | no |
+| k8s\_namespace\_prefix | Multiple namespaces will be created to contain resources using this prefix. | `string` | `"log"` | no |
+| extra\_humio\_cluster\_spec | Extra Humio cluster spec key-values | `any` | `{}` | no |
+| extra\_nginx\_annotations | Extra annotations to add to the nginx ingress controller. | `map` | `{}` | no |
+| ingress\_class\_name | Class name of the nginx ingress controller. | `string` | `"nginx"` | no |
+| k8s\_config\_path | The path that will contain the kubernetes configuration file, typically at ~/.kube/config | `string` | `"~/.kube/config"` | no |
+| topo\_lvm\_chart\_version | Version of topo lvm to install. | `string` | `"15.6.0"` | no |
+| use\_topo\_lvm | Use TopoLVM for volume group management | `bool` | `true` | no |
+| topo\_lvm\_disk\_pattern | The pattern used by ls (ls /dev/<topo\_lvm\_disk\_pattern>) to find the disks to add to the LVM volume group | `string` | `"nvme*n*"` | no |
+| topo\_lvm\_controller\_replicas | Number of replicas for the topo\_lvm controller | `number` | `2` | no |
+| pvc\_storage\_class | Storage class to use for PVC | `string` | `"topolvm-provisioner"` | no |
+| nginx\_ingress\_helm\_chart\_version | The version of nginx-ingress to install in the environment. Reference: github.com/kubernetes/ingress-nginx for helm chart version to nginx version mapping. | `string` | `"4.12.1"` | no |
+| logscale\_update\_strategy | When describing a HumioCluster resource, you can provide a map value to describe how updates should be applied. Defaults to RollingUpdate, 50% maximum unavailable, zone awareness enabled. Reference: https://github.com/humio/humio-operator/blob/master/docs/api.md#humioclusterspecupdatestrategy | `map` | See variables.tf | no |
+| deploy\_nginx\_ingress | Deploy a nginx ingress controller | `bool` | `true` | no |
+| enable\_pdf\_render\_service | Enable PDF render service | `bool` | `false` | no |
+| pdf\_render\_service\_image | Docker image of the PDF render service | `string` | `""` | no |
+| pdf\_render\_service\_node\_count | The replica count of the PDF render service | `number` | `2` | no |
+| pdf\_render\_service\_port | Port of the PDF render service | `string` | `"5123"` | no |
+| enable\_scheduled\_report | Enable scheduled report functionality | `bool` | `false` | no |
+| node\_group\_definitions | Node group sizing specification override | `any` | `{}` | no |
 | network\_subnet\_aks\_ingest\_nodes | A list of networks to associate to the ingress node subnet. | `list` | <pre>[<br/>  "172.16.5.0/24"<br/>]</pre> | no |
 | network\_subnet\_aks\_ingress\_nodes | A list of networks to associate to the ingress node subnet. | `list` | <pre>[<br/>  "172.16.4.0/24"<br/>]</pre> | no |
 | network\_subnet\_aks\_logscale\_digest\_nodes | Subnet for the kubernetes node pool hosting logscale digest nodes. | `list` | <pre>[<br/>  "172.16.3.0/24"<br/>]</pre> | no |
 | network\_subnet\_aks\_system\_nodes | Subnet for kubernetes system nodes. In the basic architecture, this will also be where nginx ingress nodes are placed. | `list` | <pre>[<br/>  "172.16.0.0/24"<br/>]</pre> | no |
 | network\_subnet\_aks\_ui\_nodes | A list of networks to associate to the ingress node subnet. | `list` | <pre>[<br/>  "172.16.6.0/24"<br/>]</pre> | no |
-| network\_subnet\_bastion\_nodes | Subnet for bastion nodes. | `list` | <pre>[<br/>  "172.16.1.0/26"<br/>]</pre> | no |
 | network\_subnet\_kafka\_nodes | Subnet for kubernetes node pool hosting the strimzi kafka nodes | `list` | <pre>[<br/>  "172.16.2.0/24"<br/>]</pre> | no |
 | provision\_kafka\_servers | Set this to true to provision strimzi kafka within this kubernetes cluster. It should be false if you are bringing your own kafka implementation. | `bool` | `true` | no |
 | resource\_name\_prefix | Identifier attached to named resources to help them stand out. Must be 8 or fewer characters which can include lower case, numbers, and hyphens. | `string` | `"log"` | no |
@@ -250,85 +287,6 @@ This module provisions managed Azure Kubernetes within the environment.
 | k8s\_kube\_config\_kv\_name | n/a |
 
 <!-- END_AZAKS_MAIN_DOCS -->
-
-<!-- BEGIN_AZBAS_MAIN_DOCS -->
-## Module: azure/bastion
-An optional module that can be used to provision a bastion host. This is particularly useful when provisioning a brand new
-environment and setting the kubernetes API to private access only.
-
-### Inputs
-
-| Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
-| admin\_ssh\_pubkey | Public key for SSH access to the bastion host. | `string` | n/a | yes |
-| admin\_username | Admin username for ssh access to k8s nodes. | `string` | n/a | yes |
-| bastion\_host\_size | Sizing for the bastion host. | `string` | n/a | yes |
-| bastion\_subnet\_id | Subnet ID to attach the bastion host NIC. | `string` | n/a | yes |
-| environment | Azure cloud enviroment to use for your resources. | `string` | n/a | yes |
-| ip\_ranges\_allowed | List of IP addresses or CIDR notated ranges that can access the bastion host. | `list` | n/a | yes |
-| name\_prefix | Identifier attached to named resources to help them stand out. | `string` | n/a | yes |
-| resource\_group\_name | The Azure cloud region for the resource group and associated resources. | `string` | n/a | yes |
-| resource\_group\_region | The Azure cloud region for the resource group and associated resources. | `string` | n/a | yes |
-| subscription\_id | Subscription ID for your Azure resources. | `string` | n/a | yes |
-| tags | A map of tags to apply to all created resources. | `map` | n/a | yes |
-| vnet\_name | Name of the virtual network where this resource will live | `string` | n/a | yes |
-
-### Outputs
-
-| Name | Description |
-|------|-------------|
-| bastion\_host\_private\_ip | n/a |
-| bastion\_nsg\_name | n/a |
-| bastion\_public\_dns\_name | n/a |
-| bastion\_public\_ip\_address | Bastion Host Connection Information |
-
-<!-- END_AZBAS_MAIN_DOCS -->
-
-<!-- BEGIN_AZCERT_MAIN_DOCS -->
-## Module: azure/certificate
-An optional module that can be used to provision a certificate within Azure KeyVault. This is expected to be used for self-signed
-test certificates but depending on the configuration of your KeyVault, it can be leveraged to provsion valid certs.
-
-### Inputs
-
-| Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
-| azure\_keyvault\_id | The Azure Keyvault ID storing all the secrets above. | `string` | n/a | yes |
-| cert\_issuer | The issuer to use for certificate generation. Defaults to Self but can match any issuer registered in your environment. | `string` | `"Self"` | no |
-| logscale\_public\_fqdn | The FQDN tied to the public IP address for logscale ingress. This is the resource that will have a certificate provisioned from let's encrypt. | `string` | n/a | yes |
-| name\_prefix | Identifier attached to named resources to help them stand out. | `string` | n/a | yes |
-| subject\_alternative\_names | List of alternative names for the certificate. | `list` | `[]` | no |
-
-### Outputs
-
-| Name | Description |
-|------|-------------|
-| certificate\_keyvault\_name | n/a |
-
-<!-- END_AZCERT_MAIN_DOCS -->
-
-<!-- BEGIN_AZIDENT_MAIN_DOCS -->
-## Module: azure/identity
-This optional module can be used to provision a managed identity in Azure and assign a role to the identity.
-
-### Inputs
-
-| Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
-| name\_prefix | Identifier attached to named resources to help them stand out. | `string` | n/a | yes |
-| resource\_group\_name | The Azure cloud region for the resource group and associated resources. | `string` | n/a | yes |
-| resource\_group\_region | The Azure cloud region for the resource group and associated resources. | `string` | n/a | yes |
-| role\_definition\_name | Built-in role definition to assign to the created identity | `string` | `"Storage Blob Data Owner"` | no |
-| tags | A map of tags to apply to all created resources. | `map` | n/a | yes |
-
-### Outputs
-
-| Name | Description |
-|------|-------------|
-| managed\_identity\_resource\_id | n/a |
-| managed\_identity\_resource\_principal\_id | n/a |
-
-<!-- END_AZIDENT_MAIN_DOCS -->
 
 <!-- BEGIN_AZKV_MAIN_DOCS -->
 ## Module: azure/keyvault

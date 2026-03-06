@@ -10,7 +10,7 @@ variable "azure_environment" {
 
   validation {
     condition       = contains(["public", "usgovernment", "german", "china"], var.azure_environment)
-    error_message   = "Invalid Azure environment specified. Expected one of the following values: public, usgovernment, german, china" 
+    error_message   = "Invalid Azure environment specified. Expected one of the following values: public, usgovernment, german, china"
   }
 }
 
@@ -20,7 +20,7 @@ variable "azure_resource_group_region" {
 
   validation {
     condition       = contains(["eastus", "westus", "centralus", "westeurope", "northeurope", "southeastasia"], var.azure_resource_group_region)
-    error_message   = "Invalid Azure region specified. Expected one of the following values: eastus, westus, centralus, westeurope, northeurope, southeastasia" 
+    error_message   = "Invalid Azure region specified. Expected one of the following values: eastus, westus, centralus, westeurope, northeurope, southeastasia"
   }
 }
 
@@ -78,7 +78,7 @@ variable "network_subnet_aks_ui_nodes" {
 
 variable "tags" {
   type              = map
-  description       = "A map of tags to apply to all created resources." 
+  description       = "A map of tags to apply to all created resources."
   default           = {}
 }
 
@@ -178,7 +178,7 @@ variable "logscale_account_replication" {
   default           = "LRS"
   validation {
     condition       = contains(["LRS", "GRS", "RAGRS", "ZRS", "GZRS", "RAGZRS"], var.logscale_account_replication)
-    error_message   = "Storage replication must be one of: LRS, GRS, RAGRS, ZRS, GZRS or RAGZRS" 
+    error_message   = "Storage replication must be one of: LRS, GRS, RAGRS, ZRS, GZRS or RAGZRS"
   }
 }
 
@@ -188,7 +188,7 @@ variable "logscale_account_tier" {
   default           = "Standard"
   validation {
     condition       = contains(["Standard","Premium"], var.logscale_account_tier)
-    error_message   = "Storage account tier for storage must be one of: Standard, Premium" 
+    error_message   = "Storage account tier for storage must be one of: Standard, Premium"
   }
 }
 
@@ -198,7 +198,7 @@ variable "logscale_account_kind" {
   default           = "StorageV2"
   validation {
     condition       = contains(["BlobStorage", "BlockBlobStorage", "FileStorage", "Storage", "StorageV2"], var.logscale_account_kind)
-    error_message   = "Storage account kind must be one of: BlobStorage, BlockBlobStorage, FileStorage, Storage and StorageV2" 
+    error_message   = "Storage account kind must be one of: BlobStorage, BlockBlobStorage, FileStorage, Storage and StorageV2"
   }
 
 }
@@ -303,10 +303,10 @@ variable "k8s_automatic_upgrade_channel" {
     default = "patch"
     type = string
     description = "Upgrade channel for the kubernetes cluster."
-    
+
     validation {
         condition       = contains(["none","patch","stable","rapid","node-image"], var.k8s_automatic_upgrade_channel)
-        error_message   = "Invalid upgrade channel specified for AKS. Refer to https://learn.microsoft.com/en-us/azure/aks/auto-upgrade-cluster?tabs=azure-cli#cluster-auto-upgrade-channels for more information on upgrade channels." 
+        error_message   = "Invalid upgrade channel specified for AKS. Refer to https://learn.microsoft.com/en-us/azure/aks/auto-upgrade-cluster?tabs=azure-cli#cluster-auto-upgrade-channels for more information on upgrade channels."
     }
 }
 
@@ -314,10 +314,10 @@ variable "k8s_node_os_upgrade_channel" {
     default = "SecurityPatch"
     type = string
     description = "Upgrade channel for the kubernetes nodes."
-    
+
     validation {
         condition       = contains(["None","NodeImage","SecurityPatch","Unmanaged"], var.k8s_node_os_upgrade_channel)
-        error_message   = "Invalid upgrade channel specified for AKS nodes. Refer to https://learn.microsoft.com/en-us/azure/aks/auto-upgrade-node-os-image?tabs=azure-cli#channels-for-node-os-image-upgrades for more information on upgrade channels." 
+        error_message   = "Invalid upgrade channel specified for AKS nodes. Refer to https://learn.microsoft.com/en-us/azure/aks/auto-upgrade-node-os-image?tabs=azure-cli#channels-for-node-os-image-upgrades for more information on upgrade channels."
     }
 }
 
@@ -327,11 +327,11 @@ variable "k8s_general_maintenance_windows" {
         hours = list(number)
     }))
     description = "This specifies when maintenance operations can be performed on the cluster and will take priority when more specific schedules are not set (i.e. maintenance_window_auto_upgrade, maintenance_window_node_os)."
-    default = [ 
-        { 
+    default = [
+        {
             day   = "Sunday"
-            hours = [2, 3, 4] 
-        } 
+            hours = [2, 3, 4]
+        }
     ]
 }
 
@@ -405,4 +405,231 @@ variable "logscale_cluster_k8s_namespace_name" {
   description = "Kubernetes namespace name for LogScale deployment"
   type        = string
   default     = "log"
+}
+
+# Variables required by logscale-kubernetes module
+
+variable "humio_operator_version" {
+  description       = "The humio operator controls provisioning of logscale resources within kubernetes."
+  type              = string
+  default           = "0.32.0"
+}
+
+variable "humio_operator_chart_version" {
+  description       = "This is the version of the helm chart that installs the humio operator version chosen in variable humio_operator_version."
+  type              = string
+  default           = "0.32.0"
+}
+
+variable "cm_repo" {
+  description       = "The cert-manager repository."
+  type              = string
+  default           = "https://charts.jetstack.io"
+}
+
+variable "cm_version" {
+  description       = "The cert-manager helm chart version"
+  type              = string
+  default           = "v1.17.1"
+}
+
+variable "humio_operator_repo" {
+  description       = "The humio operator repository."
+  type              = string
+  default           = "https://humio.github.io/humio-operator"
+}
+
+variable "logscale_image_version" {
+  description       = "The version of logscale to install."
+  type              = string
+  default           = "1.211.0"
+}
+
+variable "logscale_image" {
+  description       = "This can be used to specify a full image ref spec. The expectation is that the imagePullSecrets kubernetes secret will exist."
+  type              = string
+  default           = null
+}
+
+variable "humio_operator_extra_values" {
+  description       = "Resource Management for logscale pods"
+  type              = map(string)
+  default = {
+    "operator.resources.limits.cpu"      = "250m"
+    "operator.resources.limits.memory"   = "750Mi"
+    "operator.resources.requests.cpu"    = "250m"
+    "operator.resources.requests.memory" = "750Mi"
+  }
+}
+
+variable "strimzi_operator_chart_version" {
+  type            = string
+  description     = "Helm chart version for installing strimzi."
+  default         = "0.47.0"
+}
+
+variable "strimzi_operator_version" {
+  type            = string
+  description     = "Strimzi operator version for resource definition installation."
+  default         = "0.47.0"
+}
+
+variable "strimzi_operator_repo" {
+  type            = string
+  description     = "Strimzi operator repo."
+  default         = "https://strimzi.io/charts/"
+}
+
+variable "cert_issuer_kind" {
+  description       = "Certificates issuer kind for the Logscale cluster."
+  type              = string
+  default           = "ClusterIssuer"
+}
+
+variable "cert_issuer_name" {
+  description       = "Certificates issuer name for the Logscale Cluster"
+  type              = string
+  default           = "letsencrypt-cluster-issuer"
+}
+
+variable "cert_issuer_private_key" {
+  description       = "This is the kubernetes secret where the private key for the certificate issuer will be stored."
+  type              = string
+  default           = "letsencrypt-cluster-issuer-key"
+}
+
+variable "cert_ca_server" {
+  description       = "Certificate Authority Server."
+  type              = string
+  default           = "https://acme-v02.api.letsencrypt.org/directory"
+}
+
+variable "password_rotation_arbitrary_value" {
+  type            = string
+  description     = "This will not influence the password generated for logscale but, when modified, will cause the password to be regenerated."
+  default         = "defaultstring"
+}
+
+variable "byo_kafka_connection_string" {
+  description = "Your own kafka environment connection string."
+  default = ""
+  type = string
+}
+
+variable "k8s_namespace_prefix" {
+  description       = "Multiple namespaces will be created to contain resources using this prefix."
+  type              = string
+  default           = "log"
+}
+
+variable "extra_humio_cluster_spec" {
+  description = "Extra Humio cluster spec key-values"
+  type        = any
+  default     = {}
+}
+
+variable "extra_nginx_annotations" {
+  description = "Extra annotations to add to the nginx ingress controller."
+  type        = map
+  default     = {}
+}
+
+variable "ingress_class_name" {
+  description = "Class name of the nginx ingress controller."
+  type        = string
+  default     = "nginx"
+}
+
+variable "k8s_config_path" {
+  description = "The path that will contain the kubernetes configuration file, typically at ~/.kube/config"
+  default = "~/.kube/config"
+}
+
+variable "topo_lvm_chart_version" {
+  description = "Version of topo lvm to install."
+  type = string
+  default = "15.6.0"
+}
+
+variable "use_topo_lvm" {
+  default = true
+  type = bool
+  description = "Use TopoLVM for volume group management"
+}
+
+variable "topo_lvm_disk_pattern" {
+  description = "The pattern used by ls (ls /dev/<topo_lvm_disk_pattern>) to find the disks to add to the LVM volume group"
+  type        = string
+  default     = "nvme*n*"
+}
+
+variable "topo_lvm_controller_replicas" {
+  description = "Number of replicas for the topo_lvm controller"
+  type        = number
+  default     = 2
+}
+
+variable "pvc_storage_class" {
+  default = "topolvm-provisioner"
+  type = string
+  description = "Storage class to use for PVC"
+}
+
+variable "nginx_ingress_helm_chart_version" {
+  description = "The version of nginx-ingress to install in the environment. Reference: github.com/kubernetes/ingress-nginx for helm chart version to nginx version mapping."
+  type = string
+  default = "4.12.1"
+}
+
+variable "logscale_update_strategy" {
+  description = "When describing a HumioCluster resource, you can provide a map value to describe how updates should be applied. Defaults to RollingUpdate, 50% maximum unavailable, zone awareness enabled. Reference: https://github.com/humio/humio-operator/blob/master/docs/api.md#humioclusterspecupdatestrategy"
+  type = map
+  default = {
+      type                  = "RollingUpdate"
+      enableZoneAwareness   = true
+      minReadySeconds       = 120
+      maxUnavailable        = "50%"
+    }
+}
+
+variable "deploy_nginx_ingress" {
+  description = "Deploy a nginx ingress controller"
+  type        = bool
+  default     = true
+}
+
+variable "enable_pdf_render_service" {
+  description = "Enable PDF render service"
+  type        = bool
+  default     = false
+}
+
+variable "pdf_render_service_image" {
+  description = "Docker image of the PDF render service"
+  type        = string
+  default     = ""
+}
+
+variable "pdf_render_service_node_count" {
+  description = "The replica count of the PDF render service"
+  type        = number
+  default     = 2
+}
+
+variable "pdf_render_service_port" {
+  description = "Port of the PDF render service"
+  type        = string
+  default     = "5123"
+}
+
+variable "enable_scheduled_report" {
+  description = "Enable scheduled report functionality"
+  type        = bool
+  default     = false
+}
+
+variable "node_group_definitions" {
+  description       = "Node group sizing specification override"
+  type              = any
+  default           = {}
 }

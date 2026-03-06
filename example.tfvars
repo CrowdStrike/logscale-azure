@@ -27,6 +27,14 @@ resource_name_prefix                    = "log"
 # Provide the public key content (from .pub file)
 admin_ssh_pubkey                        = "ssh-rsa ....pubkeydata.... user@host"
 
+# Certificate issuer email (REQUIRED for Let's Encrypt certificates)
+# Used for certificate generation and renewal notifications
+cert_issuer_email                       = "admin@example.com"
+
+# LogScale license (REQUIRED)
+# Provide your LogScale license key
+logscale_license                        = "your-logscale-license-key-here"
+
 # ============================================================================
 # CLUSTER CONFIGURATION
 # ============================================================================
@@ -45,6 +53,29 @@ logscale_cluster_type                   = "basic"
 # large: High-volume production workloads
 # xlarge: Enterprise/high-scale production
 logscale_cluster_size                   = "xsmall"
+
+# Kubernetes namespace for LogScale deployment (optional)
+# Defaults to "log" if not specified
+# logscale_cluster_k8s_namespace_name   = "log"
+
+# Additional environment variables for LogScale cluster (optional)
+# Supports both direct values and Kubernetes secret references
+# Example:
+# extra_user_logscale_envvars = [
+#   {
+#     name  = "MY_CUSTOM_VAR"
+#     value = "custom-value"
+#   },
+#   {
+#     name = "SECRET_VAR"
+#     valueFrom = {
+#       secretKeyRef = {
+#         name = "my-secret"
+#         key  = "secret-key"
+#       }
+#     }
+#   }
+# ]
 
 # ============================================================================
 # SECURITY CONFIGURATION
@@ -120,6 +151,10 @@ azure_availability_zones                = [1,2,3]
 # false: Use external Kafka cluster (requires separate configuration)
 provision_kafka_servers                 = true
 
+# Bring your own Kafka connection string (only if provision_kafka_servers = false)
+# Format: "broker1:9092,broker2:9092,broker3:9092"
+# byo_kafka_connection_string           = ""
+
 # ============================================================================
 # MAINTENANCE WINDOWS
 # ============================================================================
@@ -175,3 +210,92 @@ k8s_general_maintenance_windows = [
 # 4. Validate IP ranges don't conflict with Azure networking
 # 5. Review maintenance windows for your timezone
 # 6. For enterprise: Consider enabling private cluster and internal LB
+# ============================================================================
+# ADVANCED KUBERNETES CONFIGURATION (Optional)
+# ============================================================================
+
+# Kubernetes namespace prefix for LogScale resources
+# Multiple namespaces will be created using this prefix (e.g., log-cert-manager, log-strimzi)
+# k8s_namespace_prefix                  = "log"
+
+# Storage class for persistent volumes (TopoLVM recommended for production)
+# pvc_storage_class                     = "topolvm-provisioner"
+
+# TopoLVM configuration for dynamic volume provisioning
+# use_topo_lvm                          = true
+# topo_lvm_disk_pattern                 = "nvme*n*"  # Pattern to find NVMe disks
+# topo_lvm_controller_replicas          = 2
+
+# Nginx ingress controller version
+# nginx_ingress_helm_chart_version      = "4.12.1"
+
+# Deploy nginx ingress controller (set false if using external ingress)
+# deploy_nginx_ingress                  = true
+
+# ============================================================================
+# OPERATOR VERSIONS (Advanced - Override defaults if needed)
+# ============================================================================
+
+# Humio Operator - manages LogScale cluster resources
+# humio_operator_version                = "0.32.0"
+# humio_operator_chart_version          = "0.32.0"
+
+# Strimzi Operator - manages Kafka cluster resources
+# strimzi_operator_version              = "0.47.0"
+# strimzi_operator_chart_version        = "0.47.0"
+
+# Cert-manager - manages TLS certificates
+# cm_version                            = "v1.17.1"
+
+# LogScale image version
+# logscale_image_version                = "1.211.0"
+
+# Override with custom LogScale image (requires imagePullSecrets)
+# logscale_image                        = "my-registry/logscale:custom-tag"
+
+# ============================================================================
+# ADVANCED FEATURES (Optional)
+# ============================================================================
+
+# Enable PDF rendering service for scheduled reports
+# enable_pdf_render_service             = false
+# pdf_render_service_image              = "ghcr.io/humio/pdf-service:latest"
+# pdf_render_service_node_count         = 2
+
+# Enable scheduled report functionality
+# enable_scheduled_report               = false
+
+# Custom LogScale update strategy
+# logscale_update_strategy = {
+#   type                  = "RollingUpdate"
+#   enableZoneAwareness   = true
+#   minReadySeconds       = 120
+#   maxUnavailable        = "50%"
+# }
+
+# Override node group definitions for custom cluster sizing
+# node_group_definitions = {
+#   logscale_digest_pod_count = 5
+#   logscale_digest_resources = {
+#     limits = {
+#       cpu    = 4
+#       memory = "16Gi"
+#     }
+#     requests = {
+#       cpu    = 4
+#       memory = "16Gi"
+#     }
+#   }
+# }
+
+# ============================================================================
+# CERTIFICATE CONFIGURATION (Advanced)
+# ============================================================================
+
+# Bring your own certificate (disables automatic Let's Encrypt)
+# use_own_certificate_for_ingress       = false
+
+# Certificate issuer configuration (Let's Encrypt by default)
+# cert_issuer_kind                      = "ClusterIssuer"
+# cert_issuer_name                      = "letsencrypt-cluster-issuer"
+# cert_ca_server                        = "https://acme-v02.api.letsencrypt.org/directory"
