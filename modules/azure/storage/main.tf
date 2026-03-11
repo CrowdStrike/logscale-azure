@@ -45,6 +45,10 @@ resource "azurerm_key_vault_secret" "storage-account-access-secret" {
 
     expiration_date                     = var.azure_keyvault_secret_expiration_date
     content_type                         = "storage_key"
+
+    lifecycle {
+      ignore_changes = [expiration_date]
+    }
 }
 
 

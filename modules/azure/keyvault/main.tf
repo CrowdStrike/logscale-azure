@@ -22,9 +22,9 @@ resource "azurerm_key_vault" "logscale-keyvault" {
     tags                                    = var.tags
 
     network_acls {
-        bypass         = "AzureServices"
-        default_action = "Deny"
-        ip_rules       = var.ip_ranges_allowed_kv_access 
+        bypass              = "AzureServices"
+        default_action      = var.ip_ranges_allowed_kv_access == null ? "Allow" : "Deny"
+        ip_rules            = var.ip_ranges_allowed_kv_access
     }
 }
 

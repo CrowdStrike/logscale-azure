@@ -88,7 +88,7 @@ variable "certificate_permissions" {
 variable "ip_ranges_allowed_kv_access" {
     description = "IP Ranges allowed access to keyvault outside of trusted AzureServices."
     type = list
-    default = []
+    default = null
 }
 
 variable "enable_auditlogging_to_storage" {

@@ -35,13 +35,13 @@ resource "azurerm_kubernetes_cluster_node_pool" "ingress-nodes" {
     zones                               = var.azure_availability_zones
 
     node_labels = {
-        k8s-app                         = "ingress"
+        k8s-app                         = "logscale-ingress"
     }
 
     tags = var.tags
 
     lifecycle {
-        ignore_changes = [ node_count, tags, node_labels ]
+        ignore_changes = [ node_count, tags ]
     }
 }
 

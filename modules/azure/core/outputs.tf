@@ -20,10 +20,6 @@ output "vnet_id" {
     value = azurerm_virtual_network.logscale-vnet.id
 }
 
-output "bastion_subnet_id" {
-    value = azurerm_subnet.logscale-bastion-subnet.id
-}
-
 output "system_nodes_subnet_id" {
     value = azurerm_subnet.logscale-aks-system-subnet.id
 }

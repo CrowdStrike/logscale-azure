@@ -88,8 +88,12 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     private_cluster_enabled                     = var.private_cluster_enabled
 
     # Limit API access to authorized IP ranges. Public or private, api access is limited
-    api_server_access_profile {
-        authorized_ip_ranges                    = var.authorized_ip_ranges
+    dynamic "api_server_access_profile" {
+        for_each = var.authorized_ip_ranges != null ? [1] : []
+
+        content {
+            authorized_ip_ranges = var.authorized_ip_ranges
+        }
     }
 
     # This is the "system" node pool running core components like dns, kube-proxy, etc.
@@ -198,9 +202,11 @@ resource "azurerm_kubernetes_cluster" "k8s" {
 
 }
 
-/* 
+/*
 Store k8s sensitive values in the keyvault
+Use lifecycle rules to prevent recreation due to expiration date changes
 */
+
 resource "azurerm_key_vault_secret" "kube-config" {
     name                                = "${var.name_prefix}-k8s-kube-config"
     key_vault_id                        = var.azure_keyvault_id
@@ -209,6 +215,10 @@ resource "azurerm_key_vault_secret" "kube-config" {
 
     expiration_date                     = var.azure_keyvault_secret_expiration_date
     content_type                        = "k8s_config"
+
+    lifecycle {
+      ignore_changes = [expiration_date]
+    }
 }
 
 resource "azurerm_key_vault_secret" "client-cert" {
@@ -218,6 +228,10 @@ resource "azurerm_key_vault_secret" "client-cert" {
     value                               = azurerm_kubernetes_cluster.k8s.kube_config.0.client_certificate
     expiration_date                     = var.azure_keyvault_secret_expiration_date
     content_type                         = "k8s_cert"
+
+    lifecycle {
+      ignore_changes = [expiration_date]
+    }
 }
 
 resource "azurerm_key_vault_secret" "client-key" {
@@ -227,6 +241,10 @@ resource "azurerm_key_vault_secret" "client-key" {
     value                               = azurerm_kubernetes_cluster.k8s.kube_config.0.client_key
     expiration_date                     = var.azure_keyvault_secret_expiration_date
     content_type                         = "k8s_cert"
+
+    lifecycle {
+      ignore_changes = [expiration_date]
+    }
 }
 
 resource "azurerm_key_vault_secret" "cluster-ca-cert" {
@@ -236,6 +254,10 @@ resource "azurerm_key_vault_secret" "cluster-ca-cert" {
     value                               = azurerm_kubernetes_cluster.k8s.kube_config.0.cluster_ca_certificate
     expiration_date                     = var.azure_keyvault_secret_expiration_date
     content_type                         = "k8s_cert"
+
+    lifecycle {
+      ignore_changes = [expiration_date]
+    }
 }
 
 /*
